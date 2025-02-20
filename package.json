@@ -1,0 +1,24 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Pràctica assignatura Gestió i Distribució de la Informació Empresarial",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maarcnavarro9/WorldAnimals.git"
+  },
+  "author": "Marc Navarro & Ángel Fernández",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "is-prime": "^1.0.1"
+  },
+  "bugs": {
+    "url": "https://github.com/maarcnavarro9/WorldAnimals/issues"
+  },
+  "homepage": "https://github.com/maarcnavarro9/WorldAnimals#readme"
+}
