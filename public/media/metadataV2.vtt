@@ -1,0 +1,277 @@
+WEBVTT
+
+00:00.000 --> 00:10.000
+{
+  "Nombre": "Nelore Cattle",
+  "Especie": "Bos taurus indicus",
+  "Descripción": "La raza Nelore, también denominada Bos taurus indicus, se originó a partir de ganado cebú procedente del subcontinente indio y ha sido ampliamente desarrollada en Brasil. Se caracteriza por su adaptabilidad a climas cálidos, resistencia a parásitos y buena conversión alimenticia, lo que la convierte en una opción preferida para la producción de carne en regiones tropicales y subtropicales. Presenta un cuerpo esbelto, con una joroba prominente sobre la cruz y un pelaje corto y blanco que facilita la disipación del calor. Además, su piel más gruesa contribuye a reducir las infestaciones de insectos. La selección genética enfocada en la rusticidad y la capacidad de pastoreo ha permitido su expansión a diferentes ambientes de Latinoamérica, donde también se valora su eficiencia reproductiva. Su temperamento, aunque puede ser en ocasiones arisco, mejora con un manejo adecuado y constante. La raza Nelore sigue siendo fundamental para la ganadería extensiva y el crecimiento de la industria cárnica.",
+  "link_imagen": "https://example.com/nelore_cattle.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "-10.0000",
+    "longitud": "-55.0000"
+  }
+}
+
+00:10.000 --> 00:20.000
+{
+  "Nombre": "Gray Wolf",
+  "Especie": "Canis lupus",
+  "Descripción": "El lobo gris es uno de los carnívoros más emblemáticos del hemisferio norte, habitando extensas áreas que abarcan bosques, tundras y praderas en Europa, Asia y Norteamérica. Organizado en manadas jerárquicas, mantiene vínculos sociales complejos y se comunica mediante vocalizaciones, posturas corporales y marcas de olor. Su dieta se basa principalmente en ungulados como ciervos, alces y bisontes, pero también consume roedores o carroña cuando la disponibilidad de presas grandes escasea. A lo largo de la historia, el lobo gris ha sido objeto de mitos y leyendas que lo retratan tanto como un símbolo de astucia y fuerza, así como una amenaza para el ganado. Estas percepciones encontraron eco en la persecución y caza indiscriminada, llevando a la reducción o extinción local de poblaciones en varias regiones. Sin embargo, gracias a programas de reintroducción y mayores esfuerzos de protección, algunas poblaciones de lobo gris están en proceso de recuperación.",
+  "link_imagen": "https://example.com/gray_wolf.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "55.0000",
+    "longitud": "-110.0000"
+  }
+}
+
+00:20.000 --> 00:30.000
+{
+  "Nombre": "Domestic Cat",
+  "Especie": "Felis catus",
+  "Descripción": "El gato doméstico, Felis catus, es uno de los animales de compañía más extendidos en todo el mundo. Su relación con los humanos data de miles de años atrás, con evidencia arqueológica que indica la domesticación en el antiguo Egipto y, probablemente, en otros focos culturales. Destacan por su agilidad, sus reflejos rápidos y sus sentidos agudos, especialmente la visión nocturna y el olfato. Cada gato tiene una personalidad propia, pudiendo ser más independiente o afectuoso según su genética y socialización temprana. Se alimenta principalmente de proteína animal, aunque las dietas comerciales están formuladas con un balance de nutrientes esencial para su salud. Gozan de gran adaptabilidad, viviendo tanto en espacios rurales como urbanos, siempre que cuenten con alimento, refugio y estímulos. La esterilización y la atención veterinaria regular resultan cruciales para el bienestar y el control de la población felina, evitando camadas no deseadas y enfermedades transmisibles.",
+  "link_imagen": "https://example.com/domestic_cat.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "30.0444",
+    "longitud": "31.2357"
+  }
+}
+
+00:30.000 --> 00:40.000
+{
+  "Nombre": "Red Deer",
+  "Especie": "Cervus elaphus",
+  "Descripción": "El ciervo rojo es una de las especies de cérvidos más ampliamente distribuidas en Eurasia y el norte de África, introducida asimismo en otros continentes con fines cinegéticos. Es reconocible por su porte elegante, la tonalidad rojiza de su manto en verano y los cuernos ramificados de los machos, que se renuevan anualmente. Durante la berrea, época de celo, emiten potentes bramidos para atraer a las hembras y ahuyentar a rivales, protagonizando exhibiciones de fuerza e imponencia. Se alimentan de hierbas, hojas, frutos y brotes tiernos, adaptando su dieta a la disponibilidad estacional. Aunque prefieren zonas boscosas con áreas abiertas cercanas, se han visto en praderas y regiones montañosas. Históricamente, fueron un símbolo de estatus y valor para numerosas culturas europeas, a menudo figurando en emblemas y escudos de armas. Hoy, la caza sostenible y la protección de sus hábitats naturales son claves para mantener poblaciones saludables.",
+  "link_imagen": "https://example.com/red_deer.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "50.0000",
+    "longitud": "8.0000"
+  }
+}
+
+00:40.000 --> 00:50.000
+{
+  "Nombre": "Red Fox",
+  "Especie": "Vulpes vulpes",
+  "Descripción": "El zorro rojo es un cánido extremadamente adaptable, que ocupa una amplia variedad de hábitats del hemisferio norte, incluyendo bosques templados, tundra, zonas montañosas e incluso áreas urbanas. Se caracteriza por un pelaje rojizo, patas oscuras y la punta de la cola blanca, distintiva en la mayoría de individuos. Como depredador oportunista, se alimenta de roedores, conejos, aves, huevos, frutos y carroña, ajustando su dieta a la oferta del entorno. Posee un agudo sentido del oído y del olfato, herramientas esenciales para cazar y detectar presas bajo la nieve o la maleza. A pesar de su fama de astuto, no deja de ser un animal cauteloso que evita el contacto humano cuando es posible. En algunos lugares, se considera especie invasora y puede competir con depredadores nativos. La gestión responsable y el estudio de sus poblaciones contribuyen a conservar el equilibrio ecológico y a reducir conflictos con actividades humanas.",
+  "link_imagen": "https://example.com/red_fox.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "55.0000",
+    "longitud": "-2.0000"
+  }
+}
+
+00:50.000 --> 01:00.000
+{
+  "Nombre": "Alpine Ibex",
+  "Especie": "Capra ibex",
+  "Descripción": "La cabra montés de los Alpes, o ibex alpino, habita en las zonas escarpadas y rocosas de la cordillera de los Alpes, distribuyéndose por países como Suiza, Francia, Italia y Austria. Presenta cuernos largos, gruesos y curvados hacia atrás, que pueden llegar a superar el metro de longitud en los machos adultos, mientras que las hembras los tienen más cortos. Estos ungulados están increíblemente adaptados a la vida en altitudes elevadas, desplazándose con gran seguridad entre peñascos y pendientes pronunciadas para pastar en las praderas de montaña. Durante el invierno descienden a cotas menos frías para encontrar alimento y refugio. Antiguamente, fueron cazados hasta casi su extinción por la creencia de que ciertas partes de su cuerpo poseían propiedades medicinales. Sin embargo, gracias a rigurosas medidas de protección y a la creación de parques nacionales, sus poblaciones se han recuperado, convirtiéndolos en un símbolo de la conservación alpina exitosa.",
+  "link_imagen": "https://example.com/alpine_ibex.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "46.8182",
+    "longitud": "8.2275"
+  }
+}
+
+01:00.000 --> 01:10.000
+{
+  "Nombre": "Arctic Wolf",
+  "Especie": "Canis lupus arctos",
+  "Descripción": "El lobo ártico es una subespecie del lobo gris, perfectamente adaptada a las extremas condiciones de la tundra ártica en regiones como el norte de Canadá y Groenlandia. Su pelaje, generalmente más claro que el de otros lobos, lo aísla del intenso frío, mientras que su cuerpo robusto y patas fuertes le permiten moverse sobre nieve y hielo con relativa facilidad. Su dieta consiste en caribúes, liebres árticas y pequeños roedores, dependiendo de la disponibilidad de presas según la estación. Viven en manadas reducidas que recorren grandes territorios para obtener alimento, y la cooperación resulta fundamental para cazar presas grandes en un ambiente tan inhóspito. El lobo ártico presenta un menor contacto con los humanos que otras subespecies, por lo que su población no ha sufrido tanto la caza y la presión humana. Aun así, el cambio climático y la alteración de sus ecosistemas representan desafíos crecientes para su supervivencia.",
+  "link_imagen": "https://example.com/arctic_wolf.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "71.7069",
+    "longitud": "-42.6043"
+  }
+}
+
+01:10.000 --> 01:20.000
+{
+  "Nombre": "Red Panda",
+  "Especie": "Ailurus fulgens",
+  "Descripción": "El panda rojo es un pequeño mamífero originario de los bosques montañosos del Himalaya y regiones adyacentes al suroeste de China. Su nombre proviene del característico color rojizo de su pelaje, especialmente en la parte superior del cuerpo y la cola, mientras que su vientre es más oscuro. A pesar de compartir el nombre con el panda gigante, no están estrechamente emparentados, ya que el panda rojo pertenece a su propia familia, Ailuridae. Su dieta se basa principalmente en bambú, aunque también consume huevos, frutas y pequeños invertebrados. Es de hábitos arborícolas y utiliza su cola larga y anillada para equilibrarse al trepar. Se trata de una especie solitaria y discreta, activa durante el crepúsculo y la noche. La pérdida de hábitat, la fragmentación de bosques y la caza furtiva han disminuido sus poblaciones. Organizaciones conservacionistas promueven la protección de sus bosques y la educación ambiental en las comunidades locales.",
+  "link_imagen": "https://example.com/red_panda.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "27.9467",
+    "longitud": "85.3537"
+  }
+}
+
+01:20.000 --> 01:30.000
+{
+  "Nombre": "Siberian Tiger",
+  "Especie": "Panthera tigris altaica",
+  "Descripción": "El tigre de Siberia es la subespecie de tigre más grande que existe y habita en regiones boscosas frías del Lejano Oriente ruso, así como en zonas fronterizas de China y Corea del Norte. Su espeso pelaje anaranjado con franjas oscuras y vientre blanquecino le permite camuflarse entre la nieve y la vegetación. Un macho adulto puede pesar más de 300 kilogramos y mide varios metros de largo, cola incluida. Se alimenta principalmente de ungulados, como ciervos y jabalíes, y puede recorrer extensas áreas de caza para encontrar presas. A pesar de su tamaño e imponencia, este felino ha experimentado un fuerte declive debido a la caza furtiva y la pérdida de hábitat. Sin embargo, en las últimas décadas, las iniciativas de conservación y la protección de grandes zonas forestales han permitido una lenta recuperación de su población. El tigre de Siberia simboliza la majestuosidad y fragilidad de los grandes depredadores del planeta.",
+  "link_imagen": "https://example.com/siberian_tiger.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "47.0000",
+    "longitud": "134.0000"
+  }
+}
+
+01:30.000 --> 01:40.000
+{
+  "Nombre": "African Elephant",
+  "Especie": "Loxodonta africana",
+  "Descripción": "El elefante africano es considerado el mamífero terrestre más grande del mundo, pudiendo llegar a pesar hasta seis toneladas. Habita sabanas, bosques y zonas pantanosas en numerosas regiones de África subsahariana. Se destaca por sus grandes orejas, las cuales le ayudan a disipar el calor, y por su trompa multifuncional que utiliza para comunicarse, alimentarse y bañarse con agua o polvo. Su alto nivel de sociabilidad se refleja en estructuras familiares matriarcales, lideradas por una hembra experimentada que guía al grupo hacia fuentes de alimento y agua. Lamentablemente, la caza furtiva para la obtención del marfil de sus colmillos y la destrucción de hábitats amenazan su supervivencia en la naturaleza. Iniciativas de conservación tratan de proteger sus hábitats, promover el ecoturismo responsable y fortalecer el control contra la caza ilegal. El elefante africano simboliza la grandeza y la biodiversidad del continente, siendo un pilar fundamental en los ecosistemas que habita.",
+  "link_imagen": "https://example.com/african_elephant.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "1.9462",
+    "longitud": "30.0587"
+  }
+}
+
+01:40.000 --> 01:50.000
+{
+  "Nombre": "Red Squirrel",
+  "Especie": "Sciurus vulgaris",
+  "Descripción": "La ardilla roja europea es un pequeño roedor arborícola que habita en bosques de coníferas y mixtos a lo largo de gran parte de Europa y el norte de Asia. Se distingue por su pelaje rojizo, aunque puede variar de tonos más claros a más oscuros, y por los mechones de pelo que adornan sus orejas, especialmente pronunciados en invierno. Se alimenta principalmente de semillas, nueces, piñas y brotes, pero también consume hongos y ocasionalmente insectos. Su actividad es diurna, enfocada en la búsqueda de alimento y la construcción de nidos llamados dreys, hechos de ramitas y musgo. En áreas donde la ardilla gris americana se ha introducido, la ardilla roja enfrenta una fuerte competencia, ya que su prima invasora la supera en tamaño y tolerancia a la enfermedad del Parapoxvirus. La protección de sus hábitats y el control de especies invasoras resultan vitales para su conservación a largo plazo.",
+  "link_imagen": "https://example.com/red_squirrel.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "55.0000",
+    "longitud": "15.0000"
+  }
+}
+
+01:50.000 --> 02:00.000
+{
+  "Nombre": "Deer",
+  "Especie": "Cervidae",
+  "Descripción": "El término \"deer\" en inglés designa a la familia Cervidae, que engloba numerosas especies de ungulados rumiantes distribuidas en buena parte de Europa, Asia y América, así como en zonas de África y Oceanía donde han sido introducidas. Entre los más conocidos se encuentran el ciervo rojo, el venado de cola blanca y el alce, cada uno con particularidades adaptadas a su entorno. Por lo general, los machos poseen cuernas que renuevan cada año, empleándolas en exhibiciones de poder y disputas por el apareamiento. Estos animales, en su mayoría, presentan una dieta herbívora basada en pastos, hojas, brotes y frutos. Su comportamiento social varía: algunas especies forman manadas, mientras que otras viven en grupos más pequeños o incluso solitarios. La caza, la pérdida de hábitat y la fragmentación de sus territorios pueden afectar sus poblaciones, por lo que muchos programas de conservación se centran en el manejo responsable de estos recursos naturales.",
+  "link_imagen": "https://example.com/general_deer.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "46.0000",
+    "longitud": "2.0000"
+  }
+}
+
+02:00.000 --> 02:10.000
+{
+  "Nombre": "Bearded Dragon",
+  "Especie": "Pogona vitticeps",
+  "Descripción": "El dragón barbudo es un reptil originario de regiones áridas y semidesérticas de Australia. Recibe este nombre por la presencia de escamas espinosas en la garganta, que pueden erizarse para exhibir una apariencia intimidante ante posibles depredadores o durante confrontaciones con otros ejemplares. Además, posee la capacidad de cambiar ligeramente su tonalidad para regular la temperatura corporal y comunicarse con movimientos de cabeza y extremidades. Se alimenta de insectos, vegetales y, ocasionalmente, frutas, siendo omnívoro. En cautiverio, es apreciado como mascota por su carácter dócil y facilidad de manejo, siempre que se le proporcione una dieta equilibrada, acceso a luz ultravioleta y un espacio lo suficientemente amplio para la termorregulación. Este lagarto puede vivir hasta diez años o más si se cuida apropiadamente. Las poblaciones silvestres se mantienen estables, aunque la degradación de hábitats y el tráfico ilegal de animales exóticos pueden suponer amenazas a largo plazo.",
+  "link_imagen": "https://example.com/bearded_dragon.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "-25.0000",
+    "longitud": "133.0000"
+  }
+}
+
+02:10.000 --> 02:15.000
+{
+  "Nombre": "Honeybee",
+  "Especie": "Apis mellifera",
+  "Descripción": "La abeja doméstica, conocida comúnmente como abeja de la miel, es un insecto polinizador esencial en numerosos ecosistemas y cultivos alrededor del mundo. Viven en colonias organizadas jerárquicamente con una reina, obreras y zánganos, y construyen panales de cera donde almacenan polen y néctar, transformado luego en miel. Su contribución a la polinización influye en la reproducción de numerosas plantas silvestres y agrícolas, haciendo de ellas piezas fundamentales para la seguridad alimentaria. Las abejas obreras tienen una vida corta y realizan múltiples tareas, desde la limpieza de la colmena hasta la recolección de recursos florales. Sin embargo, enfrentan amenazas importantes como el uso de pesticidas, la pérdida de hábitat y la propagación de parásitos y enfermedades. Por ello, hay un interés creciente en la apicultura sostenible y en la conservación de polinizadores para mantener la biodiversidad y la producción alimentaria.",
+  "link_imagen": "https://example.com/honeybee.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "48.0000",
+    "longitud": "10.0000"
+  }
+}
+
+02:15.000 --> 02:23.000
+{
+  "Nombre": "Giraffe",
+  "Especie": "Giraffa camelopardalis",
+  "Descripción": "La jirafa es el mamífero más alto de la Tierra, pudiendo alcanzar hasta seis metros de altura gracias a su largo cuello y patas. Habita en sabanas y bosques abiertos de África subsahariana, alimentándose principalmente de hojas de acacia. Su lengua prensil, de casi medio metro de longitud, le facilita arrancar brotes tiernos sin espinas o con espinas minimizadas. Además de su notable altura, destacan los patrones únicos de manchas en su piel, que varían según la subespecie y funcionan como camuflaje. En manadas sueltas, las hembras a menudo crían juntas a sus crías, reduciendo el riesgo de depredadores como leones o hienas. A pesar de su tamaño, las poblaciones de jirafas han disminuido por la caza furtiva y la reducción de su hábitat. Proyectos de conservación se enfocan en proteger corredores de vida silvestre y en promover la coexistencia pacífica con comunidades locales para garantizar el futuro de esta especie icónica.",
+  "link_imagen": "https://example.com/giraffe.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "-1.2921",
+    "longitud": "36.8219"
+  }
+}
+
+02:23.000 --> 02:30.000
+{
+  "Nombre": "Nelore Cattle",
+  "Especie": "Bos taurus indicus",
+  "Descripción": "La raza Nelore, parte de la gran familia de ganado cebú, ha sido fundamental para el desarrollo ganadero en zonas tropicales, especialmente en Brasil. Su tolerancia al calor y su resistencia a ciertas plagas e insectos han permitido su expansión a lo largo de regiones con altas temperaturas y ambientes húmedos. Una de sus características más notables es su piel suelta y colgante, así como la joroba en los machos sobre la cruz, que le confiere un aspecto distintivo. Gracias a la selección genética, los ejemplares Nelore muestran un buen índice de conversión alimenticia y fortaleza en sus extremidades, facilitando el pastoreo extensivo. También destacan por su rusticidad, pudiendo aprovechar pastizales de menor calidad en comparación con otras razas bovinas. El manejo y la selección responsables han impulsado su popularidad, promoviendo no solo rendimientos productivos, sino también la adaptación sostenible de la actividad ganadera a climas desafiantes.",
+  "link_imagen": "https://example.com/nelore_cattle2.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "-13.0000",
+    "longitud": "-55.0000"
+  }
+}
+
+02:30.000 --> 02:40.000
+{
+  "Nombre": "Bengal Tiger",
+  "Especie": "Panthera tigris tigris",
+  "Descripción": "El tigre de Bengala es una de las subespecies de tigre más conocidas, habitando diversos ecosistemas del subcontinente indio, desde bosques húmedos tropicales hasta manglares y praderas. Su pelaje anaranjado, con franjas negras características y vientre blanco, ofrece camuflaje en la vegetación. Son carnívoros solitarios y territoriales, cuyo hogar puede abarcar grandes extensiones donde acechan presas como ciervos, jabalíes y búfalos. A pesar de su fuerza y tamaño, se enfrentan a numerosas amenazas, entre ellas la caza furtiva para el comercio ilegal de partes de tigre y la pérdida de hábitat por la expansión humana. Varias reservas naturales de la India y otros países vecinos trabajan intensamente en la recuperación de sus poblaciones, impulsando programas de conservación que incluyen la protección de corredores ecológicos y la colaboración con comunidades locales. El tigre de Bengala es un símbolo nacional y cultural, venerado por su poder y belleza.",
+  "link_imagen": "https://example.com/bengal_tiger.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "20.5937",
+    "longitud": "78.9629"
+  }
+}
+
+02:40.000 --> 02:50.000
+{
+  "Nombre": "Silvery Gibbon",
+  "Especie": "Hylobates moloch",
+  "Descripción": "El gibón plateado es un primate de tamaño mediano nativo de la isla de Java, en Indonesia. Su nombre proviene del tono gris plateado de su pelaje, que adquiere matices diferentes según la edad y el sexo del individuo. Estos gibones viven principalmente en los bosques tropicales y subtropicales, desplazándose por los árboles con una técnica de braquiación experta que les permite balancearse entre ramas con gran agilidad. Se alimentan de frutas, hojas y flores, aunque ocasionalmente pueden consumir insectos. Al igual que otros gibones, forman parejas monógamas que marcan su territorio emitiendo cantos fuertes y musicales al amanecer para advertir a rivales y reforzar el vínculo entre la pareja. La deforestación, la fragmentación de bosques y el comercio ilegal de fauna silvestre amenazan gravemente a la especie. Proyectos de conservación locales e internacionales buscan restaurar su hábitat y concientizar sobre la necesidad de proteger a este carismático primate.",
+  "link_imagen": "https://example.com/silvery_gibbon.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "-7.6154",
+    "longitud": "110.7122"
+  }
+}
+
+02:50.000 --> 03:00.000
+{
+  "Nombre": "Western Lowland Gorilla",
+  "Especie": "Gorilla gorilla gorilla",
+  "Descripción": "El gorila occidental de llanura es la subespecie de gorila más numerosa, aunque aún está catalogada como en peligro crítico de extinción. Se distribuye en las selvas tropicales de países como Camerún, Gabón, República del Congo y República Centroafricana. Vive en grupos familiares liderados por un macho dominante, conocido como espalda plateada debido al color plateado que adquiere el pelo en esa zona a partir de cierta edad. Estos grupos cooperan en la protección de las crías y en la búsqueda de alimentos, que incluyen frutos, hojas, cortezas y brotes tiernos. A pesar de su gran fuerza y tamaño, son animales pacíficos y rara vez muestran agresividad si no se ven amenazados. La caza furtiva, la pérdida de hábitat por la tala y la minería, así como las enfermedades, han mermado sus poblaciones. Diversas organizaciones trabajan en la conservación de su hábitat y en la sensibilización sobre su importancia ecológica.",
+  "link_imagen": "https://example.com/western_lowland_gorilla.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "-0.8037",
+    "longitud": "11.6094"
+  }
+}
+
+03:00.000 --> 03:10.000
+{
+  "Nombre": "Long-Eared Owl",
+  "Especie": "Asio otus",
+  "Descripción": "El búho chico, llamado así en español, recibe el nombre de long-eared owl en inglés por los penachos de plumas que se asemejan a largas orejas, ubicados en la parte superior de su cabeza. Habita en zonas boscosas, áreas agrícolas y bosques ribereños de Europa, Asia y Norteamérica. Es un ave de hábitos mayoritariamente nocturnos y se alimenta principalmente de roedores, como ratones de campo o topillos, que localiza gracias a su excelente oído y visión. Su plumaje críptico, con tonos pardos y anaranjados, le permite camuflarse entre la vegetación, posándose inmóvil para evitar detección durante el día. Durante la época de cría, puede anidar en viejos nidos de córvidos o en árboles huecos, mostrando una adaptación notable a diversos entornos. La preservación de zonas boscosas y la gestión responsable de plagas agrícolas favorecen la supervivencia de esta especie tan elegante y discreta.",
+  "link_imagen": "https://example.com/long_eared_owl.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "51.0000",
+    "longitud": "9.0000"
+  }
+}
+
+03:10.000 --> 03:20.000
+{
+  "Nombre": "Eurasian Lynx",
+  "Especie": "Lynx lynx",
+  "Descripción": "El lince euroasiático, el mayor de los linces, se extiende a lo largo de bosques boreales y montañosos de Europa y Asia. Reconocible por sus orejas rematadas con pinceles de pelo negro y su cola corta con la punta oscura, este felino se alimenta en gran medida de ungulados de pequeño y mediano tamaño, como corzos y ciervos jóvenes, así como de conejos o aves terrestres. Es un cazador sigiloso, que prefiere emboscar a sus presas en lugar de perseguirlas a larga distancia. Generalmente es solitario, salvo en época de cría o cuando las hembras cuidan a sus cachorros. En algunas regiones, la fragmentación de hábitat y la caza indiscriminada provocaron fuertes declives poblacionales, si bien proyectos de reintroducción y protección han permitido su recuperación en ciertos lugares. Su presencia es indicativa de ecosistemas forestales saludables y bien conservados, debido a sus requerimientos de espacio y tranquilidad.",
+  "link_imagen": "https://example.com/eurasian_lynx.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "60.0000",
+    "longitud": "90.0000"
+  }
+}
+
+03:20.000 --> 03:30.000
+{
+  "Nombre": "Snow Leopard",
+  "Especie": "Panthera uncia",
+  "Descripción": "El leopardo de las nieves habita en las altas montañas de Asia Central, en países como Mongolia, China, India y Nepal. Su grueso y moteado pelaje, de tonos grises y blanquecinos, le brinda un excelente camuflaje entre rocas y nieve, mientras que su larga cola le ayuda a mantener el equilibrio en pendientes abruptas. Se alimenta de cabras montesas, ovejas azules y otros ungulados, pudiendo cazar presas que superan con creces su propio peso. Es un felino muy esquivo, por lo que se le conoce como el \"fantasma de las montañas\". La caza furtiva, la pérdida de presas naturales y la conflictividad con comunidades locales que crían ganado representan amenazas serias para su supervivencia. Sin embargo, iniciativas de conservación y turismo responsable, junto con la sensibilización de la población local, están promoviendo la coexistencia y la protección de estos majestuosos depredadores de las alturas.",
+  "link_imagen": "https://example.com/snow_leopard.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "36.0000",
+    "longitud": "80.0000"
+  }
+}
+
+03:30.000 --> 03:40.000
+{
+  "Nombre": "Juvenile Cheetah",
+  "Especie": "Acinonyx jubatus",
+  "Descripción": "El guepardo juvenil exhibe una cresta de pelo largo a lo largo de la espalda, especialmente notable en sus primeros meses de vida, que contribuye a su camuflaje en la hierba y a parecer de mayor tamaño ante posibles depredadores. Bajo la tutela de la madre, aprende técnicas de caza y supervivencia, practicando emboscadas y persecuciones cortas contra presas pequeñas o, a menudo, jugando con sus hermanos. Esta etapa de crecimiento es determinante para su futura destreza como el mamífero terrestre más veloz. Sin embargo, enfrenta numerosas amenazas: la fragmentación de su hábitat, la caza furtiva y la competencia con grandes carnívoros ponen en riesgo las poblaciones naturales. Los esfuerzos de conservación incluyen la protección de amplias áreas donde puedan cazar libremente y el trabajo con comunidades locales para reducir conflictos con la ganadería. Asegurar la supervivencia de los cachorros es crucial para la preservación de la especie en el tiempo.",
+  "link_imagen": "https://example.com/juvenile_cheetah.jpg",
+  "coordenadas_geográficas": {
+    "latitud": "-1.5000",
+    "longitud": "36.6667"
+  }
+}
