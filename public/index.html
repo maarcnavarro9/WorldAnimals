@@ -23,7 +23,9 @@
                 <div class="videoContainer">
                     <video id="myVideo" width="auto" height="auto" controls>
                         <!-- Por defecto cargamos el video 1, con sus respectivas pistas -->
-                        <source id="videoSource" src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        <source id="videoSource"
+                            src="https://www.dropbox.com/scl/fi/8tlwf80s82c5de00slryz/WorldAnimalsV1.mp4?rlkey=hb9lsiuozw8fgl56t5mu8j05f&st=437spwh7&raw=1"
+                            type="video/mp4">
                         Tu navegador no soporta el elemento de video.
 
                         <track id="descTrack" kind="descriptions" label="subtitles" srclang="en"
@@ -55,7 +57,7 @@
             // Botón Video 1
             document.getElementById('btnVideo1').addEventListener('click', () => {
                 // Cambiamos la fuente del video
-                videoSource.src = "https://www.w3schools.com/html/mov_bbb.mp4";
+                videoSource.src = "https://www.dropbox.com/scl/fi/8tlwf80s82c5de00slryz/WorldAnimalsV1.mp4?rlkey=hb9lsiuozw8fgl56t5mu8j05f&st=7mjqj3jw&raw=1";
 
                 // Cambiamos las pistas al conjunto 1
                 descTrack.src = "./media/descriptionsV1.vtt";
@@ -69,7 +71,7 @@
             // Botón Video 2
             document.getElementById('btnVideo2').addEventListener('click', () => {
                 // Cambiamos la fuente del video (ejemplo con otra URL de w3schools)
-                videoSource.src = "https://www.w3schools.com/html/movie.mp4";
+                videoSource.src = "https://www.dropbox.com/scl/fi/9qes0n0swkkmsa948vnzj/WorldAnimalsV2.mp4?rlkey=iyucl14gz6ykvt64y0xd540cl&st=khtlms8m&raw=1";
 
                 // Cambiamos las pistas al conjunto 2
                 descTrack.src = "./media/descriptionsV2.vtt";
