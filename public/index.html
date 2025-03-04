@@ -2,36 +2,91 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="Animals of the world" />
+    <meta name="author" content="Marc Navarro & Ángel Fernández" />
+    <title>World Animals</title>
     <link href="./styles.css" rel="stylesheet">
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 </head>
 
 <body>
     <main>
         <header>
             <h1>Hola</h1>
+            <!-- Botones para seleccionar qué video mostrar -->
         </header>
-        <div class="mainContainer">
 
+        <div class="mainContainer">
             <div class="videoMapContainer">
                 <div class="videoContainer">
-                    <video width="auto" height="auto" controls>
-                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    <video id="myVideo" width="auto" height="auto" controls>
+                        <!-- Por defecto cargamos el video 1, con sus respectivas pistas -->
+                        <source id="videoSource" src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                         Tu navegador no soporta el elemento de video.
-                        <track kind="descriptions" label="subtitles" srclang="en" 
-                            src="./media/descriptionsV1.vtt" default />
-                        <track kind="metadata" label="metadata"
-                            src="./media/metadataV1.vtt" default />    
-                        <track kind="chapters" label="chapters"
-                            src="./media/chaptersV1.vtt" default />
+
+                        <track id="descTrack" kind="descriptions" label="subtitles" srclang="en" 
+                               src="./media/descriptionsV1.vtt" default/>
+                        <track id="metaTrack" kind="metadata" label="metadata"
+                               src="./media/metadataV1.vtt" default/>    
+                        <track id="chapTrack" kind="chapters" label="chapters"
+                               src="./media/chaptersV1.vtt" default/>
                     </video>
+                </div>
+                <div>
+                    <button id="btnVideo1">Video 1</button>
+                    <button id="btnVideo2">Video 2</button>
                 </div>
                 <div class="mapa">mapa</div>
             </div>
-
             <div class="card">aaa</div>
             <div class="card">aaa</div>
         </div>
     </main>
+
+    <script>
+        // Esperamos a que el DOM cargue
+        document.addEventListener('DOMContentLoaded', function () {
+            const video = document.getElementById('myVideo');
+            const videoSource = document.getElementById('videoSource');
+            const descTrack = document.getElementById('descTrack');
+            const metaTrack = document.getElementById('metaTrack');
+            const chapTrack = document.getElementById('chapTrack');
+
+            // Botón Video 1
+            document.getElementById('btnVideo1').addEventListener('click', () => {
+                // Cambiamos la fuente del video
+                videoSource.src = "https://www.w3schools.com/html/mov_bbb.mp4";
+                
+                // Cambiamos las pistas al conjunto 1
+                descTrack.src = "./media/descriptionsV1.vtt";
+                metaTrack.src = "./media/metadataV1.vtt";
+                chapTrack.src = "./media/chaptersV1.vtt";
+
+                // Cargamos de nuevo el video para aplicar los cambios
+                video.load();
+            });
+
+            // Botón Video 2
+            document.getElementById('btnVideo2').addEventListener('click', () => {
+                // Cambiamos la fuente del video (ejemplo con otra URL de w3schools)
+                videoSource.src = "https://www.w3schools.com/html/movie.mp4";
+
+                // Cambiamos las pistas al conjunto 2
+                descTrack.src = "./media/descriptionsV2.vtt";
+                metaTrack.src = "./media/metadataV2.vtt";
+                chapTrack.src = "./media/chaptersV2.vtt";
+
+                // Cargamos de nuevo el video para aplicar los cambios
+                video.load();
+            });
+        });
+    </script>
 </body>
 
 </html>
