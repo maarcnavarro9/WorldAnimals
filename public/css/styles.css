@@ -13,9 +13,12 @@ body {
 }
 
 main {
-  display: flex;
+  display: grid;
+  grid-template-columns: 5fr 2fr 1fr;
+  height: 100%;
+  padding: 20px;
+  gap: 20px;
   flex: 1;
-  flex-direction: column;
 }
 
 header {
@@ -23,14 +26,6 @@ header {
   background-color: #269a79;
   color: white;
   font-weight: bold;
-}
-
-.mainContainer {
-  display: grid;
-  grid-template-columns: 5fr 2fr 1fr;
-  height: 100%;
-  padding: 20px;
-  gap: 20px;
 }
 
 .videoMapContainer {
@@ -75,6 +70,12 @@ header {
   height: 100%;
 }
 
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .nombresContainer {
   position: sticky;
   top: 0px;
@@ -83,7 +84,7 @@ header {
 }
 
 @media (max-device-width: 900px) {
-  .mainContainer {
+  main {
     display: flex;
     flex-direction: column;
     height: 100%;

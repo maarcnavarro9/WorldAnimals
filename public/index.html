@@ -13,54 +13,51 @@
 </head>
 
 <body>
+    <header>
+        <h1>World Animals</h1>
+    </header>
     <main>
-        <header>
-            <h1>World Animals</h1>
-        </header>
+        <div class="videoMapContainer">
+            <div class="videoContainer">
+                <video id="myVideo" width="auto" height="auto" controls>
+                    <!-- Por defecto cargamos el video 1, con sus respectivas pistas -->
+                    <source id="videoSource"
+                        src="https://www.dropbox.com/scl/fi/8tlwf80s82c5de00slryz/WorldAnimalsV1.mp4?rlkey=hb9lsiuozw8fgl56t5mu8j05f&st=437spwh7&raw=1"
+                        type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
 
-        <div class="mainContainer">
-            <div class="videoMapContainer">
-                <div class="videoContainer">
-                    <video id="myVideo" width="auto" height="auto" controls>
-                        <!-- Por defecto cargamos el video 1, con sus respectivas pistas -->
-                        <source id="videoSource"
-                            src="https://www.dropbox.com/scl/fi/8tlwf80s82c5de00slryz/WorldAnimalsV1.mp4?rlkey=hb9lsiuozw8fgl56t5mu8j05f&st=437spwh7&raw=1"
-                            type="video/mp4">
-                        Tu navegador no soporta el elemento de video.
-
-                        <track id="descTrack" kind="descriptions" label="subtitles" srclang="en"
-                            src="./media/descriptionsV1.vtt" default />
-                        <track id="metaTrack" kind="metadata" label="metadata" src="./media/metadataV1.vtt" default />
-                        <track id="chapTrack" kind="chapters" label="chapters" src="./media/chaptersV1.vtt" default />
-                    </video>
-                </div>
-                <div>
-                    <button id="btnVideo1">Video 1</button>
-                    <button id="btnVideo2">Video 2</button>
-                </div>
-                <div class="mapa">mapa</div>
+                    <track id="descTrack" kind="descriptions" label="subtitles" srclang="en"
+                        src="./media/descriptionsV1.vtt" default />
+                    <track id="metaTrack" kind="metadata" label="metadata" src="./media/metadataV1.vtt" default />
+                    <track id="chapTrack" kind="chapters" label="chapters" src="./media/chaptersV1.vtt" default />
+                </video>
             </div>
-            <div class="videoMapContainer">
-                <img src="./assets/img/portfolio/submarine.png" height="auto" width="100%" />
-                <div class="card">
-                    <div class="nombresContainer">
-                        <h2>Nombre</h2>
-                        <h3>Especie</h3>
-                    </div>
-                    <p>El gato siberiano es originario de las frías y remotas regiones de Siberia. Presenta un pelaje
-                        muy denso y sedoso que le permite tolerar temperaturas extremas y le brinda protección frente a
-                        la nieve. Esta raza es conocida por su carácter afectuoso, sociable y adaptable, lo que la hace
-                        ideal como compañera en el hogar. A pesar de ser un gato grande y robusto, se mueve con
-                        elegancia y agilidad. Dado su origen, suele disfrutar de actividades al aire libre y, cuando se
-                        encuentra en entornos más templados, agradece tener acceso a espacios frescos o con sombra.
-                        Posee un instinto cazador notable, heredado de sus antepasados que se enfrentaban a presas y
-                        amenazas en hábitats de tundra. Otra característica llamativa es su capacidad para responder al
-                        entrenamiento básico, algo poco común en la mayoría de los felinos domésticos, lo que refuerza
-                        su reputación de compañero leal y curioso.</p>
-                </div>
-            </div>
-            <div class="card">aaa</div>
+            <!-- <div>
+                <button id="btnVideo1">Video 1</button>
+                <button id="btnVideo2">Video 2</button>
+            </div> -->
+            <div class="mapa">mapa</div>
         </div>
+        <div class="descriptionContainer">
+            <img src="./assets/img/portfolio/submarine.png" height="auto" width="100%" />
+            <div class="card">
+                <div class="nombresContainer">
+                    <h2>Nombre</h2>
+                    <h3>Especie</h3>
+                </div>
+                <p>El gato siberiano es originario de las frías y remotas regiones de Siberia. Presenta un pelaje
+                    muy denso y sedoso que le permite tolerar temperaturas extremas y le brinda protección frente a
+                    la nieve. Esta raza es conocida por su carácter afectuoso, sociable y adaptable, lo que la hace
+                    ideal como compañera en el hogar. A pesar de ser un gato grande y robusto, se mueve con
+                    elegancia y agilidad. Dado su origen, suele disfrutar de actividades al aire libre y, cuando se
+                    encuentra en entornos más templados, agradece tener acceso a espacios frescos o con sombra.
+                    Posee un instinto cazador notable, heredado de sus antepasados que se enfrentaban a presas y
+                    amenazas en hábitats de tundra. Otra característica llamativa es su capacidad para responder al
+                    entrenamiento básico, algo poco común en la mayoría de los felinos domésticos, lo que refuerza
+                    su reputación de compañero leal y curioso.</p>
+            </div>
+        </div>
+        <div class="card">aaa</div>
     </main>
 
     <script>
