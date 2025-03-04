@@ -66,8 +66,20 @@ header {
 
 .card {
   border-radius: 5px;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
   background-color: #75c699;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.nombresContainer {
+  position: sticky;
+  top: 0px;
+  background-color: #75c699;
+  padding: 10px 0;
 }
 
 @media (max-device-width: 900px) {
