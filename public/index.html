@@ -3,10 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Animals of the world" />
     <meta name="author" content="Marc Navarro & Ángel Fernández" />
     <title>World Animals</title>
@@ -18,8 +15,7 @@
 <body>
     <main>
         <header>
-            <h1>Hola</h1>
-            <!-- Botones para seleccionar qué video mostrar -->
+            <h1>World Animals</h1>
         </header>
 
         <div class="mainContainer">
@@ -30,12 +26,10 @@
                         <source id="videoSource" src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                         Tu navegador no soporta el elemento de video.
 
-                        <track id="descTrack" kind="descriptions" label="subtitles" srclang="en" 
-                               src="./media/descriptionsV1.vtt" default/>
-                        <track id="metaTrack" kind="metadata" label="metadata"
-                               src="./media/metadataV1.vtt" default/>    
-                        <track id="chapTrack" kind="chapters" label="chapters"
-                               src="./media/chaptersV1.vtt" default/>
+                        <track id="descTrack" kind="descriptions" label="subtitles" srclang="en"
+                            src="./media/descriptionsV1.vtt" default />
+                        <track id="metaTrack" kind="metadata" label="metadata" src="./media/metadataV1.vtt" default />
+                        <track id="chapTrack" kind="chapters" label="chapters" src="./media/chaptersV1.vtt" default />
                     </video>
                 </div>
                 <div>
@@ -62,7 +56,7 @@
             document.getElementById('btnVideo1').addEventListener('click', () => {
                 // Cambiamos la fuente del video
                 videoSource.src = "https://www.w3schools.com/html/mov_bbb.mp4";
-                
+
                 // Cambiamos las pistas al conjunto 1
                 descTrack.src = "./media/descriptionsV1.vtt";
                 metaTrack.src = "./media/metadataV1.vtt";
