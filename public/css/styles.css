@@ -101,7 +101,7 @@ button:hover {
 }
 
 
-@media (max-device-width: 900px) {
+@media (max-width: 900px) {
   body {
     height: auto;
   }
