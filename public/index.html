@@ -71,24 +71,11 @@
                 <p id="descripcion"></p>
             </div>
         </div>
-        <div class="card">
-            <form action="#">
-                <label for="lang"></label>
-                <select name="lenguajes" id="lang" size="4">
-                    <option value="javascript">JavaScript</option>
-                    <option value="php">PHP</option>
-                    <option value="java">Java</option>
-                    <option value="golang">Golang</option>
-                    <option value="python">Python</option>
-                    <option value="c#">C#</option>
-                    <option value="C++">C++</option>
-                    <option value="erlang">Erlang</option>
-                </select>
-                <input type="submit" value="Enviar" />
-            </form>
+        <div class="card" id="capitulos">
         </div>
     </main>
 
+    <script src="./js/scripts.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('myVideo');
@@ -100,10 +87,33 @@
             const especieEl = document.getElementById('especie');
             const descripcionEl = document.getElementById('descripcion');
 
-            // Aseguramos que se muestren los subtítulos
-            descTrack.track.mode = "showing";
-            // El track de metadatos está oculto pero activo
-            metaTrack.mode = "hidden";
+            descTrack.track.mode = "showing";  // Asegurar que los subtítulos se muestren
+            metaTrack.mode = "hidden";  // Metadatos activos pero ocultos
+
+            function obtenerTodasLasCues() {
+                const cues = [];
+                if (metaTrack && metaTrack.cues) {
+                    // Accedemos a todas las cues de la pista
+                    for (let i = 0; i < metaTrack.cues.length; i++) {
+                        const cue = metaTrack.cues[i];
+                        try {
+                            // Almacenamos la cue en el array de cues
+                            const metadata = JSON.parse(cue.text); // Asumimos que el contenido de la cue es JSON
+                            cues.push(metadata); // Guardamos la metadata de cada cue
+                        } catch (e) {
+                            console.error('Error al parsear la metadata de la cue', e);
+                        }
+                    }
+                }
+                return cues;
+            }
+
+            metaTrackElement.addEventListener('load', () => {
+                const todasLasCues = obtenerTodasLasCues();
+                console.log(todasLasCues); // Muestra todas las cues en la consola
+                // Puedes hacer algo con todas las cues, como generar botones
+                generarBotonesDesdeJSON(todasLasCues);
+            });
 
             // Evento para procesar metadatos
             metaTrack.addEventListener('cuechange', () => {
@@ -112,13 +122,17 @@
                     try {
                         const metadata = JSON.parse(activeCues[0].text);
 
-                        // Actualizamos texto
+                        // Guardamos los metadatos en un array para luego usarlos en los botones
+                        if (!metadataArray.some(item => item.Nombre === metadata.Nombre)) {
+                            metadataArray.push(metadata);
+                        }
+
+                        // Actualizar la información en la pantalla
                         nombreEl.textContent = metadata.Nombre || "Nombre";
                         especieEl.textContent = metadata.Especie || "Especie";
                         descripcionEl.textContent = metadata.Descripcion || "Descripción no disponible...";
 
-                        // CAMBIO IMPORTANTE AQUÍ:
-                        // Si en el metadata vienen coordenadas, las usamos para actualizar el mapa y el marcador
+                        // Si hay coordenadas, actualizar el mapa
                         if (metadata.coordenadas_geográficas) {
                             const lat = parseFloat(metadata.coordenadas_geográficas.latitud);
                             const lng = parseFloat(metadata.coordenadas_geográficas.longitud);
@@ -127,12 +141,12 @@
                                 marcador.setPosition({ lat, lng });
                             }
                         }
-
                     } catch (e) {
                         console.error("Error parsing metadata: ", e);
                     }
                 }
             });
+
 
             // Botón Video 1
             document.getElementById('btnVideo1').addEventListener('click', () => {
@@ -151,7 +165,6 @@
             });
         });
     </script>
-
 </body>
 
 </html>

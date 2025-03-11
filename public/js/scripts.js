@@ -1,54 +1,27 @@
-/*!
-* Start Bootstrap - Freelancer v7.0.7 (https://startbootstrap.com/theme/freelancer)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-freelancer/blob/master/LICENSE)
-*/
-//
-// Scripts
-// 
+function generarBotonesDesdeJSON(data) {
+    const container = document.getElementById('capitulos');
 
-window.addEventListener('DOMContentLoaded', event => {
+    if (!container) {
+        console.error('No se encontró el contenedor con id="capitulos".');
+        return;
+    }
 
-    // Navbar shrink function
-    var navbarShrink = function () {
-        const navbarCollapsible = document.body.querySelector('#mainNav');
-        if (!navbarCollapsible) {
-            return;
+    if (!Array.isArray(data) || data.length === 0) {
+        console.warn("No hay datos válidos para generar botones.");
+        return;
+    }
+
+    container.innerHTML = ''; // Limpiar antes de agregar nuevos botones
+    const fragment = document.createDocumentFragment();
+
+    data.forEach(objeto => {
+        if (objeto.Nombre) {
+            const button = document.createElement('button');
+            button.textContent = objeto.Nombre;
+            button.classList.add('btn-animal');
+            fragment.appendChild(button);
         }
-        if (window.scrollY === 0) {
-            navbarCollapsible.classList.remove('navbar-shrink')
-        } else {
-            navbarCollapsible.classList.add('navbar-shrink')
-        }
-
-    };
-
-    // Shrink the navbar 
-    navbarShrink();
-
-    // Shrink the navbar when page is scrolled
-    document.addEventListener('scroll', navbarShrink);
-
-    // Activate Bootstrap scrollspy on the main nav element
-    const mainNav = document.body.querySelector('#mainNav');
-    if (mainNav) {
-        new bootstrap.ScrollSpy(document.body, {
-            target: '#mainNav',
-            rootMargin: '0px 0px -40%',
-        });
-    };
-
-    // Collapse responsive navbar when toggler is visible
-    const navbarToggler = document.body.querySelector('.navbar-toggler');
-    const responsiveNavItems = [].slice.call(
-        document.querySelectorAll('#navbarResponsive .nav-link')
-    );
-    responsiveNavItems.map(function (responsiveNavItem) {
-        responsiveNavItem.addEventListener('click', () => {
-            if (window.getComputedStyle(navbarToggler).display !== 'none') {
-                navbarToggler.click();
-            }
-        });
     });
 
-});
+    container.appendChild(fragment);
+}
