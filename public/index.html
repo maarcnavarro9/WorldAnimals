@@ -18,12 +18,13 @@
     <main>
         <div class="videoMapContainer">
             <div class="videoContainer">
-                <video id="myVideo" width="auto" height="auto" controls>
+                <video id="myVideo" width="auto" height="auto" controls autoplay>
                     <source id="videoSource"
                         src="https://www.dropbox.com/scl/fi/8tlwf80s82c5de00slryz/WorldAnimalsV1.mp4?rlkey=hb9lsiuozw8fgl56t5mu8j05f&st=437spwh7&raw=1"
                         type="video/mp4">
                     Tu navegador no soporta el elemento de video.
-                    <track id="descTrack" kind="subtitles" label="English Subtitles" srclang="en" src="./media/descriptionsV1.vtt" default />
+                    <track id="descTrack" kind="subtitles" label="English Subtitles" srclang="en"
+                        src="./media/descriptionsV1.vtt" default />
                     <track id="metaTrack" kind="metadata" label="Metadata" src="./media/metadataV1.vtt" />
                 </video>
             </div>
@@ -31,28 +32,63 @@
                 <button id="btnVideo1">Video 1</button>
                 <button id="btnVideo2">Video 2</button>
             </div>
-            <div class="mapa">mapa</div>
+            <div class="mapa">
+                <!-- El contenedor donde se mostrará el mapa -->
+                <div id="map" style="width: 100%; height: 300px;"></div>
+                <script async defer
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-CwDTo2Lsq5qMAAV99Oa4u9slVjd7i2I&callback=initMap">
+                </script>
+                <script>
+                    // CAMBIO IMPORTANTE AQUÍ: Declaramos variables globales para el mapa y el marcador
+                    let mapa;
+                    let marcador;
+
+                    function initMap() {
+                        // Ubicación inicial (Madrid como ejemplo)
+                        const ubicacion = { lat: 40.416775, lng: -3.703790 };
+
+                        // Creamos el mapa y lo centramos en la ubicación indicada
+                        mapa = new google.maps.Map(document.getElementById('map'), {
+                            zoom: 3,
+                            center: ubicacion
+                        });
+
+                        // Agregamos un marcador inicial
+                        marcador = new google.maps.Marker({
+                            position: ubicacion,
+                            map: mapa,
+                            title: "Mi Ubicación"
+                        });
+                    }
+                </script>
+            </div>
         </div>
         <div class="descriptionContainer">
             <img src="./assets/img/portfolio/submarine.png" height="auto" width="100%" />
             <div class="card">
                 <div class="nombresContainer">
-                    <h2 id="nombre">Nombre</h2>
-                    <h3 id="especie">Especie</h3>
+                    <h2 id="nombre"></h2>
+                    <h3 id="especie"></h3>
                 </div>
-                <p id="descripcion">El gato siberiano es originario de las frías y remotas regiones de Siberia. Presenta un pelaje
-                    muy denso y sedoso que le permite tolerar temperaturas extremas y le brinda protección frente a
-                    la nieve. Esta raza es conocida por su carácter afectuoso, sociable y adaptable, lo que la hace
-                    ideal como compañera en el hogar. A pesar de ser un gato grande y robusto, se mueve con
-                    elegancia y agilidad. Dado su origen, suele disfrutar de actividades al aire libre y, cuando se
-                    encuentra en entornos más templados, agradece tener acceso a espacios frescos o con sombra.
-                    Posee un instinto cazador notable, heredado de sus antepasados que se enfrentaban a presas y
-                    amenazas en hábitats de tundra. Otra característica llamativa es su capacidad para responder al
-                    entrenamiento básico, algo poco común en la mayoría de los felinos domésticos, lo que refuerza
-                    su reputación de compañero leal y curioso.</p>
+                <p id="descripcion"></p>
             </div>
         </div>
-        <div class="card">aaa</div>
+        <div class="card">
+            <form action="#">
+                <label for="lang"></label>
+                <select name="lenguajes" id="lang" size="4">
+                  <option value="javascript">JavaScript</option>
+                  <option value="php">PHP</option>
+                  <option value="java">Java</option>
+                  <option value="golang">Golang</option>
+                  <option value="python">Python</option>
+                  <option value="c#">C#</option>
+                  <option value="C++">C++</option>
+                  <option value="erlang">Erlang</option>
+                </select>
+                <input type="submit" value="Enviar" />
+          </form>
+        </div>
     </main>
 
     <script>
@@ -61,49 +97,62 @@
             const descTrack = document.getElementById('descTrack');
             const metaTrackElement = document.getElementById('metaTrack');
             const metaTrack = metaTrackElement.track;
-        
+
             const nombreEl = document.getElementById('nombre');
             const especieEl = document.getElementById('especie');
             const descripcionEl = document.getElementById('descripcion');
-            
+
+            // Aseguramos que se muestren los subtítulos
             descTrack.track.mode = "showing";
+            // El track de metadatos está oculto pero activo
             metaTrack.mode = "hidden";
-        
+
             // Evento para procesar metadatos
             metaTrack.addEventListener('cuechange', () => {
                 const activeCues = metaTrack.activeCues;
                 if (activeCues.length > 0) {
                     try {
                         const metadata = JSON.parse(activeCues[0].text);
+
+                        // Actualizamos texto
                         nombreEl.textContent = metadata.Nombre || "Nombre";
                         especieEl.textContent = metadata.Especie || "Especie";
-                        descripcionEl.textContent = metadata.Descripcion || "Descripción del animal...";
+                        descripcionEl.textContent = metadata.Descripcion || "Descripción no disponible...";
+
+                        // CAMBIO IMPORTANTE AQUÍ:
+                        // Si en el metadata vienen coordenadas, las usamos para actualizar el mapa y el marcador
+                        if (metadata.coordenadas_geográficas) {
+                            const lat = parseFloat(metadata.coordenadas_geográficas.latitud);
+                            const lng = parseFloat(metadata.coordenadas_geográficas.longitud);
+                            if (!isNaN(lat) && !isNaN(lng)) {
+                                mapa.setCenter({ lat, lng });
+                                marcador.setPosition({ lat, lng });
+                            }
+                        }
+
                     } catch (e) {
                         console.error("Error parsing metadata: ", e);
                     }
                 }
             });
-        
+
             // Botón Video 1
             document.getElementById('btnVideo1').addEventListener('click', () => {
                 video.src = "https://www.dropbox.com/scl/fi/8tlwf80s82c5de00slryz/WorldAnimalsV1.mp4?rlkey=hb9lsiuozw8fgl56t5mu8j05f&st=7mjqj3jw&raw=1";
                 descTrack.src = "./media/descriptionsV1.vtt";
-                // Asegúrate de que existe un archivo metadataV1.vtt
                 metaTrackElement.src = "./media/metadataV1.vtt";
                 video.load();
             });
-        
+
             // Botón Video 2
             document.getElementById('btnVideo2').addEventListener('click', () => {
                 video.src = "https://www.dropbox.com/scl/fi/9qes0n0swkkmsa948vnzj/WorldAnimalsV2.mp4?rlkey=iyucl14gz6ykvt64y0xd540cl&st=khtlms8m&raw=1";
                 descTrack.src = "./media/descriptionsV2.vtt";
-                // Asegúrate de crear o enlazar tu archivo metadataV2.vtt
-                metaTrackElement.src = "./media/metadataV2.vtt"; 
+                metaTrackElement.src = "./media/metadataV2.vtt";
                 video.load();
             });
         });
     </script>
-        
-</body>
 
+</body>
 </html>
