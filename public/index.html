@@ -32,12 +32,10 @@
                 <button id="btnVideo1">Video 1</button>
                 <button id="btnVideo2">Video 2</button>
             </div>
-            <div class="mapa">
-                <!-- El contenedor donde se mostrará el mapa -->
-                <div id="map" style="width: 100%; height: 300px;"></div>
+            <div class="mapa" id="map">
                 <script async defer
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-CwDTo2Lsq5qMAAV99Oa4u9slVjd7i2I&callback=initMap">
-                </script>
+                    </script>
                 <script>
                     // CAMBIO IMPORTANTE AQUÍ: Declaramos variables globales para el mapa y el marcador
                     let mapa;
@@ -77,17 +75,17 @@
             <form action="#">
                 <label for="lang"></label>
                 <select name="lenguajes" id="lang" size="4">
-                  <option value="javascript">JavaScript</option>
-                  <option value="php">PHP</option>
-                  <option value="java">Java</option>
-                  <option value="golang">Golang</option>
-                  <option value="python">Python</option>
-                  <option value="c#">C#</option>
-                  <option value="C++">C++</option>
-                  <option value="erlang">Erlang</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="php">PHP</option>
+                    <option value="java">Java</option>
+                    <option value="golang">Golang</option>
+                    <option value="python">Python</option>
+                    <option value="c#">C#</option>
+                    <option value="C++">C++</option>
+                    <option value="erlang">Erlang</option>
                 </select>
                 <input type="submit" value="Enviar" />
-          </form>
+            </form>
         </div>
     </main>
 
@@ -155,4 +153,5 @@
     </script>
 
 </body>
+
 </html>
