@@ -87,8 +87,10 @@
             const especieEl = document.getElementById('especie');
             const descripcionEl = document.getElementById('descripcion');
 
-            descTrack.track.mode = "showing";  // Asegurar que los subtítulos se muestren
-            metaTrack.mode = "hidden";  // Metadatos activos pero ocultos
+            // Aseguramos que se muestren los subtítulos
+            descTrack.track.mode = "showing";
+            // El track de metadatos está oculto pero activo
+            metaTrack.mode = "hidden";
 
             function obtenerTodasLasCues() {
                 const cues = [];
@@ -122,17 +124,13 @@
                     try {
                         const metadata = JSON.parse(activeCues[0].text);
 
-                        // Guardamos los metadatos en un array para luego usarlos en los botones
-                        if (!metadataArray.some(item => item.Nombre === metadata.Nombre)) {
-                            metadataArray.push(metadata);
-                        }
-
-                        // Actualizar la información en la pantalla
+                        // Actualizamos texto
                         nombreEl.textContent = metadata.Nombre || "Nombre";
                         especieEl.textContent = metadata.Especie || "Especie";
                         descripcionEl.textContent = metadata.Descripcion || "Descripción no disponible...";
 
-                        // Si hay coordenadas, actualizar el mapa
+                        // CAMBIO IMPORTANTE AQUÍ:
+                        // Si en el metadata vienen coordenadas, las usamos para actualizar el mapa y el marcador
                         if (metadata.coordenadas_geográficas) {
                             const lat = parseFloat(metadata.coordenadas_geográficas.latitud);
                             const lng = parseFloat(metadata.coordenadas_geográficas.longitud);
@@ -141,12 +139,12 @@
                                 marcador.setPosition({ lat, lng });
                             }
                         }
+
                     } catch (e) {
                         console.error("Error parsing metadata: ", e);
                     }
                 }
             });
-
 
             // Botón Video 1
             document.getElementById('btnVideo1').addEventListener('click', () => {
