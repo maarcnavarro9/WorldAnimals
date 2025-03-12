@@ -70,6 +70,11 @@ header {
   overflow-y: auto;
 }
 
+#capitulos {
+  padding: 20px;
+  gap: 20px;
+}
+
 .descriptionContainer {
   display: flex;
   flex-direction: column;
@@ -93,6 +98,13 @@ button {
   border-radius: 25px;
   background-color: #75c699;
   border-color: #269a79;
+}
+
+.chaptersButton {
+  border: none;
+  text-decoration: underline;
+  color: blue;
+  padding: 0;
 }
 
 button:hover {

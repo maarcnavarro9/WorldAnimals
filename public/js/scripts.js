@@ -18,7 +18,7 @@ function generarBotonesDesdeJSON(data) {
         if (objeto.Nombre) {
             const button = document.createElement('button');
             button.textContent = objeto.Nombre;
-            button.classList.add('btn-animal');
+            button.classList.add('chaptersButton');
             fragment.appendChild(button);
         }
     });
