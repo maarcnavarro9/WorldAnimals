@@ -44,11 +44,11 @@
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-CwDTo2Lsq5qMAAV99Oa4u9slVjd7i2I&callback=initMap">
                     </script>
                 <script>
-                    // CAMBIO IMPORTANTE AQUÍ: Declaramos variables globales para el mapa y el marcador
-                    let mapa;
                     let marcador;
+                    let mapa;
 
-                    function initMap() {
+                    async function initMap() {
+
                         // Ubicación inicial (Madrid como ejemplo)
                         const ubicacion = { lat: 40.416775, lng: -3.703790 };
 
@@ -82,7 +82,7 @@
         </div>
     </main>
 
-    <script src="./js/scripts.js"></script>
+    <script src="./js/generarBotonesCapitulos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('myVideo');
@@ -228,7 +228,7 @@
                 const todasLasCues = obtenerTodasLasCues();
                 console.log(todasLasCues); // Muestra todas las cues en la consola
                 // Puedes hacer algo con todas las cues, como generar botones
-                generarBotonesDesdeJSON(todasLasCues);
+                generarBotonesCapitulos(todasLasCues);
             });
 
             // Evento para procesar metadatos y actualizar información en pantalla

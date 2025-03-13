@@ -1,4 +1,4 @@
-function generarBotonesDesdeJSON(data) {
+function generarBotonesCapitulos(data) {
     const container = document.getElementById('capitulos');
     const video = document.getElementById('myVideo'); // Referencia al video
 
