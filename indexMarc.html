@@ -19,8 +19,8 @@
         <div class="videoMapContainer">
             <div class="videoContainer">
                 <video id="myVideo" width="auto" height="auto" controls autoplay muted>
-                    <source id="sourceMp4" src="/public/assets/videos/WorldAnimalsV1_4K.mp4" type="video/mp4">
-                    <source id="sourceWebm" src="/public/assets/videos/WorldAnimalsV1_4K.webm" type="video/webm">
+                    <source id="sourceMp4" src="/assets/videos/WorldAnimalsV1_4K.mp4" type="video/mp4">
+                    <source id="sourceWebm" src="/assets/videos/WorldAnimalsV1_4K.webm" type="video/webm">
                     <track id="descTrackEn" kind="subtitles" label="English" srclang="en"
                         src="./media/descriptionsV1_En.vtt" />
                     <track id="descTrackEs" kind="subtitles" label="Spanish" srclang="es"
@@ -100,8 +100,8 @@
             const videoSources = {
                 "video1": {
                     "4K": {
-                        mp4: "/public/assets/videos/WorldAnimalsV1_4K.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV1_4K.webm",
+                        mp4: "/assets/videos/WorldAnimalsV1_4K.mp4",
+                        webm: "/assets/videos/WorldAnimalsV1_4K.webm",
                         subtitles: {
                             en: "./media/descriptionsV1_En.vtt",
                             es: "./media/descriptionsV1_Es.vtt",
@@ -110,8 +110,8 @@
                         metadata: "./media/metadataV1.vtt"
                     },
                     "FullHD": {
-                        mp4: "/public/assets/videos/WorldAnimalsV1_1080p.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV1_1080p.webm",
+                        mp4: "/assets/videos/WorldAnimalsV1_1080p.mp4",
+                        webm: "/assets/videos/WorldAnimalsV1_1080p.webm",
                         subtitles: {
                             en: "./media/descriptionsV1_En.vtt",
                             es: "./media/descriptionsV1_Es.vtt",
@@ -120,8 +120,8 @@
                         metadata: "./media/metadataV1.vtt"
                     },
                     "720p": {
-                        mp4: "/public/assets/videos/WorldAnimalsV1_720p.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV1_720p.webm",
+                        mp4: "/assets/videos/WorldAnimalsV1_720p.mp4",
+                        webm: "/assets/videos/WorldAnimalsV1_720p.webm",
                         subtitles: {
                             en: "./media/descriptionsV1_En.vtt",
                             es: "./media/descriptionsV1_Es.vtt",
@@ -132,8 +132,8 @@
                 },
                 "video2": {
                     "4K": {
-                        mp4: "/public/assets/videos/WorldAnimalsV2_4K.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV2_4K.webm",
+                        mp4: "/assets/videos/WorldAnimalsV2_4K.mp4",
+                        webm: "/assets/videos/WorldAnimalsV2_4K.webm",
                         subtitles: {
                             en: "./media/descriptionsV2_En.vtt",
                             es: "./media/descriptionsV2_Es.vtt",
@@ -142,8 +142,8 @@
                         metadata: "./media/metadataV2.vtt"
                     },
                     "FullHD": {
-                        mp4: "/public/assets/videos/WorldAnimalsV2_1080p.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV2_1080p.webm",
+                        mp4: "/assets/videos/WorldAnimalsV2_1080p.mp4",
+                        webm: "/assets/videos/WorldAnimalsV2_1080p.webm",
                         subtitles: {
                             en: "./media/descriptionsV2_En.vtt",
                             es: "./media/descriptionsV2_Es.vtt",
@@ -152,8 +152,8 @@
                         metadata: "./media/metadataV2.vtt"
                     },
                     "720p": {
-                        mp4: "/public/assets/videos/WorldAnimalsV2_720p.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV2_720p.webm",
+                        mp4: "/assets/videos/WorldAnimalsV2_720p.mp4",
+                        webm: "/assets/videos/WorldAnimalsV2_720p.webm",
                         subtitles: {
                             en: "./media/descriptionsV2_En.vtt",
                             es: "./media/descriptionsV2_Es.vtt",
@@ -206,47 +206,15 @@
             const metaTrack = metaTrackElement.track;
             metaTrack.mode = "hidden";
 
-            function obtenerTodasLasCues() {
-                const cues = [];
-                if (metaTrack && metaTrack.cues) {
-                    // Accedemos a todas las cues de la pista
-                    for (let i = 0; i < metaTrack.cues.length; i++) {
-                        const cue = metaTrack.cues[i];
-                        try {
-                            // Almacenamos la cue en el array de cues
-                            const metadata = JSON.parse(cue.text); // Asumimos que el contenido de la cue es JSON
-                            cues.push(metadata); // Guardamos la metadata de cada cue
-                        } catch (e) {
-                            console.error('Error al parsear la metadata de la cue', e);
-                        }
-                    }
-                }
-                return cues;
-            }
-
-            metaTrackElement.addEventListener('load', () => {
-                const todasLasCues = obtenerTodasLasCues();
-                console.log(todasLasCues); // Muestra todas las cues en la consola
-                // Puedes hacer algo con todas las cues, como generar botones
-                generarBotonesDesdeJSON(todasLasCues);
-            });
-
             // Evento para procesar metadatos y actualizar información en pantalla
             metaTrack.addEventListener('cuechange', () => {
                 const activeCues = metaTrack.activeCues;
                 if (activeCues.length > 0) {
                     try {
                         const metadata = JSON.parse(activeCues[0].text);
-
-                        fotoAnimal.src = metadata.link_imagen || "./assets/img/portfolio/safe.png";
-
-                        // Actualizamos texto
                         document.getElementById('nombre').textContent = metadata.Nombre || "Nombre";
                         document.getElementById('especie').textContent = metadata.Especie || "Especie";
                         document.getElementById('descripcion').textContent = metadata.Descripcion || "Descripción no disponible...";
-
-                        // CAMBIO IMPORTANTE AQUÍ:
-                        // Si en el metadata vienen coordenadas, las usamos para actualizar el mapa y el marcador
                         if (metadata.coordenadas_geográficas) {
                             const lat = parseFloat(metadata.coordenadas_geográficas.latitud);
                             const lng = parseFloat(metadata.coordenadas_geográficas.longitud);
