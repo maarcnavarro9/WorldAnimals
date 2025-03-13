@@ -19,8 +19,8 @@
         <div class="videoMapContainer">
             <div class="videoContainer">
                 <video id="myVideo" width="auto" height="auto" controls autoplay muted>
-                    <source id="sourceMp4" src="/public/assets/videos/WorldAnimalsV1_4K.mp4" type="video/mp4">
-                    <source id="sourceWebm" src="/public/assets/videos/WorldAnimalsV1_4K.webm" type="video/webm">
+                    <source id="sourceMp4" src="./assets/videos/WorldAnimalsV1_4K.mp4" type="video/mp4">
+                    <source id="sourceWebm" src="./assets/videos/WorldAnimalsV1_4K.webm" type="video/webm">
                     <track id="descTrackEn" kind="subtitles" label="English" srclang="en"
                         src="./media/descriptionsV1_En.vtt" />
                     <track id="descTrackEs" kind="subtitles" label="Spanish" srclang="es"
@@ -40,32 +40,6 @@
                 </select>
             </div>
             <div class="mapa" id="map">
-                <script async defer
-                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-CwDTo2Lsq5qMAAV99Oa4u9slVjd7i2I&callback=initMap">
-                    </script>
-                <script>
-                    let marcador;
-                    let mapa;
-
-                    async function initMap() {
-
-                        // Ubicación inicial (Madrid como ejemplo)
-                        const ubicacion = { lat: 40.416775, lng: -3.703790 };
-
-                        // Creamos el mapa y lo centramos en la ubicación indicada
-                        mapa = new google.maps.Map(document.getElementById('map'), {
-                            zoom: 3,
-                            center: ubicacion
-                        });
-
-                        // Agregamos un marcador inicial
-                        marcador = new google.maps.Marker({
-                            position: ubicacion,
-                            map: mapa,
-                            title: "Mi Ubicación"
-                        });
-                    }
-                </script>
             </div>
         </div>
         <div class="descriptionContainer">
@@ -82,6 +56,10 @@
         </div>
     </main>
 
+    <script src="./js/mapa.js"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-CwDTo2Lsq5qMAAV99Oa4u9slVjd7i2I&callback=initMap">
+        </script>
     <script src="./js/generarBotonesCapitulos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -100,8 +78,8 @@
             const videoSources = {
                 "video1": {
                     "4K": {
-                        mp4: "/public/assets/videos/WorldAnimalsV1_4K.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV1_4K.webm",
+                        mp4: "./assets/videos/WorldAnimalsV1_4k.mp4",
+                        webm: "./assets/videos/WorldAnimalsV1_4K.webm",
                         subtitles: {
                             en: "./media/descriptionsV1_En.vtt",
                             es: "./media/descriptionsV1_Es.vtt",
@@ -110,8 +88,8 @@
                         metadata: "./media/metadataV1.vtt"
                     },
                     "FullHD": {
-                        mp4: "/public/assets/videos/WorldAnimalsV1_1080p.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV1_1080p.webm",
+                        mp4: "./assets/videos/WorldAnimalsV1_1080p.mp4",
+                        webm: "./assets/videos/WorldAnimalsV1_1080p.webm",
                         subtitles: {
                             en: "./media/descriptionsV1_En.vtt",
                             es: "./media/descriptionsV1_Es.vtt",
@@ -120,8 +98,8 @@
                         metadata: "./media/metadataV1.vtt"
                     },
                     "720p": {
-                        mp4: "/public/assets/videos/WorldAnimalsV1_720p.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV1_720p.webm",
+                        mp4: "./assets/videos/WorldAnimalsV1_720p.mp4",
+                        webm: "./assets/videos/WorldAnimalsV1_720p.webm",
                         subtitles: {
                             en: "./media/descriptionsV1_En.vtt",
                             es: "./media/descriptionsV1_Es.vtt",
@@ -132,8 +110,8 @@
                 },
                 "video2": {
                     "4K": {
-                        mp4: "/public/assets/videos/WorldAnimalsV2_4K.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV2_4K.webm",
+                        mp4: "./assets/videos/WorldAnimalsV2_4K.mp4",
+                        webm: "./assets/videos/WorldAnimalsV2_4K.webm",
                         subtitles: {
                             en: "./media/descriptionsV2_En.vtt",
                             es: "./media/descriptionsV2_Es.vtt",
@@ -142,8 +120,8 @@
                         metadata: "./media/metadataV2.vtt"
                     },
                     "FullHD": {
-                        mp4: "/public/assets/videos/WorldAnimalsV2_1080p.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV2_1080p.webm",
+                        mp4: "./assets/videos/WorldAnimalsV2_1080p.mp4",
+                        webm: "./assets/videos/WorldAnimalsV2_1080p.webm",
                         subtitles: {
                             en: "./media/descriptionsV2_En.vtt",
                             es: "./media/descriptionsV2_Es.vtt",
@@ -152,8 +130,8 @@
                         metadata: "./media/metadataV2.vtt"
                     },
                     "720p": {
-                        mp4: "/public/assets/videos/WorldAnimalsV2_720p.mp4",
-                        webm: "/public/assets/videos/WorldAnimalsV2_720p.webm",
+                        mp4: "./assets/videos/WorldAnimalsV2_720p.mp4",
+                        webm: "./assets/videos/WorldAnimalsV2_720p.webm",
                         subtitles: {
                             en: "./media/descriptionsV2_En.vtt",
                             es: "./media/descriptionsV2_Es.vtt",
