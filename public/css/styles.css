@@ -75,6 +75,10 @@ header {
   gap: 20px;
 }
 
+#fotoAnimal {
+  max-height: 250px;
+}
+
 .descriptionContainer {
   display: flex;
   flex-direction: column;

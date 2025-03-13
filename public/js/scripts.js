@@ -28,7 +28,7 @@ function generarBotonesDesdeJSON(data) {
 
                 // Agregar evento de click para mover el video a ese tiempo
                 button.addEventListener('click', () => {
-                    video.currentTime = startTime;
+                    video.currentTime = startTime - 0.001;
                     video.play();
                 });
             }

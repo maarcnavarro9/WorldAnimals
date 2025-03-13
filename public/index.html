@@ -36,6 +36,7 @@
                 <script async defer
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-CwDTo2Lsq5qMAAV99Oa4u9slVjd7i2I&callback=initMap">
                     </script>
+
                 <script>
                     // CAMBIO IMPORTANTE AQUÍ: Declaramos variables globales para el mapa y el marcador
                     let mapa;
@@ -62,7 +63,7 @@
             </div>
         </div>
         <div class="descriptionContainer">
-            <img src="./assets/img/portfolio/submarine.png" height="auto" width="100%" />
+            <img id="fotoAnimal" src="./assets/img/portfolio/submarine.png" height="300px" width="100%" />
             <div class="card">
                 <div class="nombresContainer">
                     <h2 id="nombre"></h2>
@@ -86,6 +87,7 @@
             const nombreEl = document.getElementById('nombre');
             const especieEl = document.getElementById('especie');
             const descripcionEl = document.getElementById('descripcion');
+            const fotoAnimal = document.getElementById('fotoAnimal');
 
             // Aseguramos que se muestren los subtítulos
             descTrack.track.mode = "showing";
@@ -123,6 +125,8 @@
                 if (activeCues.length > 0) {
                     try {
                         const metadata = JSON.parse(activeCues[0].text);
+
+                        fotoAnimal.src = metadata.link_imagen || "./assets/img/portfolio/safe.png";
 
                         // Actualizamos texto
                         nombreEl.textContent = metadata.Nombre || "Nombre";
