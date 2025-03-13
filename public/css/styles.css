@@ -76,7 +76,7 @@ header {
 }
 
 #fotoAnimal {
-  max-height: 250px;
+  object-fit: cover;
 }
 
 .descriptionContainer {
@@ -123,12 +123,14 @@ button:hover {
   }
 
   main {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    grid-template-columns: 2fr 1fr;
   }
 
   .videoContainer {
     max-height: none;
+  }
+
+  .videoMapContainer {
+    grid-column: span 2;
   }
 }
