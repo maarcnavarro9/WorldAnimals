@@ -95,6 +95,8 @@ header {
 
 .buttonsContainer {
   width: 100%;
+  display: flex;
+  gap: 5px;
 }
 
 button {
@@ -116,6 +118,18 @@ button:hover {
   background-color: #75c69950;
 }
 
+#qualitySelector {
+  margin-left: auto;
+  border: none;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+}
+
+#qualitySelector:hover {
+  color: #444;
+  border-bottom: 1px solid #444;
+}
 
 @media (max-width: 900px) {
   body {
