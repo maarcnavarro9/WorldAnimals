@@ -70,6 +70,15 @@ header {
   overflow-y: auto;
 }
 
+#capitulos {
+  padding: 20px;
+  gap: 20px;
+}
+
+#fotoAnimal {
+  object-fit: cover;
+}
+
 .descriptionContainer {
   display: flex;
   flex-direction: column;
@@ -95,6 +104,13 @@ button {
   border-color: #269a79;
 }
 
+.chaptersButton {
+  border: none;
+  text-decoration: underline;
+  color: blue;
+  padding: 0;
+}
+
 button:hover {
   cursor: pointer;
   background-color: #75c69950;
@@ -107,12 +123,14 @@ button:hover {
   }
 
   main {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    grid-template-columns: 2fr 1fr;
   }
 
   .videoContainer {
     max-height: none;
+  }
+
+  .videoMapContainer {
+    grid-column: span 2;
   }
 }
