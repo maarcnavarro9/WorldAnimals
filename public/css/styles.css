@@ -109,7 +109,7 @@ button {
 .chaptersButton {
   border: none;
   text-decoration: underline;
-  color: blue;
+  color: rgb(0, 0, 0);
   padding: 0;
 }
 
