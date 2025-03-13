@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (window.matchMedia("(max-width: 799px)").matches) {
             quality = "720p";
         } else if (window.matchMedia("(min-width: 800px) and (max-width: 1199px)").matches) {
-            quality = "FullHD";
+            quality = "1080p";
         }
 
         qualitySelector.value = quality;
