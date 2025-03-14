@@ -10,7 +10,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  gap: 10px;
+  gap: 7px;
 }
 
 main {
