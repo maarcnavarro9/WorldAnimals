@@ -10,12 +10,13 @@ body {
   display: flex;
   flex-direction: column;
   background-color: #fff;
+  gap: 7px;
 }
 
 main {
   display: grid;
   grid-template-columns: 5fr 2fr 1fr;
-  padding: 20px;
+  padding: 0px 20px;
   gap: 20px;
   overflow: auto;
 }
@@ -26,6 +27,16 @@ header {
   color: white;
   font-weight: bold;
 }
+
+footer {
+  display: flex;
+  justify-content: center;
+  padding: 3px 0;
+  color: #666;
+  font-size: 12px;
+  border-top: 1px solid #44444444;
+}
+
 
 .videoMapContainer {
   display: flex;
