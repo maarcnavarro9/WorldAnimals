@@ -15,15 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return "720p";
     } else if (window.matchMedia("(min-width: 800px) and (max-width: 1199px)").matches) {
       return "1080p";
-    } 
-    return "4K"; 
+    }
+    return "4K";
   }
 
   // Función principal que determina la calidad final a usar
   function updateQuality() {
     // Si el usuario ha seleccionado manualmente una calidad, la usamos
     let finalQuality = userQuality ? userQuality : getAutoQuality();
-    
+
     // Ajustamos el valor del selector para reflejar la calidad en uso
     qualitySelector.value = finalQuality;
     // Cargamos el video en esa calidad

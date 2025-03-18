@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 metadata: "./media/metadataV1.vtt"
             },
-            "FullHD": {
+            "1080p": {
                 mp4: "./assets/videos/WorldAnimalsV1_1080p.mp4",
                 webm: "./assets/videos/WorldAnimalsV1_1080p.webm",
                 subtitles: {
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 metadata: "./media/metadataV2.vtt"
             },
-            "FullHD": {
+            "1080p": {
                 mp4: "./assets/videos/WorldAnimalsV2_1080p.mp4",
                 webm: "./assets/videos/WorldAnimalsV2_1080p.webm",
                 subtitles: {
