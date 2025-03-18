@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const cue = metaTrack.cues[i];
                 try {
                     // Almacenamos la cue en el array de cues
-                    const metadata = JSON.parse(cue.text); // Asumimos que el contenido de la cue es JSON
+                    const metadata = JSON.parse(cue.text);
                     cues.push(metadata); // Guardamos la metadata de cada cue
                 } catch (e) {
                     console.error('Error al parsear la metadata de la cue', e);
@@ -139,10 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     metaTrackElement.addEventListener('load', () => {
-        const todasLasCues = obtenerTodasLasCues();
-        console.log(todasLasCues); // Muestra todas las cues en la consola
-        // Puedes hacer algo con todas las cues, como generar botones
-        generarBotonesCapitulos(todasLasCues);
+        generarBotonesCapitulos(obtenerTodasLasCues());
     });
 
     // Evento para procesar metadatos y actualizar información en pantalla
