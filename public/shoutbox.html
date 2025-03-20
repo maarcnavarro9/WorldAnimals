@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <title>Another Page - Shoutbox WebRTC</title>
+    <link rel="icon" type="image/png" href="/images/favicon.ico" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #181818;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header .logo {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        header nav a {
+            color: #fff;
+            margin-left: 12px;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .shoutbox-container {
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            min-height: 400px;
+            padding: 16px;
+        }
+
+        .shoutbox-header {
+            background: #252525;
+            color: #fff;
+            padding: 12px;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .shoutbox-messages {
+            background: #fafafa;
+            height: 250px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 16px;
+        }
+
+        .shoutbox-message {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ebebeb;
+        }
+
+        .shoutbox-message .username {
+            font-weight: bold;
+            color: #333;
+            margin-right: 5px;
+        }
+
+        .shoutbox-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .shoutbox-input input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .shoutbox-input button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .shoutbox-input button:hover {
+            background: #0056b3;
+        }
+
+        footer {
+            background: #181818;
+            color: #fff;
+            text-align: center;
+            padding: 16px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body id="anotherpage">
+    <header>
+        <a href="#" class="logo">AnotherPage</a>
+        <nav>
+            <a href="#"><i class="fa fa-home"></i> Home</a>
+            <a href="#"><i class="fa fa-user"></i> Profile</a>
+            <a href="#"><i class="fa fa-life-ring"></i> Help</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2 style="margin-bottom: 20px;">Shoutbox (WebRTC Demo)</h2>
+        <div class="shoutbox-container">
+            <div class="shoutbox-header">
+                <span>Live Shoutbox</span>
+                <span><i class="fas fa-comments"></i></span>
+            </div>
+            <div class="shoutbox-messages" id="messages"></div>
+            <form id="shoutboxForm" onsubmit="return false;">
+                <div class="shoutbox-input">
+                    <input type="text" id="messageInput" placeholder="Escribe tu mensaje..." />
+                    <button id="sendBtn" type="button">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 AnotherPage - All Rights Reserved.
+    </footer>
+
+    <script>
+        // URL del servidor de señalización
+        const SIGNALING_URL = 'ws://localhost:3000'; // Ajustar si es distinto
+        const ws = new WebSocket(SIGNALING_URL);
+
+        let peerConnection;
+        let dataChannel;
+        let isInitiator = false;
+        let localUsername = 'User-' + Math.floor(Math.random() * 1000);
+
+        const messagesDiv = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        // Cuando se abra la conexión WebSocket, decidimos si somos "iniciadores"
+        ws.onopen = () => {
+            console.log('Conectado al servidor de señalización');
+            // Podríamos decidir aleatoriamente si somos el iniciador o no
+            // Para demo: el primer en llegar se “auto-declara” iniciador
+            // Podríamos usar una llamada al servidor, contadores, etc.
+            // En este demo, haz clic "iniciador" en la consola manualmente,
+            // o descomenta para que siempre seamos iniciadores.
+            // isInitiator = true;
+        };
+
+        ws.onmessage = async (event) => {
+            const data = event.data;
+
+            if (data instanceof Blob) {
+                // Convertir el Blob a texto...
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    try {
+                        const parsedData = JSON.parse(e.target.result); // Convertir a objeto JavaScript
+                        console.log('Datos recibidos:', parsedData);
+                        // Procesar los mensajes dependiendo del tipo de mensaje...
+                        if (parsedData.type === 'offer') {
+                            handleOffer(parsedData.offer);
+                        } else if (parsedData.type === 'candidate') {
+                            handleCandidate(parsedData.candidate);
+                        } else if (parsedData.type === 'answer') {
+                            handleAnswer(parsedData.answer);
+                        } else if (parsedData.type === 'chat') {
+                            handleChatMessage(parsedData);
+                        }
+                    } catch (e) {
+                        console.error('Error al procesar el mensaje:', e);
+                    }
+                };
+                reader.readAsText(data);
+            }
+        };
+
+        // Manejar la respuesta recibida
+        function handleAnswer(answer) {
+            console.log('Recibí una respuesta:', answer);
+            peerConnection.setRemoteDescription(answer).catch((e) => {
+                console.error('Error al manejar la respuesta:', e);
+            });
+        }
+
+        // Manejar mensajes de chat
+        function handleChatMessage(messageData) {
+            console.log('Recibí un mensaje de chat:', messageData);
+            // Mostrar el mensaje en la interfaz de usuario
+            addMessageToShoutbox(messageData.user, messageData.text);
+        }
+
+        // Manejar la oferta recibida
+        function handleOffer(offer) {
+            console.log('Recibí una oferta:', offer);
+            if (!peerConnection) {
+                console.log('Creando la peerConnection...');
+                createPeerConnection();
+            }
+            peerConnection.setRemoteDescription(offer).then(() => {
+                console.log('Oferta configurada como descripción remota');
+                return peerConnection.createAnswer();
+            }).then((answer) => {
+                console.log('Creando respuesta...');
+                return peerConnection.setLocalDescription(answer);
+            }).then(() => {
+                console.log('Respuesta configurada como descripción local');
+                ws.send(JSON.stringify({ type: 'answer', answer: peerConnection.localDescription }));
+            }).catch((e) => {
+                console.error('Error al manejar la oferta:', e);
+            });
+        }
+
+        // Manejar los candidatos ICE recibidos
+        function handleCandidate(candidate) {
+            console.log('Recibí un candidato ICE:', candidate);
+            const iceCandidate = new RTCIceCandidate(candidate);
+            peerConnection.addIceCandidate(iceCandidate).catch(e => console.error('Error al añadir candidato ICE:', e));
+        }
+
+        // Crear el RTCPeerConnection y manejar eventos
+        function createPeerConnection() {
+            const config = {
+                // Si tienes un STUN/TURN server, ponlo aquí
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' }
+                ]
+            };
+
+            peerConnection = new RTCPeerConnection(config);
+
+            // Manejar candidatos ICE y enviarlos por WebSocket
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) {
+                    ws.send(JSON.stringify({
+                        type: 'candidate',
+                        candidate: event.candidate
+                    }));
+                }
+            };
+
+            // Si somos iniciadores, creamos un data channel
+            if (isInitiator) {
+                dataChannel = peerConnection.createDataChannel('chat');
+                setupDataChannel(dataChannel);
+
+                peerConnection.createOffer().then(offer => {
+                    peerConnection.setLocalDescription(offer);
+                    // Serializa la oferta como JSON antes de enviarla
+                    ws.send(JSON.stringify({ type: 'offer', offer: offer }));
+                    console.log('Offer enviada');
+                });
+            } else {
+                // Si no, cuando llegue un data channel lo configuramos
+                peerConnection.ondatachannel = (event) => {
+                    dataChannel = event.channel;
+                    setupDataChannel(dataChannel);
+                };
+            }
+        }
+
+        // Configurar el data channel para mandar/recibir mensajes
+        function setupDataChannel(channel) {
+            channel.onopen = () => {
+                console.log('Data channel abierto');
+                // Activar el input si deseamos escribir
+                messageInput.disabled = false;
+                sendBtn.disabled = false;
+            };
+            channel.onmessage = (event) => {
+                // Cuando llegue un mensaje, lo mostramos en la shoutbox
+                const msgObj = JSON.parse(event.data);
+                addMessageToShoutbox(msgObj.user, msgObj.text);
+            };
+        }
+
+        // Escuchar cuando se presiona una tecla en el campo de entrada
+        messageInput.addEventListener('keydown', (e) => {
+            // Comprobar si la tecla presionada es "Enter"
+            if (e.key === 'Enter') {
+                // Evitar que se envíe el formulario si el input está dentro de uno
+                e.preventDefault();
+
+                // Obtener el mensaje del campo de entrada
+                const message = messageInput.value.trim();
+
+                // Verificar que el mensaje no esté vacío y que el canal de datos esté abierto
+                if (message && dataChannel && dataChannel.readyState === 'open') {
+                    const msgObj = { user: localUsername, text: message };
+                    dataChannel.send(JSON.stringify(msgObj));  // Enviar mensaje a través del data channel
+                    addMessageToShoutbox(localUsername, message);  // Mostrar el mensaje en la shoutbox
+                    messageInput.value = '';  // Limpiar el campo de entrada
+                }
+            }
+        });
+
+        // También mantener la funcionalidad del botón "Enviar"
+        sendBtn.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message && dataChannel && dataChannel.readyState === 'open') {
+                const msgObj = { user: localUsername, text: message };
+                dataChannel.send(JSON.stringify(msgObj));  // Enviar mensaje a través del data channel
+                addMessageToShoutbox(localUsername, message);  // Mostrar el mensaje en la shoutbox
+                messageInput.value = '';  // Limpiar el campo de entrada
+            }
+        });
+
+        // Al cargar la página, mostrar un prompt para que el usuario ingrese su nombre
+        window.onload = () => {
+            // Pedir al usuario su nombre de usuario
+            let username = prompt("Por favor, ingresa tu nombre de usuario:");
+
+            // Validar que el nombre no esté vacío
+            while (!username || username.trim() === "") {
+                username = prompt("El nombre de usuario no puede estar vacío. Por favor, ingresa un nombre válido:");
+            }
+
+            // Asignar el nombre de usuario al valor ingresado
+            localUsername = username.trim();
+
+            // Puedes mostrar un mensaje en consola o en la interfaz indicando el nombre de usuario asignado
+            console.log("Nombre de usuario asignado: " + localUsername);
+        };
+
+
+        // Botón para iniciar la conexión como "iniciador"
+        // (Podrías manejar esto automáticamente al conectar)
+        document.addEventListener('keydown', (e) => {
+            // Tecla "i" para forzar a que seamos iniciadores (demo)
+            if (e.key === 'i') {
+                isInitiator = true;
+                if (!peerConnection) {
+                    createPeerConnection();
+                }
+            }
+        });
+
+        sendBtn.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message && dataChannel && dataChannel.readyState === 'open') {
+                const msgObj = { user: localUsername, text: message };
+                dataChannel.send(JSON.stringify(msgObj));
+                addMessageToShoutbox(localUsername, message);
+                messageInput.value = '';  // Limpiar campo de entrada
+            }
+        });
+
+        function addMessageToShoutbox(username, text) {
+            const div = document.createElement('div');
+            div.classList.add('shoutbox-message');
+            div.style.position = 'relative';  // Hacer que el mensaje tenga un contenedor relativo
+
+            // Obtener la hora actual
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const time = `${hours}:${minutes}`;
+
+            // Crear el mensaje con hora a la derecha
+            div.innerHTML = `
+        <span class="username">${username}:</span>
+        <span class="message">${text}</span>
+        <span class="timestamp">${time}</span>
+    `;
+
+            // Estilo adicional para la hora (timestamp)
+            const timestamp = div.querySelector('.timestamp');
+            timestamp.style.fontSize = '0.8rem';  // Tamaño de la fuente más pequeño
+            timestamp.style.color = '#888';  // Color gris
+            timestamp.style.position = 'absolute';  // Alinear a la derecha
+            timestamp.style.right = '10px';  // Espacio desde el borde derecho
+            timestamp.style.top = '50%';  // Centrado verticalmente
+            timestamp.style.transform = 'translateY(-50%)';  // Para asegurar que esté centrado verticalmente
+
+            // Añadir el mensaje a la shoutbox
+            messagesDiv.appendChild(div);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;  // Desplazar al final
+        }
+
+    </script>
+</body>
+
+</html>

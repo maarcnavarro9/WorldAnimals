@@ -14,6 +14,7 @@
 <body>
     <header>
         <h1>World Animals</h1>
+        <button id="replaceContentButton" class="header-button">ShoutBox</button>
     </header>
     <main>
         <div class="videoMapContainer">
@@ -58,6 +59,12 @@
     <footer>
         <span>Marc Navarro Amengual y Ángel Fernández Rosado, 2025</span>
     </footer>
+
+    <script>
+        document.getElementById("replaceContentButton").addEventListener("click", function () {
+            window.location.href = "shoutbox.html";
+        });
+    </script>
 
     <script src="./js/qualityVideoScreenSize.js"></script>
     <script src="./js/mapa.js"></script>
