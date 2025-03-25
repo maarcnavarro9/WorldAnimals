@@ -144,12 +144,19 @@ button:hover {
 
 #popup {
   position: absolute;
-  bottom: 30px;
+  bottom: 40px;
   left: 30px;
   border-radius: 50%;
-  height: 70px;
-  width: 70px;
-  padding: 0;
+  height: 60px;
+  width: 60px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#popup:hover {
+  background-color: #75c699be;
 }
 
 @media (max-width: 900px) {
