@@ -26,6 +26,13 @@ header {
   background-color: #269a79;
   color: white;
   font-weight: bold;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+header .header-button {
+  margin-left: auto;  /* Keep the button on the right */
 }
 
 footer {
@@ -158,4 +165,10 @@ button:hover {
   .videoMapContainer {
     grid-column: span 2;
   }
+}
+
+#geko {
+  width: 32px;
+  height: auto;
+  margin-right: 10px;
 }
