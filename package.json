@@ -15,7 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.2",
-    "is-prime": "^1.0.1"
+    "is-prime": "^1.0.1",
+    "socket.io": "^4.8.1"
   },
   "bugs": {
     "url": "https://github.com/maarcnavarro9/WorldAnimals/issues"
