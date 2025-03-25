@@ -142,6 +142,16 @@ button:hover {
   border-bottom: 1px solid #444;
 }
 
+#popup {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  padding: 0;
+}
+
 @media (max-width: 900px) {
   body {
     height: auto;
