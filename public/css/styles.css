@@ -142,10 +142,16 @@ button:hover {
   border-bottom: 1px solid #444;
 }
 
-#popup {
+.popup {
   position: absolute;
   bottom: 40px;
   left: 30px;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+#popupButton {
   border-radius: 50%;
   height: 60px;
   width: 60px;
@@ -155,8 +161,18 @@ button:hover {
   align-items: center;
 }
 
-#popup:hover {
+#popupButton:hover {
   background-color: #75c699be;
+}
+
+#popupDiv {
+  display: none;
+  width: 300px;
+  height: 85vh;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 5px 2px 7px #444;
 }
 
 @media (max-width: 900px) {
