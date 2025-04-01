@@ -165,7 +165,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 87;
+  z-index: 99999999999;
 }
 
 #popupButton:hover {
@@ -181,6 +181,9 @@ input {
   box-shadow: 5px 2px 7px #444;
   flex-direction: column;
   overflow-y: auto;
+  resize: horizontal;
+  min-width: 300px;
+  max-width: calc(100vw - 200px);
 }
 
 #popupOpenResponsiveButton {
@@ -260,5 +263,11 @@ input {
     height: 100vh;
     width: 100vw;
     z-index: 88;
+    resize: none;
+    max-width: none;
+  }
+
+  #popupButton {
+    display: none;
   }
 }
