@@ -60,13 +60,30 @@
             </button>
             <div id="popupDiv">
                 <div class="nombresContainer" style="padding: 10px;">
-                    <h1>Live Chat</h1>
-                </div>
-                <div class="mensajesContainer">
-                    <div class="mensajeRecibidoContainer"><b>[Nombre]</b>
-                        <p>Mensaje</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h1>Live Chat</h1>
+                        <button id="popupOpenResponsiveButton">
+                            X
+                        </button>
                     </div>
-                    <div class="mensajeEnviadoContainer">aaaa</div>
+                </div>
+                <div style="display: flex; height: 100%;">
+                    <aside class="chatSelector">
+                        <button>
+                            <img src="./assets/chat_icon-icons.com_67748.svg" alt="LiveChatIcon" height="auto"
+                                width="50%" />
+                        </button>
+                        <button>
+                            <img src="./assets/chat_icon-icons.com_67748.svg" alt="LiveChatIcon" height="auto"
+                                width="50%" />
+                        </button>
+                    </aside>
+                    <div class="mensajesContainer">
+                        <div class="mensajeRecibidoContainer"><b>[Nombre]</b>
+                            <p>Mensaje</p>
+                        </div>
+                        <div class="mensajeEnviadoContainer">aaaa</div>
+                    </div>
                 </div>
                 <div class="escribirMensajesContainer">
                     <input placeholder="Mensaje" />

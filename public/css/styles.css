@@ -149,7 +149,7 @@ input {
 }
 
 .popup {
-  position: absolute;
+  position: fixed;
   bottom: 40px;
   left: 30px;
   display: flex;
@@ -165,6 +165,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 87;
 }
 
 #popupButton:hover {
@@ -173,7 +174,7 @@ input {
 
 #popupDiv {
   display: none;
-  width: 300px;
+  width: 500px;
   height: 85vh;
   background-color: #fff;
   border-radius: 5px;
@@ -182,8 +183,19 @@ input {
   overflow-y: auto;
 }
 
+#popupOpenResponsiveButton {
+  border: none;
+  border-radius: 10px;
+  height: 30px;
+}
+
+#popupOpenResponsiveButton:hover {
+  background-color: red;
+}
+
 .mensajesContainer {
   height: 100%;
+  width: 100%;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -215,6 +227,15 @@ input {
   gap: 5px;
 }
 
+.chatSelector {
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+  border-right: 1px solid #888888;
+  padding: 10px;
+  gap: 10px;
+}
+
 @media (max-width: 900px) {
   body {
     height: auto;
@@ -230,5 +251,14 @@ input {
 
   .videoMapContainer {
     grid-column: span 2;
+  }
+
+  #popupDiv {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100vh;
+    width: 100vw;
+    z-index: 88;
   }
 }
