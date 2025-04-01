@@ -129,6 +129,12 @@ button:hover {
   background-color: #75c69950;
 }
 
+input {
+  border-radius: 30px;
+  padding: 10px;
+  border: 1px solid black;
+}
+
 #qualitySelector {
   margin-left: auto;
   border: none;
@@ -140,6 +146,108 @@ button:hover {
 #qualitySelector:hover {
   color: #444;
   border-bottom: 1px solid #444;
+}
+
+.popup {
+  position: fixed;
+  bottom: 40px;
+  left: 30px;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+#popupButton {
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 80;
+}
+
+#popupButton:hover {
+  background-color: #75c699be;
+}
+
+#popupDiv {
+  display: none;
+  width: 500px;
+  height: 85vh;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 5px 2px 7px #444;
+  flex-direction: column;
+  overflow-y: auto;
+  resize: horizontal;
+  min-width: 300px;
+  max-width: calc(100vw - 200px);
+}
+
+#popupOpenResponsiveButton {
+  border: none;
+  border-radius: 10px;
+  height: 30px;
+}
+
+#popupOpenResponsiveButton:hover {
+  background-color: red;
+}
+
+.mensajesContainer {
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mensajeEnviadoContainer {
+  width: 80%;
+  background-color: #75c699;
+  padding: 10px;
+  border-radius: 10px 0px 10px 10px;
+  align-self: flex-end;
+}
+
+.mensajeRecibidoContainer {
+  width: 80%;
+  padding: 10px;
+  border-radius: 0px 10px 10px 10px;
+  border: 1px solid #aaaaaa55;
+}
+
+.escribirMensajesContainer {
+  position: sticky;
+  bottom: 0px;
+  display: grid;
+  grid-template-columns: 6fr 1fr;
+  border-top: 1px solid #666666a7;
+  padding: 10px;
+  gap: 5px;
+}
+
+.chatSelector {
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+  border-right: 1px solid #888888;
+  padding: 10px;
+  gap: 10px;
+}
+
+.chatIconButton {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  border-radius: 50%;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (max-width: 900px) {
@@ -157,5 +265,16 @@ button:hover {
 
   .videoMapContainer {
     grid-column: span 2;
+  }
+
+  #popupDiv {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100vh;
+    width: 100vw;
+    z-index: 88;
+    resize: none;
+    max-width: none;
   }
 }

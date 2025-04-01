@@ -54,6 +54,44 @@
         </div>
         <div class="card" id="capitulos">
         </div>
+        <div class="popup">
+            <button id="popupButton">
+                <img src="./assets/chat_icon-icons.com_67748.svg" alt="LiveChatIcon" height="auto" width="50%" />
+            </button>
+            <div id="popupDiv">
+                <div class="nombresContainer" style="padding: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h1>Live Chat</h1>
+                        <button id="popupOpenResponsiveButton">
+                            X
+                        </button>
+                    </div>
+                </div>
+                <div style="display: flex; height: 100%;">
+                    <aside class="chatSelector">
+                        <button class="chatIconButton">
+                            <img src="./assets/chatGlobal.svg" alt="LiveChatIcon" height="auto" width="80%" />
+                        </button>
+                        <button class="chatIconButton">
+                            <img src="./assets/chatP2P.svg" alt="LiveChatIcon" height="auto" width="80%" />
+                        </button>
+                        <button class="chatIconButton">
+                            <img src="./assets/chatgpt.svg" alt="LiveChatIcon" height="auto" width="80%" />
+                        </button>
+                    </aside>
+                    <div class="mensajesContainer">
+                        <div class="mensajeRecibidoContainer"><b>[Nombre]</b>
+                            <p>Mensaje</p>
+                        </div>
+                        <div class="mensajeEnviadoContainer">aaaa</div>
+                    </div>
+                </div>
+                <div class="escribirMensajesContainer">
+                    <input placeholder="Mensaje" />
+                    <button>Enviar</button>
+                </div>
+            </div>
+        </div>
     </main>
     <footer>
         <span>Marc Navarro Amengual y Ángel Fernández Rosado, 2025</span>
@@ -65,8 +103,8 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-CwDTo2Lsq5qMAAV99Oa4u9slVjd7i2I&callback=initMap">
         </script>
     <script src="./js/generarBotonesCapitulos.js"></script>
-    <script src="./js/script.js">
-    </script>
+    <script src="./js/script.js"></script>
+    <script src="./js/abrirCerrarPopup.js"></script>
 
 </body>
 
