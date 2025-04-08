@@ -9,6 +9,12 @@
     <title>World Animals</title>
     <link href="./css/styles.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="assets/gecko-svgrepo-com.svg" />
+    <style>
+        /* La lista de usuarios se oculta inicialmente */
+        #activeUsers {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -55,10 +61,29 @@
         <div class="card" id="capitulos">
         </div>
         <div>
+            <!-- Formulario para asignar nombre de usuario -->
+            <div>
+                <input id="username" placeholder="Ingresa tu nombre de usuario" />
+                <button id="setUsername">Establecer Nombre</button>
+            </div>
+
+            <!-- Botón para alternar la visibilidad de la lista de usuarios -->
+            <div>
+                <button id="toggleUsers">Usuarios</button>
+                <button id="disconnectBtn">Salir</button>
+            </div>
+
+            <!-- Lista de usuarios activos -->
+            <h3 id="usersTitle" style="display: none;">Usuarios Activos:</h3>
+            <ul id="activeUsers" style="display: none;"></ul>
+
+            <!-- Lista de mensajes -->
             <ul id="messages"></ul>
-            <form id="form" action="">
-                <input id="input" autocomplete="off" />
-                <button>Send</button>
+
+            <!-- Formulario de envío de mensajes -->
+            <form id="form">
+                <input id="input" autocomplete="off" placeholder="Escribe un mensaje..." />
+                <button>Enviar</button>
             </form>
             <script src="/socket.io/socket.io.js">
             </script>
@@ -67,13 +92,32 @@
                 const messages = document.getElementById('messages');
                 const form = document.getElementById('form');
                 const input = document.getElementById('input');
+                const usernameInput = document.getElementById('username');
+                const setUsernameButton = document.getElementById('setUsername');
+                const toggleUsersButton = document.getElementById('toggleUsers');
+                const activeUsersList = document.getElementById('activeUsers');
+                const usersTitle = document.getElementById('usersTitle');
+
+                let username = null;
+
+                // Establece el nombre de usuario
+                setUsernameButton.addEventListener('click', () => {
+                    if (usernameInput.value) {
+                        username = usernameInput.value;
+                        socket.emit('set username', username);
+                    }
+                });
+
+                // Enviar mensaje solo si el usuario ha establecido su nombre
                 form.addEventListener('submit', function (e) {
                     e.preventDefault();
-                    if (input.value) {
+                    if (input.value && username) {
                         socket.emit('chat message', input.value);
                         input.value = '';
                     }
                 });
+
+                // Recibir y mostrar mensajes
                 socket.on('chat message', function (msg) {
                     const item = document.createElement('li');
                     item.textContent = msg;
@@ -81,8 +125,42 @@
                     window.scrollTo(0, document.body.scrollHeight);
                 });
 
-            </script>
+                socket.on('active users', function (users) {
+                    activeUsersList.innerHTML = '';
+                    users.forEach(function (user) {
+                        const li = document.createElement('li');
+                        li.textContent = user;
+                        activeUsersList.appendChild(li);
+                    });
 
+                    // Si la lista estaba visible, asegurar que se muestre
+                    const computedStyle = window.getComputedStyle(activeUsersList);
+                    if (computedStyle.display !== 'none') {
+                        activeUsersList.style.display = 'block';
+                        usersTitle.style.display = 'block';
+                    }
+                });
+
+
+                toggleUsersButton.addEventListener('click', () => {
+                    // Solicita la lista actualizada al servidor
+                    socket.emit('request active users');
+
+                    // Forzar que la lista se muestre (sin alternar)
+                    activeUsersList.style.display = 'block';
+                    usersTitle.style.display = 'block';
+                });
+
+
+                document.getElementById('disconnectBtn').addEventListener('click', () => {
+                    socket.disconnect();
+                });
+
+                // Forzar la desconexión cuando el usuario abandona la página
+                window.addEventListener('beforeunload', () => {
+                    socket.disconnect();
+                });
+            </script>
         </div>
     </main>
     <footer>
