@@ -15,6 +15,20 @@ const submitUsernameButton = document.getElementById('submitUsernameButton');
 const usernameInput = document.getElementById('usernameInput');
 const chatContainer = document.getElementById('chatContainer');
 
+function sendWithEnter(e) {
+    if (e.key === 'Enter' && inputMessage.value.trim()) {
+        e.preventDefault();  // Evita el salto de línea en el input
+        socket.emit('chat message', {
+            type: 'global',
+            content: inputMessage.value.trim(),
+            sender: username || 'anónimo'
+        });
+        inputMessage.value = ''; // Limpiar el campo de texto
+    }
+}
+
+inputMessage.addEventListener('keydown', (e) => sendWithEnter(e));
+
 // Función para mostrar y ocultar el popup
 popupButton.addEventListener('click', () => {
     if (username === '') {
