@@ -154,13 +154,41 @@
 
         // Función para mostrar y ocultar el popup
         popupButton.addEventListener('click', () => {
-            popupDiv.style.display = popupDiv.style.display === 'block' ? 'none' : 'block';
-            // Mostrar el overlay para pedir el nombre de usuario
-            overlay.style.display = 'block';
-            chatContainer.style.display = 'none';
-            // Añadir desenfoque al popup
-            popupDiv.style.backdropFilter = 'blur(10px)';
+            if (username === '') {
+                // Si el nombre no ha sido asignado, mostramos el popup para introducir el nombre
+                popupDiv.style.display = popupDiv.style.display === 'block' ? 'none' : 'block';
+                // Mostrar el overlay para pedir el nombre de usuario
+                overlay.style.display = 'block';
+                chatContainer.style.display = 'none';
+                // Añadir desenfoque al popup
+                popupDiv.style.backdropFilter = 'blur(10px)';
+            } else {
+                // Si el nombre ya ha sido asignado, solo cerramos el popup
+                popupDiv.style.display = 'none';
+            }
         });
+
+        // Al enviar el nombre de usuario
+        submitUsernameButton.addEventListener('click', () => {
+            username = usernameInput.value.trim();
+            if (username) {
+                // Emitir el nombre de usuario al servidor
+                socket.emit('set username', username);
+
+                // Deshabilitar el campo de entrada y el botón
+                usernameInput.disabled = true;  // Deshabilitar el campo de entrada
+                submitUsernameButton.disabled = true;  // Deshabilitar el botón de "Aceptar"
+
+                // Ocultar el overlay y mostrar el chat
+                overlay.style.display = 'none';
+                chatContainer.style.display = 'flex';
+
+                // Ahora el popup no podrá abrirse para cambiar el nombre
+            } else {
+                alert('Por favor ingresa tu nombre para continuar.');
+            }
+        });
+
 
         // Función para manejar el envío de mensajes
         sendButton.addEventListener('click', () => {
@@ -209,19 +237,7 @@
                 userListContainer.appendChild(listItem);
             });
         });
-
-        // Cuando el usuario se conecta y emite su nombre
-        submitUsernameButton.addEventListener('click', () => {
-            username = usernameInput.value.trim();
-            if (username) {
-                // Emitir el nombre de usuario al servidor
-                socket.emit('set username', username);
-                overlay.style.display = 'none';
-                chatContainer.style.display = 'flex';
-            } else {
-                alert('Por favor ingresa tu nombre para continuar.');
-            }
-        });
+        
     </script>
 
     <script src="./js/qualityVideoScreenSize.js"></script>
