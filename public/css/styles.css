@@ -263,6 +263,26 @@ input {
   align-items: center;
 }
 
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.mensajeSistemaContainer {
+  background-color: #bbbbbb30;
+  border-radius: 10px;
+  font-style: italic;
+  padding: 3px;
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 900px) {
   body {
     height: auto;
@@ -281,76 +301,13 @@ input {
   }
 
   #popupDiv {
-    position: relative;
-    background-color: white;
-    padding: 20px;
-    max-width: 500px;
-    margin: 50px auto;
-    border-radius: 8px;
-    display: none;
-    z-index: 1000;
-    /* Añadimos el desenfoque aquí */
-    backdrop-filter: blur(10px);
-    /* Ajusta el nivel de desenfoque según lo que desees */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* Para darle un poco de sombra */
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100vh;
+    width: 100vw;
+    z-index: 88;
+    resize: none;
+    max-width: none;
   }
-
-  .mensajeSistemaContainer {
-    background-color: #9b59b6;
-    /* Color morado */
-    color: white;
-    /* Texto blanco */
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-    text-align: center;
-    /* Centrar el texto */
-    font-style: italic;
-    /* Para diferenciar más el mensaje */
-  }
-
-  .mensajeSistemaContainer b {
-    display: none;
-    /* Ocultar el nombre del remitente */
-  }
-
-  #userListContainer {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 200px;
-    background-color: #f0f0f0;
-    padding: 10px;
-    border-left: 2px solid #ddd;
-    font-family: Arial, sans-serif;
-    overflow-y: auto;
-  }
-
-  #userListContainer h3 {
-    text-align: center;
-    margin-top: 0;
-    font-size: 18px;
-  }
-
-  #userList {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  #userList li {
-    padding: 8px;
-    margin: 5px 0;
-    background-color: #e0e0e0;
-    border-radius: 4px;
-  }
-
-  #userList li.active {
-    background-color: #9b59b6;
-    /* Color morado para los usuarios activos */
-    color: white;
-  }
-
 }

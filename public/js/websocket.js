@@ -57,7 +57,7 @@ socket.on('chat message', function (data) {
     // Si el mensaje es del sistema (de tipo 'system'), se asigna una clase especial
     if (data.sender === 'system') {
         messageItem.classList.add('mensajeSistemaContainer');
-        messageItem.innerHTML = `<p>${data.content}</p>`; // Solo contenido, sin nombre
+        messageItem.innerHTML = `${data.content}`; // Solo contenido, sin nombre
     } else {
         // Compara el ID del usuario que envió el mensaje con el ID de este cliente
         if (data.sender === username) {
