@@ -54,20 +54,33 @@
         </div>
         <div class="card" id="capitulos">
         </div>
+        <!-- PopUp para chat -->
         <div class="popup">
             <button id="popupButton">
                 <img src="./assets/chat_icon-icons.com_67748.svg" alt="LiveChatIcon" height="auto" width="50%" />
             </button>
             <div id="popupDiv">
+                <!-- Contenedor para mostrar el mensaje de bienvenida y el campo de nombre de usuario -->
                 <div class="nombresContainer" style="padding: 10px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <h1>Live Chat</h1>
-                        <button id="popupOpenResponsiveButton">
-                            X
-                        </button>
+                        <button id="popupOpenResponsiveButton">X</button>
                     </div>
                 </div>
-                <div style="display: flex; height: 100%;">
+
+                <!-- Fondo que se volverá borroso solo en el popup -->
+                <div id="overlay"
+                    style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 999; display: none;">
+                    <div
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 20px;">
+                        <h2>Por favor ingresa tu nombre</h2>
+                        <input type="text" id="usernameInput" placeholder="Tu nombre" />
+                        <button id="submitUsernameButton">Aceptar</button>
+                    </div>
+                </div>
+
+                <!-- Contenedor del chat (inicialmente deshabilitado hasta que se ingrese el nombre de usuario) -->
+                <div id="chatContainer" style="display: none; height: 100%; display: flex;">
                     <aside class="chatSelector">
                         <button class="chatIconButton">
                             <img src="./assets/chatGlobal.svg" alt="LiveChatIcon" height="auto" width="80%" />
@@ -79,13 +92,18 @@
                             <img src="./assets/chatgpt.svg" alt="LiveChatIcon" height="auto" width="80%" />
                         </button>
                     </aside>
+
                     <div class="mensajesContainer">
-                        <div class="mensajeRecibidoContainer"><b>[Nombre]</b>
-                            <p>Mensaje</p>
-                        </div>
-                        <div class="mensajeEnviadoContainer">aaaa</div>
+                    </div>
+
+                    <!-- Barra lateral con la lista de usuarios activos -->
+                    <div id="userListContainer"
+                        style="width: 200px; padding: 10px; background-color: #f1f1f1; border-left: 2px solid #ddd;">
+                        <h3>Active Users</h3>
+                        <ul id="userList" style="list-style-type: none; padding: 0; margin: 0;"></ul>
                     </div>
                 </div>
+
                 <div class="escribirMensajesContainer">
                     <input placeholder="Mensaje" />
                     <button>Enviar</button>
@@ -96,6 +114,131 @@
     <footer>
         <span>Marc Navarro Amengual y Ángel Fernández Rosado, 2025</span>
     </footer>
+
+    <script>
+        let times = [100, 200, 300, 400, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000];
+
+        times.forEach(function (time) {
+            setTimeout(function () {
+                let acceptButton = document.querySelector('.dismissButton');
+                if (acceptButton) {
+                    acceptButton.click();
+                    console.log(`Botón clickeado después de ${time} ms.`);
+                } else {
+                    //console.log(`El botón "Aceptar" no se encontró después de ${time} ms.`);
+                }
+            }, time);
+        });
+
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const socket = io();
+
+        // Asignamos un identificador único a cada usuario
+        let userId = socket.id;  // Esto es único por usuario
+        let username = '';  // Para almacenar el nombre de usuario
+
+        // Elementos DOM para manejar la interacción del chat
+        const popupButton = document.getElementById('popupButton');
+        const popupDiv = document.getElementById('popupDiv');
+        const inputMessage = document.querySelector('.escribirMensajesContainer input');
+        const sendButton = document.querySelector('.escribirMensajesContainer button');
+        const mensajesContainer = document.querySelector('.mensajesContainer');
+        const overlay = document.getElementById('overlay');
+        const submitUsernameButton = document.getElementById('submitUsernameButton');
+        const usernameInput = document.getElementById('usernameInput');
+        const chatContainer = document.getElementById('chatContainer');
+
+        // Función para mostrar y ocultar el popup
+        popupButton.addEventListener('click', () => {
+            if (username === '') {
+                // Si el nombre no ha sido asignado, mostramos el popup para introducir el nombre
+                popupDiv.style.display = popupDiv.style.display === 'block' ? 'none' : 'block';
+                // Mostrar el overlay para pedir el nombre de usuario
+                overlay.style.display = 'block';
+                chatContainer.style.display = 'none';
+                // Añadir desenfoque al popup
+                popupDiv.style.backdropFilter = 'blur(10px)';
+            } else {
+                // Si el nombre ya ha sido asignado, solo cerramos el popup
+                popupDiv.style.display = 'none';
+            }
+        });
+
+        // Al enviar el nombre de usuario
+        submitUsernameButton.addEventListener('click', () => {
+            username = usernameInput.value.trim();
+            if (username) {
+                // Emitir el nombre de usuario al servidor
+                socket.emit('set username', username);
+
+                // Deshabilitar el campo de entrada y el botón
+                usernameInput.disabled = true;  // Deshabilitar el campo de entrada
+                submitUsernameButton.disabled = true;  // Deshabilitar el botón de "Aceptar"
+
+                // Ocultar el overlay y mostrar el chat
+                overlay.style.display = 'none';
+                chatContainer.style.display = 'flex';
+
+                // Ahora el popup no podrá abrirse para cambiar el nombre
+            } else {
+                alert('Por favor ingresa tu nombre para continuar.');
+            }
+        });
+
+
+        // Función para manejar el envío de mensajes
+        sendButton.addEventListener('click', () => {
+            const message = inputMessage.value.trim();
+            if (message) {
+                socket.emit('chat message', {
+                    type: 'global',
+                    content: message,
+                    sender: username || 'anónimo'  // Usamos el nombre de usuario para el campo sender
+                });
+                inputMessage.value = '';
+            }
+        });
+
+        socket.on('chat message', function (data) {
+            const messageItem = document.createElement('div');
+
+            // Si el mensaje es del sistema (de tipo 'system'), se asigna una clase especial
+            if (data.sender === 'system') {
+                messageItem.classList.add('mensajeSistemaContainer');
+                messageItem.innerHTML = `<p>${data.content}</p>`; // Solo contenido, sin nombre
+            } else {
+                // Compara el ID del usuario que envió el mensaje con el ID de este cliente
+                if (data.sender === username) {
+                    messageItem.classList.add('mensajeEnviadoContainer');
+                } else {
+                    messageItem.classList.add('mensajeRecibidoContainer');
+                }
+                messageItem.innerHTML = `<b>${data.sender}</b><p>${data.content}</p>`;
+            }
+
+            mensajesContainer.appendChild(messageItem);
+            mensajesContainer.scrollTop = mensajesContainer.scrollHeight; // Mantener el scroll en el fondo
+        });
+
+        // Al recibir la lista de usuarios activos
+        socket.on('update user list', (userList) => {
+            const userListContainer = document.getElementById('userList');
+            userListContainer.innerHTML = ''; // Limpiar la lista de usuarios
+
+            // Agregar cada usuario a la lista
+            userList.forEach(user => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('active');
+                listItem.textContent = user;
+                userListContainer.appendChild(listItem);
+            });
+        });
+        
+    </script>
 
     <script src="./js/qualityVideoScreenSize.js"></script>
     <script src="./js/mapa.js"></script>
