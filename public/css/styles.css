@@ -26,6 +26,9 @@ header {
   background-color: #269a79;
   color: white;
   font-weight: bold;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
 }
 
 footer {
@@ -172,7 +175,6 @@ input {
   background-color: #75c699be;
 }
 
-/* Eliminar scroll del contenedor del popup */
 #popupDiv {
   display: none;
   width: 500px;
@@ -182,10 +184,9 @@ input {
   box-shadow: 5px 2px 7px #444;
   flex-direction: column;
   overflow: hidden;
-  /* Eliminar scroll exterior */
   resize: horizontal;
-  min-width: 300px;
-  max-width: calc(100vw - 200px);
+  min-width: 500px;
+  max-width: calc(100vw - 150px);
 }
 
 #popupOpenResponsiveButton {
@@ -198,19 +199,14 @@ input {
   background-color: red;
 }
 
-/* Ajustes al contenedor de los mensajes con scroll */
 .mensajesContainer {
-  flex-grow: 1;
-  /* Asegura que el contenedor de los mensajes ocupe el espacio disponible */
   width: 100%;
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
-  /* Solo habilitar scroll dentro del contenedor de mensajes */
-  max-height: calc(100vh - 170px);
-  /* Ajusta el alto para que no sobrepase el tamaño de la pantalla */
+  height: 100%;
 }
 
 .mensajeEnviadoContainer {
@@ -219,6 +215,9 @@ input {
   padding: 10px;
   border-radius: 10px 0px 10px 10px;
   align-self: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-word;
 }
 
 .mensajeRecibidoContainer {
@@ -226,21 +225,26 @@ input {
   padding: 10px;
   border-radius: 0px 10px 10px 10px;
   border: 1px solid #aaaaaa55;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  word-break: break-word;
 }
 
-/* Asegurarse de que el contenedor de la barra de entrada se mantenga en la parte inferior */
 .escribirMensajesContainer {
-  position: sticky;
-  bottom: 0px;
   display: grid;
   grid-template-columns: 6fr 1fr;
   border-top: 1px solid #666666a7;
   padding: 10px;
   gap: 5px;
   background-color: #fff;
-  /* Añadido para asegurar que se vea el fondo correctamente */
-  z-index: 10;
-  /* Para que esté encima de los mensajes */
+}
+
+#chatContainer {
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  border-top: 1px solid black;
 }
 
 .chatSelector {
@@ -263,6 +267,43 @@ input {
   align-items: center;
 }
 
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.mensajeSistemaContainer {
+  background-color: #bbbbbb30;
+  border-radius: 10px;
+  font-style: italic;
+  padding: 3px;
+  display: flex;
+  justify-content: center;
+}
+
+#userListContainer {
+  width: 20%;
+  min-width: 150px;
+  max-width: 200px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-left: 2px solid #ddd;
+}
+
+#chatP2P {
+  display: none;
+}
+
+#chatIA {
+  display: none;
+}
+
 @media (max-width: 900px) {
   body {
     height: auto;
@@ -281,76 +322,13 @@ input {
   }
 
   #popupDiv {
-    position: relative;
-    background-color: white;
-    padding: 20px;
-    max-width: 500px;
-    margin: 50px auto;
-    border-radius: 8px;
-    display: none;
-    z-index: 1000;
-    /* Añadimos el desenfoque aquí */
-    backdrop-filter: blur(10px);
-    /* Ajusta el nivel de desenfoque según lo que desees */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* Para darle un poco de sombra */
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100vh;
+    width: 100vw !important;
+    z-index: 88;
+    resize: none;
+    max-width: none;
   }
-
-  .mensajeSistemaContainer {
-    background-color: #9b59b6;
-    /* Color morado */
-    color: white;
-    /* Texto blanco */
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-    text-align: center;
-    /* Centrar el texto */
-    font-style: italic;
-    /* Para diferenciar más el mensaje */
-  }
-
-  .mensajeSistemaContainer b {
-    display: none;
-    /* Ocultar el nombre del remitente */
-  }
-
-  #userListContainer {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 200px;
-    background-color: #f0f0f0;
-    padding: 10px;
-    border-left: 2px solid #ddd;
-    font-family: Arial, sans-serif;
-    overflow-y: auto;
-  }
-
-  #userListContainer h3 {
-    text-align: center;
-    margin-top: 0;
-    font-size: 18px;
-  }
-
-  #userList {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  #userList li {
-    padding: 8px;
-    margin: 5px 0;
-    background-color: #e0e0e0;
-    border-radius: 4px;
-  }
-
-  #userList li.active {
-    background-color: #9b59b6;
-    /* Color morado para los usuarios activos */
-    color: white;
-  }
-
 }
