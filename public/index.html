@@ -79,18 +79,24 @@
                 </div>
                 <div id="chatContainer">
                     <aside class="chatSelector">
-                        <button class="chatIconButton">
+                        <button class="chatIconButton" id="chatGlobalButton">
                             <img src="./assets/chatGlobal.svg" alt="LiveChatIcon" height="auto" width="80%" />
                         </button>
-                        <button class="chatIconButton">
+                        <button class="chatIconButton" id="chatP2PButton">
                             <img src="./assets/chatP2P.svg" alt="LiveChatIcon" height="auto" width="80%" />
                         </button>
-                        <button class="chatIconButton">
+                        <button class="chatIconButton" id="chatIAButton">
                             <img src="./assets/chatgpt.svg" alt="LiveChatIcon" height="auto" width="80%" />
                         </button>
                     </aside>
 
-                    <div class="mensajesContainer">
+                    <div class="mensajesContainer" id="chatGlobal">
+                    </div>
+                    <div class="mensajesContainer" id="chatP2P">
+                        <div>aaaa</div>
+                    </div>
+                    <div class="mensajesContainer" id="chatIA">
+                        <div>bbb</div>
                     </div>
                     <aside id="userListContainer">
                         <h4>Active Users</h4>
@@ -120,6 +126,7 @@
     <script src="./js/generarBotonesCapitulos.js"></script>
     <script src="./js/script.js"></script>
     <script src="./js/abrirCerrarPopup.js"></script>
+    <script src="./js/cambiarChat.js"></script>
 
 </body>
 
