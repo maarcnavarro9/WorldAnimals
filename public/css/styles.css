@@ -172,7 +172,6 @@ input {
   background-color: #75c699be;
 }
 
-/* Eliminar scroll del contenedor del popup */
 #popupDiv {
   display: none;
   width: 500px;
@@ -182,7 +181,6 @@ input {
   box-shadow: 5px 2px 7px #444;
   flex-direction: column;
   overflow: hidden;
-  /* Eliminar scroll exterior */
   resize: horizontal;
   min-width: 300px;
   max-width: calc(100vw - 200px);
@@ -198,19 +196,14 @@ input {
   background-color: red;
 }
 
-/* Ajustes al contenedor de los mensajes con scroll */
 .mensajesContainer {
-  flex-grow: 1;
-  /* Asegura que el contenedor de los mensajes ocupe el espacio disponible */
   width: 100%;
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
-  /* Solo habilitar scroll dentro del contenedor de mensajes */
-  max-height: calc(100vh - 170px);
-  /* Ajusta el alto para que no sobrepase el tamaño de la pantalla */
+  height: 100%;
 }
 
 .mensajeEnviadoContainer {
@@ -236,17 +229,19 @@ input {
 
 /* Asegurarse de que el contenedor de la barra de entrada se mantenga en la parte inferior */
 .escribirMensajesContainer {
-  position: sticky;
-  bottom: 0px;
   display: grid;
   grid-template-columns: 6fr 1fr;
   border-top: 1px solid #666666a7;
   padding: 10px;
   gap: 5px;
   background-color: #fff;
-  /* Añadido para asegurar que se vea el fondo correctamente */
-  z-index: 10;
-  /* Para que esté encima de los mensajes */
+}
+
+#chatContainer {
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  border-top: 1px solid black;
 }
 
 .chatSelector {
@@ -311,7 +306,7 @@ input {
     top: 0px;
     left: 0px;
     height: 100vh;
-    width: 100vw;
+    width: 100vw !important;
     z-index: 88;
     resize: none;
     max-width: none;
