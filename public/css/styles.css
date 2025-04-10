@@ -26,6 +26,9 @@ header {
   background-color: #269a79;
   color: white;
   font-weight: bold;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
 }
 
 footer {
