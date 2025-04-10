@@ -21,7 +21,7 @@ function sendWithEnter(e) {
         socket.emit('chat message', {
             type: 'global',
             content: inputMessage.value.trim(),
-            sender: username || 'anónimo'
+            sender: username
         });
         inputMessage.value = ''; // Limpiar el campo de texto
     }
@@ -39,17 +39,25 @@ popupButton.addEventListener('click', () => {
     }
 });
 
-// Al enviar el nombre de usuario
-submitUsernameButton.addEventListener('click', () => {
+function setUsername() {
     username = usernameInput.value.trim();
     if (username) {
-        // Emitir el nombre de usuario al servidor
         socket.emit('set username', username);
-
-        // Ocultar el overlay
         overlay.style.display = 'none';
     }
+}
+
+// Al enviar el nombre de usuario
+usernameInput.addEventListener('keydown', (e) => {
+    if (e.key == 'Enter') {
+        setUsername();
+    }
 });
+
+submitUsernameButton.addEventListener('click', () => {
+    setUsername();
+});
+
 
 
 // Función para manejar el envío de mensajes

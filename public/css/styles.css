@@ -219,6 +219,9 @@ input {
   padding: 10px;
   border-radius: 10px 0px 10px 10px;
   align-self: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-word;
 }
 
 .mensajeRecibidoContainer {
@@ -226,6 +229,9 @@ input {
   padding: 10px;
   border-radius: 0px 10px 10px 10px;
   border: 1px solid #aaaaaa55;
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-word;
 }
 
 /* Asegurarse de que el contenedor de la barra de entrada se mantenga en la parte inferior */
