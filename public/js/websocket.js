@@ -91,8 +91,10 @@ socket.on('chat message', function (data) {
         }
     }
 
-    mensajesContainer.appendChild(messageItem);
-    mensajesContainer.scrollTop = mensajesContainer.scrollHeight; // Mantener el scroll en el fondo
+    if (mensajesContainer.style.display != "none") {
+        mensajesContainer.appendChild(messageItem);
+        mensajesContainer.scrollTop = mensajesContainer.scrollHeight;
+    }
 });
 
 // Al recibir la lista de usuarios activos
