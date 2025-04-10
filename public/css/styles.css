@@ -182,8 +182,8 @@ input {
   flex-direction: column;
   overflow: hidden;
   resize: horizontal;
-  min-width: 300px;
-  max-width: calc(100vw - 200px);
+  min-width: 500px;
+  max-width: calc(100vw - 150px);
 }
 
 #popupOpenResponsiveButton {
@@ -227,7 +227,6 @@ input {
   word-break: break-word;
 }
 
-/* Asegurarse de que el contenedor de la barra de entrada se mantenga en la parte inferior */
 .escribirMensajesContainer {
   display: grid;
   grid-template-columns: 6fr 1fr;
@@ -282,6 +281,15 @@ input {
   padding: 3px;
   display: flex;
   justify-content: center;
+}
+
+#userListContainer {
+  width: 20%;
+  min-width: 150px;
+  max-width: 200px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-left: 2px solid #ddd;
 }
 
 @media (max-width: 900px) {
