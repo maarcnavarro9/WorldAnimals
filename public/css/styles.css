@@ -233,7 +233,7 @@ input {
 
 .escribirMensajesContainer {
   display: grid;
-  grid-template-columns: 6fr 1fr;
+  grid-template-columns: auto 100px;
   border-top: 1px solid #666666a7;
   padding: 10px;
   gap: 5px;

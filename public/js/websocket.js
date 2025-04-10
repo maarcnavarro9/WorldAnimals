@@ -75,23 +75,22 @@ sendButton.addEventListener('click', () => {
 
 socket.on('chat message', function (data) {
     const messageItem = document.createElement('div');
-
-    // Si el mensaje es del sistema (de tipo 'system'), se asigna una clase especial
-    if (data.sender === 'system') {
-        messageItem.classList.add('mensajeSistemaContainer');
-        messageItem.innerHTML = `${data.content}`; // Solo contenido, sin nombre
-    } else {
-        // Compara el ID del usuario que envió el mensaje con el ID de este cliente
-        if (data.sender === username) {
-            messageItem.classList.add('mensajeEnviadoContainer');
-            messageItem.innerHTML = `<p>${data.content}</p>`;
-        } else {
-            messageItem.classList.add('mensajeRecibidoContainer');
-            messageItem.innerHTML = `<b>${data.sender}</b><p>${data.content}</p>`;
-        }
-    }
-
     if (mensajesContainer.style.display != "none") {
+        // Si el mensaje es del sistema (de tipo 'system'), se asigna una clase especial
+        if (data.sender === 'system') {
+            messageItem.classList.add('mensajeSistemaContainer');
+            messageItem.innerHTML = `${data.content}`; // Solo contenido, sin nombre
+        } else {
+            // Compara el ID del usuario que envió el mensaje con el ID de este cliente
+            if (data.sender === username) {
+                messageItem.classList.add('mensajeEnviadoContainer');
+                messageItem.innerHTML = `<p>${data.content}</p>`;
+            } else {
+                messageItem.classList.add('mensajeRecibidoContainer');
+                messageItem.innerHTML = `<b>${data.sender}</b><p>${data.content}</p>`;
+            }
+        }
+
         mensajesContainer.appendChild(messageItem);
         mensajesContainer.scrollTop = mensajesContainer.scrollHeight;
     }
