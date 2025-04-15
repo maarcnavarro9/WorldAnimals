@@ -114,14 +114,29 @@
 
         <script>
             const socketIA = io();
+        
             socketIA.on('message', function (msg) {
                 const messageItem = document.createElement('div');
                 messageItem.classList.add('mensajeRecibidoContainer');
-                messageItem.textContent = msg.response;
                 mensajesContainer3.appendChild(messageItem);
                 mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
+        
+                // Efecto barrido: escribir letra por letra
+                let texto = msg.response;
+                let index = 0;
+        
+                function escribirLetra() {
+                    if (index < texto.length) {
+                        messageItem.textContent += texto.charAt(index);
+                        index++;
+                        setTimeout(escribirLetra, 30); // Ajusta la velocidad cambiando el valor (en ms)
+                        mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
+                    }
+                }
+                escribirLetra();
             });
         </script>
+        
 
     </main>
     <footer>
