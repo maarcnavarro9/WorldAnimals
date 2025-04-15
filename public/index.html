@@ -96,11 +96,6 @@
                         <div>aaaa</div>
                     </div>
                     <div class="mensajesContainer" id="chatIA">
-                        <div>bbb</div>
-                        <ul id="messages"></ul>
-                        <form id="form" action=""> <input id="input" autocomplete="off" />
-                            <button>Send</button>
-                        </form>
                         <script src="/socket.io/socket.io.js">
                         </script>
                     </div>
@@ -119,30 +114,18 @@
 
         <script>
             const socketIA = io();
-            const messages = document.getElementById('chatIA');
-            const form = document.getElementById('form');
-            const input = document.getElementById('input');
 
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                if (input.value) {
-                    const item = document.createElement('li');
-                    item.textContent = "JO: " + input.value;
-                    messages.appendChild(item);
-                    window.scrollTo(0, document.body.scrollHeight);
-                    socketIA.emit('message-ltim', {
-                        text: input.value
-                    });
-                    input.value = '';
+            socketIA.on('message', async function (msg) {
+                const messageItem = document.createElement('div');
+                messageItem.classList.add('mensajeRecibidoContainer');
+                mensajesContainer3.appendChild(messageItem);
+
+                const texto = msg.response;
+                for (let i = 0; i < texto.length; i++) {
+                    messageItem.textContent += texto[i];
+                    mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
+                    await new Promise(resolve => setTimeout(resolve, 30)); // Velocidad de tipeo
                 }
-            });
-
-            socketIA.on('message', function (msg) {
-                const item = document.createElement('li');
-                item.id = "ia-" + msg.id;
-                item.textContent = "IA: " + msg.response;
-                messages.appendChild(item);
-                window.scrollTo(0, document.body.scrollHeight);
             });
         </script>
 
