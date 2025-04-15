@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IA</title>
+  </head>
+  <body>
+    <ul id="messages"></ul>  <form id="form" action="">    <input id="input" autocomplete="off" />
+      <button>Send</button>  </form>  <script src="/socket.io/socket.io.js">
+    </script>
+    <script>
+      const socket = io();
+      const messages = document.getElementById('messages');
+      const form = document.getElementById('form');
+      const input = document.getElementById('input');
+
+      form.addEventListener('submit', function(e) {
+              e.preventDefault();
+              if (input.value) {
+                      const item = document.createElement('li');
+                      item.textContent = "JO: " + input.value;
+                      messages.appendChild(item);
+                      window.scrollTo(0, document.body.scrollHeight);
+                      socket.emit('message-ltim', {
+                              text: input.value
+                            });
+                      input.value = '';
+                    }
+            });
+
+      socket.on('message', function(msg) {
+              const item = document.createElement('li');
+              item.id = "ia-" + msg.id;
+              item.textContent = "IA: " + msg.response;
+              messages.appendChild(item);
+              window.scrollTo(0, document.body.scrollHeight);
+            });
+    </script>
+
+  </body>
+</html>

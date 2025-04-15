@@ -10,6 +10,8 @@ const popupDiv = document.getElementById('popupDiv');
 const inputMessage = document.querySelector('.escribirMensajesContainer input');
 const sendButton = document.querySelector('.escribirMensajesContainer button');
 const mensajesContainer = document.getElementById('chatGlobal');
+const mensajesContainer2 = document.getElementById('chatP2P');
+const mensajesContainer3 = document.getElementById('chatIA');
 const overlay = document.getElementById('overlay');
 const submitUsernameButton = document.getElementById('submitUsernameButton');
 const usernameInput = document.getElementById('usernameInput');
@@ -58,8 +60,6 @@ submitUsernameButton.addEventListener('click', () => {
     setUsername();
 });
 
-
-
 // Función para manejar el envío de mensajes
 sendButton.addEventListener('click', () => {
     const message = inputMessage.value.trim();
@@ -93,6 +93,44 @@ socket.on('chat message', function (data) {
 
         mensajesContainer.appendChild(messageItem);
         mensajesContainer.scrollTop = mensajesContainer.scrollHeight;
+    }
+    else if (mensajesContainer2.style.display != "none") {
+        // Si el mensaje es del sistema (de tipo 'system'), se asigna una clase especial
+        if (data.sender === 'system') {
+            messageItem.classList.add('mensajeSistemaContainer');
+            messageItem.innerHTML = `${data.content}`; // Solo contenido, sin nombre
+        } else {
+            // Compara el ID del usuario que envió el mensaje con el ID de este cliente
+            if (data.sender === username) {
+                messageItem.classList.add('mensajeEnviadoContainer');
+                messageItem.innerHTML = `<p>${data.content}</p>`;
+            } else {
+                messageItem.classList.add('mensajeRecibidoContainer');
+                messageItem.innerHTML = `<b>${data.sender}</b><p>${data.content}</p>`;
+            }
+        }
+
+        mensajesContainer2.appendChild(messageItem);
+        mensajesContainer2.scrollTop = mensajesContainer2.scrollHeight;
+    }
+    else if (mensajesContainer3.style.display != "none") {
+        // Si el mensaje es del sistema (de tipo 'system'), se asigna una clase especial
+        if (data.sender === 'system') {
+            messageItem.classList.add('mensajeSistemaContainer');
+            messageItem.innerHTML = `${data.content}`; // Solo contenido, sin nombre
+        } else {
+            // Compara el ID del usuario que envió el mensaje con el ID de este cliente
+            if (data.sender === username) {
+                messageItem.classList.add('mensajeEnviadoContainer');
+                messageItem.innerHTML = `<p>${data.content}</p>`;
+            } else {
+                messageItem.classList.add('mensajeRecibidoContainer');
+                messageItem.innerHTML = `<b>${data.sender}</b><p>${data.content}</p>`;
+            }
+        }
+
+        mensajesContainer3.appendChild(messageItem);
+        mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
     }
 });
 
