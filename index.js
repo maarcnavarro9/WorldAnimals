@@ -61,6 +61,7 @@ io.on('connection', (socket) => {
             io.emit('update user list', Object.values(users));
         }
     });
+    
     console.log("CONNECTAT IA");
     let count = 0;
     socket.on('message-ltim', async data => {
