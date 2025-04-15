@@ -20,12 +20,30 @@ const chatContainer = document.getElementById('chatContainer');
 function sendWithEnter(e) {
     if (e.key === 'Enter' && inputMessage.value.trim()) {
         e.preventDefault();  // Evita el salto de línea en el input
-        socket.emit('chat message', {
-            type: 'global',
-            content: inputMessage.value.trim(),
-            sender: username
-        });
-        inputMessage.value = ''; // Limpiar el campo de texto
+        if (mensajesContainer.style.display != "none") {
+            socket.emit('chat message', {
+                type: 'global',
+                content: inputMessage.value.trim(),
+                sender: username
+            });
+            inputMessage.value = ''; // Limpiar el campo de texto
+        }
+        else if (mensajesContainer2.style.display != "none") {
+            socket.emit('chat message', {
+                type: 'p2p',
+                content: inputMessage.value.trim(),
+                sender: username
+            });
+            inputMessage.value = ''; // Limpiar el campo de texto
+        }
+        else if (mensajesContainer3.style.display != "none") {
+            socket.emit('chat message', {
+                type: 'ia',
+                content: inputMessage.value.trim(),
+                sender: username
+            });
+            inputMessage.value = ''; // Limpiar el campo de texto
+        }
     }
 }
 
@@ -64,18 +82,34 @@ submitUsernameButton.addEventListener('click', () => {
 sendButton.addEventListener('click', () => {
     const message = inputMessage.value.trim();
     if (message) {
-        socket.emit('chat message', {
-            type: 'global',
-            content: message,
-            sender: username || 'anónimo'  // Usamos el nombre de usuario para el campo sender
-        });
+        if (mensajesContainer.style.display != "none") {
+            socket.emit('chat message', {
+                type: 'global',
+                content: message,
+                sender: username || 'anónimo'  // Usamos el nombre de usuario para el campo sender
+            });
+        }
+        else if (mensajesContainer2.style.display != "none") {
+            socket.emit('chat message', {
+                type: 'p2p',
+                content: message,
+                sender: username || 'anónimo'  // Usamos el nombre de usuario para el campo sender
+            });
+        }
+        else if (mensajesContainer3.style.display != "none") {
+            socket.emit('chat message', {
+                type: 'ia',
+                content: message,
+                sender: username || 'anónimo'  // Usamos el nombre de usuario para el campo sender
+            });
+        }
         inputMessage.value = '';
     }
 });
 
 socket.on('chat message', function (data) {
     const messageItem = document.createElement('div');
-    if (mensajesContainer.style.display != "none") {
+    if (data.type === 'global' && mensajesContainer.style.display != "none") {
         // Si el mensaje es del sistema (de tipo 'system'), se asigna una clase especial
         if (data.sender === 'system') {
             messageItem.classList.add('mensajeSistemaContainer');
@@ -94,7 +128,7 @@ socket.on('chat message', function (data) {
         mensajesContainer.appendChild(messageItem);
         mensajesContainer.scrollTop = mensajesContainer.scrollHeight;
     }
-    else if (mensajesContainer2.style.display != "none") {
+    else if (data.type === 'p2p' && mensajesContainer2.style.display != "none") {
         // Si el mensaje es del sistema (de tipo 'system'), se asigna una clase especial
         if (data.sender === 'system') {
             messageItem.classList.add('mensajeSistemaContainer');
@@ -113,7 +147,7 @@ socket.on('chat message', function (data) {
         mensajesContainer2.appendChild(messageItem);
         mensajesContainer2.scrollTop = mensajesContainer2.scrollHeight;
     }
-    else if (mensajesContainer3.style.display != "none") {
+    else if (data.type === 'ia' && mensajesContainer3.style.display != "none") {
         messageItem.classList.add('mensajeEnviadoContainer');
         messageItem.textContent = data.content;
         socketIA.emit('message-ltim', {

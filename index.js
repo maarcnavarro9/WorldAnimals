@@ -28,12 +28,23 @@ io.on('connection', (socket) => {
     });
 
     socket.on('chat message', (data) => {
-        io.emit('chat message', {
-            type: data.type,
-            content: data.content,
-            sender: data.sender // Enviar el sender para cada mensaje
-        });
+        if (data.type === 'ia') {
+            // Solo enviar la respuesta al usuario que lo envió
+            socket.emit('chat message', {
+                type: data.type,
+                content: data.content,
+                sender: data.sender
+            });
+        } else {
+            // Mensajes globales o p2p sí se mandan a todos
+            io.emit('chat message', {
+                type: data.type,
+                content: data.content,
+                sender: data.sender
+            });
+        }
     });
+
 
     // Cuando el usuario se desconecta
     socket.on('disconnect', () => {

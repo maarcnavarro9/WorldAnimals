@@ -114,18 +114,12 @@
 
         <script>
             const socketIA = io();
-
-            socketIA.on('message', async function (msg) {
+            socketIA.on('message', function (msg) {
                 const messageItem = document.createElement('div');
                 messageItem.classList.add('mensajeRecibidoContainer');
+                messageItem.textContent = msg.response;
                 mensajesContainer3.appendChild(messageItem);
-
-                const texto = msg.response;
-                for (let i = 0; i < texto.length; i++) {
-                    messageItem.textContent += texto[i];
-                    mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
-                    await new Promise(resolve => setTimeout(resolve, 30)); // Velocidad de tipeo
-                }
+                mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
             });
         </script>
 
