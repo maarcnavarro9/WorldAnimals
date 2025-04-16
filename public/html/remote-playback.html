@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Control Remoto</title>
+</head>
+
+<body>
+    <h1>Control Remoto</h1>
+    <button onclick="sendCommand('play')">▶️ Reproducir</button>
+    <button onclick="sendCommand('pause')">⏸️ Pausar</button>
+    <br><br>
+    <input type="range" min="0" max="1" step="0.01" onchange="sendVolume(this.value)" />
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('connect', () => {
+            console.log('📲 Conectado al servidor desde remote-playback.html');
+        });
+
+        function sendCommand(action) {
+            console.log('🔼 Enviando comando:', action);
+            socket.emit('video-control', { action }); // 👈 esto
+        }
+
+        function sendVolume(value) {
+            console.log('🔼 Enviando volumen:', value);
+            socket.emit('video-control', { action: 'volume', value: parseFloat(value) }); // 👈 esto
+        }
+    </script>
+
+
+</body>
+
+</html>

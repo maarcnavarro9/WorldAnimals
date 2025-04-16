@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="descriptionContainer">
-            <img id="fotoAnimal" src="./assets/img/portfolio/submarine.png" height="250px" width="100%" />
+            <img id="fotoAnimal" src="#" height="250px" width="100%" />
             <div class="card">
                 <div class="nombresContainer">
                     <h2 id="nombre">Nombre animal</h2>
@@ -127,6 +127,23 @@
     <script src="./js/script.js"></script>
     <script src="./js/abrirCerrarPopup.js"></script>
     <script src="./js/cambiarChat.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const video = document.getElementById('myVideo');
+
+        socket.on('connect', () => {
+            console.log('📲 Conectado al servidor desde index.html');
+        });
+
+        socket.on('video-control', (data) => {
+            console.log('🔽 Comando recibido:', data);
+            switch (data.action) {
+                case 'play': video.play(); break;
+                case 'pause': video.pause(); break;
+                case 'volume': video.volume = data.value; break;
+            }
+        });
+    </script>
 
 </body>
 
