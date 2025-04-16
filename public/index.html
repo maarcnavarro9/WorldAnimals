@@ -115,6 +115,7 @@
         <span>Marc Navarro Amengual y Ángel Fernández Rosado, 2025</span>
     </footer>
 
+    <script src="/socket.io/socket.io.js"></script>
     <script src="./js/closeMapsAlert.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/websocket.js"></script>
@@ -127,23 +128,6 @@
     <script src="./js/script.js"></script>
     <script src="./js/abrirCerrarPopup.js"></script>
     <script src="./js/cambiarChat.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const video = document.getElementById('myVideo');
-
-        socket.on('connect', () => {
-            console.log('📲 Conectado al servidor desde index.html');
-        });
-
-        socket.on('video-control', (data) => {
-            console.log('🔽 Comando recibido:', data);
-            switch (data.action) {
-                case 'play': video.play(); break;
-                case 'pause': video.pause(); break;
-                case 'volume': video.volume = data.value; break;
-            }
-        });
-    </script>
 
 </body>
 

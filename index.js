@@ -52,8 +52,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('video-control', (data) => {
-        console.log('📡 Comando recibido del control remoto:', data);
-        // Reenviar a todos los demás (menos al que lo envió)
         socket.broadcast.emit('video-control', data);
     });
 });

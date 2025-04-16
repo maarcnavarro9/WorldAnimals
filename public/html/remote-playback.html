@@ -16,18 +16,12 @@
     <script>
         const socket = io();
 
-        socket.on('connect', () => {
-            console.log('📲 Conectado al servidor desde remote-playback.html');
-        });
-
         function sendCommand(action) {
-            console.log('🔼 Enviando comando:', action);
-            socket.emit('video-control', { action }); // 👈 esto
+            socket.emit('video-control', { action });
         }
 
         function sendVolume(value) {
-            console.log('🔼 Enviando volumen:', value);
-            socket.emit('video-control', { action: 'volume', value: parseFloat(value) }); // 👈 esto
+            socket.emit('video-control', { action: 'volume', value: parseFloat(value) });
         }
     </script>
 
