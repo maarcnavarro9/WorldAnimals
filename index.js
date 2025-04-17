@@ -50,6 +50,10 @@ io.on('connection', (socket) => {
             io.emit('update user list', Object.values(users));
         }
     });
+
+    socket.on('video-control', (data) => {
+        socket.broadcast.emit('video-control', data);
+    });
 });
 
 server.listen(port, () => {
