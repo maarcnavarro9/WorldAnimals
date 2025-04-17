@@ -11,3 +11,7 @@ function sendVolume(value) {
 function sendVideo(video) {
     socket.emit('video-control', { action: 'selectVideo', video: video })
 }
+
+function sendVideoTime(direction) {
+    socket.emit('video-control', { action: 'setVideoTime', direction: direction })
+}

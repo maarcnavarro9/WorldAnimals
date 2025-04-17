@@ -95,6 +95,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Función para adelantar 10 segundos
+    window.forward10Seconds = function () {
+        video.currentTime = Math.min(video.duration, video.currentTime + 10);
+    }
+
+    // Función para retroceder 10 segundos
+    window.backward10Seconds = function () {
+        video.currentTime = Math.max(0, video.currentTime - 10);
+    }
+
 
     // Cambia la calidad del video al seleccionar una opción
     qualitySelector.addEventListener('change', updateVideo);
