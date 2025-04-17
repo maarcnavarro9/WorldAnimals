@@ -1,3 +1,5 @@
+let currentVideo = "video1";
+
 document.addEventListener('DOMContentLoaded', () => {
     const video = document.getElementById('myVideo');
     const qualitySelector = document.getElementById('qualitySelector');
@@ -78,11 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Variable que almacena cuál video está activo. Por defecto, video1.
-    let currentVideo = "video1";
-
-    // Función para actualizar el video según el video actual y la calidad seleccionada.
-    function updateVideo() {
+    window.updateVideo = function () {
         const quality = qualitySelector.value;
         const sources = videoSources[currentVideo][quality];
         if (sources) {
@@ -95,7 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
             video.load();
             video.play();
         }
-    }
+    };
+
 
     // Cambia la calidad del video al seleccionar una opción
     qualitySelector.addEventListener('change', updateVideo);

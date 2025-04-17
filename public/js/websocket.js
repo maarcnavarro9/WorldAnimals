@@ -117,5 +117,8 @@ socket.on('video-control', (data) => {
         case 'play': video.play(); break;
         case 'pause': video.pause(); break;
         case 'volume': video.volume = data.value; break;
+        case 'selectVideo': currentVideo = data.video;
+            updateVideo();
+            break;
     }
 });

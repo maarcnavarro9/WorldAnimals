@@ -7,3 +7,7 @@ function sendCommand(action) {
 function sendVolume(value) {
     socket.emit('video-control', { action: 'volume', value: parseFloat(value) });
 }
+
+function sendVideo(video) {
+    socket.emit('video-control', { action: 'selectVideo', video: video })
+}
