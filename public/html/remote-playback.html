@@ -9,7 +9,7 @@
 <body>
     <main>
         <h1>Control Remoto</h1>
-        <div style="display: flex; justify-content: center; gap: 20px">
+        <div class="buttonContainer">
             <button onclick="sendCommand('play')">
                 <img src="../assets/play.svg" width="50px" height="50px">
             </button>
@@ -18,20 +18,21 @@
             </button>
         </div>
         <br><br>
+        <span>Volumen</span>
         <input type="range" min="0" max="1" step="0.01" onchange="sendVolume(this.value)" />
         <br><br>
-        <div style="display: flex; justify-content: center; gap: 20px">
-            <button onclick="sendVideo('video1')">Video 1</button>
-            <button onclick="sendVideo('video2')">Video 2</button>
-        </div>
-        <br><br>
-        <div style="display: flex; justify-content: center; gap: 20px">
+        <div class="buttonContainer">
             <button onclick="sendVideoTime('backward')">
                 <img src="../assets/10sAtras.svg" width="50px" height="50px">
             </button>
             <button onclick="sendVideoTime('forward')">
                 <img src="../assets/10sAlante.svg" width="50px" height="50px">
             </button>
+        </div>
+        <br><br>
+        <div class="buttonContainer">
+            <button onclick="sendVideo('video1')">Video 1</button>
+            <button onclick="sendVideo('video2')">Video 2</button>
         </div>
 
         <script src="/socket.io/socket.io.js"></script>

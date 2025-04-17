@@ -17,10 +17,11 @@ main {
 h1 {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 50px;
+    text-align: center;
 }
 
 button {
-    font-size: 50px;
+    font-size: 30px;
     background: #ccccccaa;
     border-radius: 20px;
     border: none;
@@ -37,4 +38,20 @@ button:hover {
 button:active {
     box-shadow: 0px 5px 5px #444444;
     scale: 1.05;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    gap: 20px
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 30px;
+    }
+
+    .buttonContainer {
+        flex-direction: column;
+    }
 }
