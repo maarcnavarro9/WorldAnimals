@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>P2P Chat WebRTC</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+        }
+
+        .header {
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            display: flex;
+            height: calc(100vh - 65px);
+        }
+
+        .users {
+            width: 250px;
+            border-right: 1px solid #ccc;
+            background: #fff;
+            overflow-y: auto;
+        }
+
+        .users h3 {
+            padding: 10px;
+            margin: 0;
+            background: #eee;
+        }
+
+        .user {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+
+        .user:hover {
+            background: #f0f0f0;
+        }
+
+        .me {
+            background: #d8f89b;
+        }
+
+        .chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .messages {
+            flex: 1;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #fff;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin: 5px 0;
+        }
+
+        .input {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .input button {
+            padding: 10px 20px;
+            background: #65a9e5;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">P2P Chat App (WebRTC)</div>
+    <div class="container">
+        <div class="users" id="user-list">
+            <h3>Users</h3>
+        </div>
+        <div class="chat">
+            <div id="chat-with">Select a user</div>
+            <div class="messages" id="message-container"></div>
+            <div class="input">
+                <input type="text" id="message-input" placeholder="Type..." />
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const userList = document.getElementById("user-list");
+        const chatWith = document.getElementById("chat-with");
+        const messageContainer = document.getElementById("message-container");
+        const messageInput = document.getElementById("message-input");
+
+        let localConnection;
+        let dataChannel;
+        let conversations = {};
+        let selectedUser = null;
+        let isCaller = false;
+        let pendingCandidates = [];
+
+        const peers = {};
+        const acceptedPeers = {};
+
+        function createUserElement(id) {
+            const el = document.createElement("div");
+            el.className = "user";
+            el.id = id;
+            el.textContent = `Socket: ${id}`;
+            if (id === socket.id) {
+                el.classList.add("me");
+            } else {
+                el.onclick = () => {
+                    startConnection(id);
+                };
+            }
+            return el;
+        }
+
+        function renderMessages(id) {
+            messageContainer.innerHTML = "";
+            (conversations[id] || []).forEach(msg => {
+                const el = document.createElement("div");
+                el.className = "message";
+                el.textContent = msg;
+                messageContainer.appendChild(el);
+            });
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+
+        function appendMessage(id, msg) {
+            if (!conversations[id]) conversations[id] = [];
+            conversations[id].push(msg);
+            if (selectedUser === id) renderMessages(id);
+        }
+
+        document.getElementById("send-button").onclick = () => {
+            const msg = messageInput.value.trim();
+            if (msg && dataChannel && dataChannel.readyState === "open") {
+                dataChannel.send(msg);
+                appendMessage(selectedUser, `You: ${msg}`);
+                messageInput.value = "";
+            }
+        };
+
+        // SOCKET HANDLERS
+        socket.emit("init-webrtc");
+
+        socket.on("update-user-list", ({ users }) => {
+            users.forEach(id => {
+                if (!document.getElementById(id)) {
+                    userList.appendChild(createUserElement(id));
+                }
+            });
+        });
+
+        socket.on("remove-user", ({ socketId }) => {
+            const el = document.getElementById(socketId);
+            if (el) el.remove();
+        });
+
+        socket.on("offer", async ({ from, offer }) => {
+            const accept = confirm(`Socket ${from} quiere iniciar un chat contigo. ¿Aceptar?`);
+            if (!accept) {
+                socket.emit("reject-call", { to: from });
+                return;
+            }
+
+            selectedUser = from;
+            chatWith.textContent = `Chatting with: ${from}`;
+            localConnection = new RTCPeerConnection();
+            localConnection.ondatachannel = (event) => {
+                dataChannel = event.channel;
+                setupDataChannel(from);
+            };
+
+            localConnection.onicecandidate = ({ candidate }) => {
+                if (candidate) {
+                    socket.emit("ice-candidate", { to: from, candidate });
+                }
+            };
+
+            await localConnection.setRemoteDescription(offer);
+            const answer = await localConnection.createAnswer();
+            await localConnection.setLocalDescription(answer);
+            socket.emit("answer", { to: from, answer });
+        });
+
+        socket.on("answer", async ({ from, answer }) => {
+            await localConnection.setRemoteDescription(answer);
+        });
+
+        socket.on("ice-candidate", async ({ candidate }) => {
+            try {
+                await localConnection.addIceCandidate(candidate);
+            } catch (e) {
+                console.error("Error adding candidate", e);
+            }
+        });
+
+        socket.on("call-rejected", ({ from }) => {
+            alert(`Socket ${from} rechazó tu invitación.`);
+        });
+
+        socket.on("ice-candidate", async ({ candidate }) => {
+            if (!localConnection) {
+                console.warn("No connection yet. Guardando ICE candidate...");
+                pendingCandidates.push(candidate);
+                return;
+            }
+
+            try {
+                await localConnection.addIceCandidate(candidate);
+            } catch (e) {
+                console.error("Error agregando ICE candidate", e);
+            }
+        });
+
+
+        function setupDataChannel(id) {
+            dataChannel.onmessage = (event) => {
+                appendMessage(id, `Socket ${id}: ${event.data}`);
+            };
+        }
+
+        async function startConnection(to) {
+            selectedUser = to;
+            chatWith.textContent = `Chatting with: ${to}`;
+
+            localConnection = new RTCPeerConnection();
+            dataChannel = localConnection.createDataChannel("chat");
+            setupDataChannel(to);
+
+            localConnection.onicecandidate = ({ candidate }) => {
+                if (candidate) {
+                    socket.emit("ice-candidate", { to, candidate });
+                }
+            };
+
+            const offer = await localConnection.createOffer();
+            await localConnection.setLocalDescription(offer);
+            socket.emit("call-user", { offer, to });
+        }
+
+
+    </script>
+</body>
+
+</html>

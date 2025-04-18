@@ -5,7 +5,9 @@ const port = 80;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+
 let users = {};  // Objeto para almacenar los usuarios y sus nombres
+let peers = []; // webrtc
 
 app.use(express.static('public'));
 
@@ -45,7 +47,6 @@ io.on('connection', (socket) => {
         }
     });
 
-
     // Cuando el usuario se desconecta
     socket.on('disconnect', () => {
         const username = users[socket.id]; // Obtener el nombre del usuario por su socket.id
@@ -61,7 +62,7 @@ io.on('connection', (socket) => {
             io.emit('update user list', Object.values(users));
         }
     });
-    
+
     console.log("CONNECTAT IA");
     let count = 0;
     socket.on('message-ltim', async data => {
@@ -83,6 +84,36 @@ io.on('connection', (socket) => {
         json.id = id;
         // enviar el json sencer és una burrada, això és només il·lustratiu
         socket.emit('message', json);
+    });
+
+    //webrtc
+    // Inicializar el chat
+    socket.on("init-webrtc", () => {
+        if (!peers.includes(socket.id)) {
+            peers.push(socket.id);
+        }
+        io.emit("update-user-list", { users: peers });
+    });
+
+    socket.on("disconnect", () => {
+        peers = peers.filter(id => id !== socket.id);
+        socket.broadcast.emit("remove-user", { socketId: socket.id });
+    });
+
+    socket.on("call-user", ({ offer, to }) => {
+        socket.to(to).emit("offer", { from: socket.id, offer });
+    });
+
+    socket.on("answer", ({ answer, to }) => {
+        socket.to(to).emit("answer", { from: socket.id, answer });
+    });
+
+    socket.on("ice-candidate", ({ candidate, to }) => {
+        socket.to(to).emit("ice-candidate", { candidate });
+    });
+
+    socket.on("reject-call", ({ to }) => {
+        socket.to(to).emit("call-rejected", { from: socket.id });
     });
 });
 
