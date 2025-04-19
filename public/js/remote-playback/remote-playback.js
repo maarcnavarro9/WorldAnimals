@@ -1,5 +1,7 @@
 const socket = io();
 
+const qualitySelector = document.getElementById('qualitySelector');
+
 function sendCommand(action) {
     socket.emit('video-control', { action });
 }
@@ -14,4 +16,9 @@ function sendVideo(video) {
 
 function sendVideoTime(direction) {
     socket.emit('video-control', { action: 'setVideoTime', direction: direction })
+}
+
+function sendQuality() {
+    const quality = qualitySelector.value;
+    socket.emit('video-control', { action: 'updateQuality', quality: quality });
 }

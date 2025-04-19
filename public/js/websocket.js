@@ -120,6 +120,9 @@ socket.on('video-control', (data) => {
         case 'selectVideo': currentVideo = data.video;
             updateVideo();
             break;
+        case 'updateQuality': qualitySelector.value = data.quality;
+            updateVideo();
+            break;
         case 'setVideoTime': if (data.direction == 'forward') {
             forward10Seconds();
         } else {
