@@ -1,6 +1,8 @@
 const socket = io();
 
 const qualitySelector = document.getElementById('qualitySelector');
+const muteSVG = document.getElementById('muteSVG');
+const unmuteSVG = document.getElementById('unmuteSVG');
 
 function sendCommand(action) {
     socket.emit('video-control', { action });
@@ -21,4 +23,16 @@ function sendVideoTime(direction) {
 function sendQuality() {
     const quality = qualitySelector.value;
     socket.emit('video-control', { action: 'updateQuality', quality: quality });
+}
+
+function sendMuteValue() {
+    if (muteSVG.style.display == "none") {
+        unmuteSVG.style.display = "none";
+        muteSVG.style.display = "block";
+        socket.emit('video-control', { action: 'muteVideo', mute: true });
+    } else if (unmuteSVG.style.display == "none") {
+        muteSVG.style.display = "none";
+        unmuteSVG.style.display = "block";
+        socket.emit('video-control', { action: 'muteVideo', mute: false });
+    }
 }
