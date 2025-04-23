@@ -1,8 +1,9 @@
 let currentVideo = "video1";
+let qualitySelector;
 
 document.addEventListener('DOMContentLoaded', () => {
     const video = document.getElementById('myVideo');
-    const qualitySelector = document.getElementById('qualitySelector');
+    qualitySelector = document.getElementById('qualitySelector');
     const btnVideo1 = document.getElementById('btnVideo1');
     const btnVideo2 = document.getElementById('btnVideo2');
     const sourceMp4 = document.getElementById('sourceMp4');
