@@ -207,6 +207,12 @@ input {
   gap: 10px;
   overflow-y: auto;
   height: 100%;
+  position: relative;
+}
+
+.detenerEscritura {
+  position: absolute;
+  bottom: 5px;
 }
 
 .mensajeEnviadoContainer {
