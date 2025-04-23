@@ -133,6 +133,7 @@
                         </div>
                     </div>
                     <div class="mensajesContainer" id="chatIA">
+                        <button id="detenerEscritura">Detener Escritura</button>
                         <div class="mensajeSistemaContainer">Pregunta lo que quieras</div>
                         <script src="/socket.io/socket.io.js">
                         </script>
@@ -161,22 +162,29 @@
 
         <script>
             const socketIA = io();
-
+            let detener = false; // Variable para controlar si se detiene la escritura
+        
+            document.getElementById('detenerEscritura').addEventListener('click', () => {
+                detener = true; // Al hacer clic, se detiene la escritura
+            });
+        
             socketIA.on('message', function (msg) {
                 const messageItem = document.createElement('div');
                 messageItem.classList.add('mensajeRecibidoContainer');
                 mensajesContainer3.appendChild(messageItem);
                 mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
-
-                // Efecto barrido: escribir letra por letra
+        
                 let texto = msg.response;
                 let index = 0;
-
+                detener = false; // Reinicia la variable para cada nuevo mensaje
+        
                 function escribirLetra() {
+                    if (detener) return; // Si detener es true, para la escritura
+        
                     if (index < texto.length) {
                         messageItem.textContent += texto.charAt(index);
                         index++;
-                        setTimeout(escribirLetra, 30); // Ajusta la velocidad cambiando el valor (en ms)
+                        setTimeout(escribirLetra, 30); // Velocidad de escritura
                         mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
                     }
                 }
