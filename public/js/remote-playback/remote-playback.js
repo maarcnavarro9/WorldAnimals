@@ -3,8 +3,17 @@ const socket = io();
 const qualitySelector = document.getElementById('qualitySelector');
 const muteSVG = document.getElementById('muteSVG');
 const unmuteSVG = document.getElementById('unmuteSVG');
+const playButton = document.getElementById('playButton');
+const pauseButton = document.getElementById('pauseButton');
 
 function sendCommand(action) {
+    if (action == "play") {
+        playButton.style.display = "none";
+        pauseButton.style.display = "flex";
+    } else {
+        pauseButton.style.display = "none";
+        playButton.style.display = "flex";
+    }
     socket.emit('video-control', { action });
 }
 
