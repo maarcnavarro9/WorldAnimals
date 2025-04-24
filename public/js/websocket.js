@@ -13,6 +13,7 @@ const mensajesContainer = document.getElementById('chatGlobal');
 const mensajesContainer2 = document.getElementById('chatP2P');
 const mensajesContainer3 = document.getElementById('chatIA');
 const overlay = document.getElementById('overlay');
+// const spinnerCarga = document.getElementById('spinnerCarga');
 const submitUsernameButton = document.getElementById('submitUsernameButton');
 const usernameInput = document.getElementById('usernameInput');
 const chatContainer = document.getElementById('chatContainer');
@@ -148,12 +149,17 @@ socket.on('chat message', function (data) {
         mensajesContainer2.scrollTop = mensajesContainer2.scrollHeight;
     }
     else if (data.type === 'ia' && mensajesContainer3.style.display != "none") {
+        const spinnerCarga = document.createElement('div');
+        spinnerCarga.classList.add('spinner');
+
         messageItem.classList.add('mensajeEnviadoContainer');
         messageItem.textContent = data.content;
         socketIA.emit('message-ltim', {
             text: data.content
         });
+        // spinnerCarga.style.display = 'block';
         mensajesContainer3.appendChild(messageItem);
+        mensajesContainer3.appendChild(spinnerCarga);
         mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
     }
 });
