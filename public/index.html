@@ -195,7 +195,6 @@
                     </div>
                 </div>
                 <div id="overlay">
-                    <!-- <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 20px;"> -->
                     <div
                         style="height: 100%; display: flex; flex-direction: column; gap: 10px; justify-content: center; align-content: center; padding: 100px;">
                         <h2 style="color: white;">Por favor ingresa tu nombre</h2>
@@ -239,11 +238,6 @@
                     <div id="chatIAParent">
                         <div class="mensajesContainer" id="chatIA" style="display: flex; padding: 0;">
                             <div class="mensajeSistemaContainer">Pregunta lo que quieras</div>
-                            <script src="/socket.io/socket.io.js">
-                            </script>
-                            <!-- <div id="spinnerCarga">
-                                <div class="spinner"></div>
-                            </div> -->
                         </div>
                         <button id="detenerEscritura" style="display: none;">Detener Escritura</button>
                     </div>
@@ -268,49 +262,6 @@
                 <button id="confirm-no">No</button>
             </div>
         </div>
-
-        <script>
-            const socketIA = io();
-            let detener = false;
-
-            const botonDetenerEscritura = document.getElementById('detenerEscritura');
-            const spinner = document.getElementsByClassName('spinner');
-
-            botonDetenerEscritura.addEventListener('click', () => {
-                detener = true;
-            });
-
-            socketIA.on('message', function (msg) {
-                const messageItem = document.createElement('div');
-                messageItem.classList.add('mensajeRecibidoContainer');
-                mensajesContainer3.appendChild(messageItem);
-                mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
-
-                let texto = msg.response;
-                let index = 0;
-                detener = false;
-
-                botonDetenerEscritura.style.display = "flex"; // Mostrar al comenzar
-
-                function escribirLetra() {
-                    Array.from(spinner).forEach(sp => sp.remove());
-                    //spinner.style.display = "none";
-
-                    if (detener || index >= texto.length) {
-                        botonDetenerEscritura.style.display = "none"; // Ocultar al terminar
-                        return;
-                    }
-
-                    messageItem.textContent += texto.charAt(index);
-                    index++;
-                    setTimeout(escribirLetra, 30);
-                    mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
-                }
-
-                escribirLetra();
-            });
-        </script>
-
 
         <script>
             const socketWebRTC = io();
@@ -482,6 +433,7 @@
     <script src="./js/script.js"></script>
     <script src="./js/abrirCerrarPopup.js"></script>
     <script src="./js/cambiarChat.js"></script>
+    <script src="./js/mensajeRespuestIA.js"></script>
 
 </body>
 
