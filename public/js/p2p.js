@@ -164,7 +164,13 @@ inputMessageOriginal.addEventListener('keydown', event => {
         sendOriginalInputMessage();
     }
 });
-sendButtonOriginal.addEventListener('click', sendOriginalInputMessage);
+
+// Evento para enviar al pulsar el botón original
+sendButtonOriginal.addEventListener('click', () => {
+    if (mensajesContainer2.style.display !== "none") {  // SOLO si estamos en chatP2P
+        sendOriginalInputMessage();
+    }
+});
 
 async function startConnection(to) {
     selectedUser = to;
