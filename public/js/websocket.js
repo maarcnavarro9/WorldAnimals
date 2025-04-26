@@ -30,12 +30,13 @@ function sendWithEnter(e) {
             inputMessage.value = ''; // Limpiar el campo de texto
         }
         else if (mensajesContainer2.style.display != "none") {
-            socket.emit('chat message', {
-                type: 'p2p',
-                content: inputMessage.value.trim(),
-                sender: username
-            });
-            inputMessage.value = ''; // Limpiar el campo de texto
+            // socket.emit('chat message', {
+            //     type: 'p2p',
+            //     content: inputMessage.value.trim(),
+            //     sender: username
+            // });
+            // inputMessage.value = ''; // Limpiar el campo de texto
+            return;
         }
         else if (mensajesContainer3.style.display != "none") {
             socket.emit('chat message', {
@@ -91,11 +92,12 @@ sendButton.addEventListener('click', () => {
             });
         }
         else if (mensajesContainer2.style.display != "none") {
-            socket.emit('chat message', {
-                type: 'p2p',
-                content: message,
-                sender: username || 'anónimo'  // Usamos el nombre de usuario para el campo sender
-            });
+            // socket.emit('chat message', {
+            //     type: 'p2p',
+            //     content: message,
+            //     sender: username || 'anónimo'  // Usamos el nombre de usuario para el campo sender
+            // });
+            return;
         }
         else if (mensajesContainer3.style.display != "none") {
             socket.emit('chat message', {

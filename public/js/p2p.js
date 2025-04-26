@@ -1,7 +1,7 @@
 const socketWebRTC = io();
 const userList = document.getElementById('user-list');
 const chatWith = document.getElementById('chat-with');
-const messageContainer = document.getElementById('message-container');
+const messageContainer = document.getElementById('chatP2P');
 const messageInput = document.getElementById('message-input');
 const sendButtonWebRTC = document.getElementById('send-button');
 const disconnectButton = document.getElementById('disconnect-button');
@@ -80,8 +80,26 @@ function renderMessages(id) {
 function appendMessage(id, msg) {
     if (!conversations[id]) conversations[id] = [];
     conversations[id].push(msg);
-    if (selectedUser === id) renderMessages(id);
+    if (selectedUser === id) {
+        const messageElement = document.createElement('div');
+
+        if (msg.startsWith('You: ')) {
+            messageElement.className = 'mensajeEnviadoContainer';
+            // Mostramos solo el mensaje, sin el "You: "
+            messageElement.innerHTML = `<p>${msg.slice(5)}</p>`;
+        } else {
+            messageElement.className = 'mensajeRecibidoContainer';
+            // Aquí simulamos quien envió el mensaje → usamos el ID
+            const parts = msg.split(': ');
+            const mensajeReal = parts.slice(1).join(': ');  // En caso de que el mensaje también tenga ":"
+            messageElement.innerHTML = `<b>Socket ${id}</b><p>${mensajeReal}</p>`;
+        }
+
+        messageContainer.appendChild(messageElement);
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
 }
+
 
 function sendMessage() {
     const msg = messageInput.value.trim();
@@ -137,6 +155,37 @@ socketWebRTC.on('answer', async ({ answer }) => { await localConnection.setRemot
 socketWebRTC.on('ice-candidate', ({ candidate }) => handleCandidate(candidate));
 socketWebRTC.on('call-rejected', ({ from }) => { alert(`Socket ${from} rechazó tu invitación.`); endConnection(); });
 socketWebRTC.on('hang-up', ({ from }) => { alert(`Socket ${from} colgó la llamada.`); endConnection(); });
+
+// Integración para el input original inputMessage y el botón original sendButton
+const inputMessageOriginal = document.querySelector('.escribirMensajesContainer input');
+const sendButtonOriginal = document.querySelector('.escribirMensajesContainer button');
+
+// Función para enviar mensaje desde el input original
+function sendOriginalInputMessage() {
+    const msg = inputMessageOriginal.value.trim();
+    if (!msg || !dataChannel || dataChannel.readyState !== 'open') return;
+    dataChannel.send(msg);
+    appendMessage(selectedUser, `You: ${msg}`);
+    inputMessageOriginal.value = '';
+}
+
+// Evento para enviar al pulsar Enter en inputMessage
+inputMessageOriginal.addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        if (mensajesContainer2.style.display !== "none") {  // SOLO si estamos en chatP2P
+            sendOriginalInputMessage();
+        }
+    }
+});
+
+// Evento para enviar al pulsar el botón original
+sendButtonOriginal.addEventListener('click', () => {
+    if (mensajesContainer2.style.display !== "none") {  // SOLO si estamos en chatP2P
+        sendOriginalInputMessage();
+    }
+});
+
 
 async function startConnection(to) {
     selectedUser = to;

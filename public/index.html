@@ -219,13 +219,16 @@
 
                     <div class="mensajesContainer" id="chatGlobal">
                     </div>
-                    <div class="mensajesContainer" id="chatP2P">
-                        <div class="container">
+                    <div id="chatP2PParent">
+                        <div id="chatP2P" class="mensajesContainer">
+                            <!-- <div class="messages" id="message-container"></div> -->
+                        </div>
+                        <div style="border-left: 1px solid #666;">
                             <div class="users" id="user-list">
                                 <h3>Users</h3>
+                                <div id="chat-with" class="chatWith">Select a user</div>
                             </div>
-                            <div class="chat">
-                                <div id="chat-with">Select a user</div>
+                            <div class="chat" style="display: none;">
                                 <div class="messages" id="message-container"></div>
                                 <div class="input">
                                     <input type="text" id="message-input" placeholder="Type..." />
