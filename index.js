@@ -5,7 +5,9 @@ const port = 80;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+
 let users = {};  // Objeto para almacenar los usuarios y sus nombres
+let peers = []; // webrtc
 
 app.use(express.static('public'));
 
@@ -28,11 +30,21 @@ io.on('connection', (socket) => {
     });
 
     socket.on('chat message', (data) => {
-        io.emit('chat message', {
-            type: data.type,
-            content: data.content,
-            sender: data.sender // Enviar el sender para cada mensaje
-        });
+        if (data.type === 'ia') {
+            // Solo enviar la respuesta al usuario que lo envió
+            socket.emit('chat message', {
+                type: data.type,
+                content: data.content,
+                sender: data.sender
+            });
+        } else {
+            // Mensajes globales o p2p sí se mandan a todos
+            io.emit('chat message', {
+                type: data.type,
+                content: data.content,
+                sender: data.sender
+            });
+        }
     });
 
     // Cuando el usuario se desconecta
@@ -49,6 +61,59 @@ io.on('connection', (socket) => {
             // Emitir la lista actualizada de usuarios activos
             io.emit('update user list', Object.values(users));
         }
+    });
+
+    console.log("CONNECTAT IA");
+    let count = 0;
+    socket.on('message-ltim', async data => {
+        const text = data.text;
+        const id = ++count;
+        const response = await fetch("http://ia-ltim.uib.es/api/ollama/generate", {
+            method: 'post',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'model': 'qwen2.5:32b',
+                'prompt': data.text,
+                'stream': false // podeu fer servir stream: true per rebre tokens
+            })
+        });
+        const json = await response.json();
+        json.id = id;
+        // enviar el json sencer és una burrada, això és només il·lustratiu
+        socket.emit('message', json);
+    });
+
+    //webrtc
+    // Inicializar el chat
+    socket.on("init-webrtc", () => {
+        if (!peers.includes(socket.id)) {
+            peers.push(socket.id);
+        }
+        io.emit("update-user-list", { users: peers });
+    });
+
+    socket.on("disconnect", () => {
+        peers = peers.filter(id => id !== socket.id);
+        socket.broadcast.emit("remove-user", { socketId: socket.id });
+    });
+
+    socket.on("call-user", ({ offer, to }) => {
+        socket.to(to).emit("offer", { from: socket.id, offer });
+    });
+
+    socket.on("answer", ({ answer, to }) => {
+        socket.to(to).emit("answer", { from: socket.id, answer });
+    });
+
+    socket.on("ice-candidate", ({ candidate, to }) => {
+        socket.to(to).emit("ice-candidate", { candidate });
+    });
+
+    socket.on("reject-call", ({ to }) => {
+        socket.to(to).emit("call-rejected", { from: socket.id });
     });
 
     socket.on('video-control', (data) => {
