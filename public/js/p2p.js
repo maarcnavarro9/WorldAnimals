@@ -2,13 +2,13 @@ const socketWebRTC = io();
 const userList = document.getElementById('user-list');
 const chatWith = document.getElementById('chat-with');
 const messageContainer = document.getElementById('chatP2P');
-const messageInput = document.getElementById('message-input');
-const sendButtonWebRTC = document.getElementById('send-button');
 const disconnectButton = document.getElementById('disconnect-button');
 const confirmModal = document.getElementById('confirm-modal');
 const confirmText = document.getElementById('confirm-text');
 const confirmYes = document.getElementById('confirm-yes');
 const confirmNo = document.getElementById('confirm-no');
+const inputMessageOriginal = document.querySelector('.escribirMensajesContainer input');
+const sendButtonOriginal = document.querySelector('.escribirMensajesContainer button');
 
 let localConnection = null;
 let dataChannel = null;
@@ -43,13 +43,11 @@ function flushPendingCandidates() {
 function setupDataChannel(id) {
     dataChannel.onopen = () => {
         isBusy = true;
-        sendButtonWebRTC.disabled = false;
         disconnectButton.disabled = false;
     };
     dataChannel.onmessage = event => appendMessage(id, `Socket ${id}: ${event.data}`);
     dataChannel.onclose = () => {
         isBusy = false;
-        sendButtonWebRTC.disabled = true;
         disconnectButton.disabled = true;
     };
 }
@@ -100,23 +98,6 @@ function appendMessage(id, msg) {
     }
 }
 
-
-function sendMessage() {
-    const msg = messageInput.value.trim();
-    if (!msg || !dataChannel || dataChannel.readyState !== 'open') return;
-    dataChannel.send(msg);
-    appendMessage(selectedUser, `You: ${msg}`);
-    messageInput.value = '';
-}
-sendButtonWebRTC.onclick = sendMessage;
-
-messageInput.addEventListener('keydown', event => {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        sendMessage();
-    }
-});
-
 disconnectButton.onclick = () => {
     socketWebRTC.emit('hang-up', { to: selectedUser });
     endConnection();
@@ -126,7 +107,8 @@ function endConnection() {
     if (dataChannel) dataChannel.close();
     if (localConnection) { localConnection.close(); localConnection = null; }
     dataChannel = null; selectedUser = null; pendingCandidates = []; isBusy = false;
-    chatWith.textContent = 'Select a user'; sendButtonWebRTC.disabled = true; disconnectButton.disabled = true;
+    disconnectButton.disabled = true;
+    chatWith.textContent = 'Select a user'; /*sendButtonWebRTC.disabled = true;*/
 }
 
 socketWebRTC.emit('init-webrtc');
@@ -155,10 +137,6 @@ socketWebRTC.on('answer', async ({ answer }) => { await localConnection.setRemot
 socketWebRTC.on('ice-candidate', ({ candidate }) => handleCandidate(candidate));
 socketWebRTC.on('call-rejected', ({ from }) => { alert(`Socket ${from} rechazó tu invitación.`); endConnection(); });
 socketWebRTC.on('hang-up', ({ from }) => { alert(`Socket ${from} colgó la llamada.`); endConnection(); });
-
-// Integración para el input original inputMessage y el botón original sendButton
-const inputMessageOriginal = document.querySelector('.escribirMensajesContainer input');
-const sendButtonOriginal = document.querySelector('.escribirMensajesContainer button');
 
 // Función para enviar mensaje desde el input original
 function sendOriginalInputMessage() {

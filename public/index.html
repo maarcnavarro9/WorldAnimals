@@ -221,19 +221,20 @@
                     </div>
                     <div id="chatP2PParent">
                         <div id="chatP2P" class="mensajesContainer">
-                            <!-- <div class="messages" id="message-container"></div> -->
                         </div>
                         <div style="border-left: 1px solid #666;">
-                            <div class="users" id="user-list">
-                                <h3>Users</h3>
-                                <div id="chat-with" class="chatWith">Select a user</div>
+                            <div id="user-list">
+                                <div class="chatWith">
+                                    <h3>Users</h3>
+                                    <div id="chat-with">Select a user</div>
+                                    <button id="disconnect-button" disabled>Disconnect</button>
+                                </div>
                             </div>
                             <div class="chat" style="display: none;">
                                 <div class="messages" id="message-container"></div>
                                 <div class="input">
-                                    <input type="text" id="message-input" placeholder="Type..." />
+                                    <!-- <input type="text" id="message-input" placeholder="Type..." /> -->
                                     <button id="send-button" disabled>Send</button>
-                                    <button id="disconnect-button" disabled>Disconnect</button>
                                 </div>
                             </div>
                         </div>
