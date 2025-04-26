@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Control Remoto</title>
+    <link href="../css/remote-playback.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <h1>Control Remoto</h1>
+        <div class="buttonContainer">
+            <button onclick="sendVideoTime('backward')">
+                <img src="../assets/10sAtras.svg" width="50px" height="50px">
+            </button>
+            <button onclick="sendCommand('play')" id="playButton">
+                <img src="../assets/play.svg" width="50px" height="50px">
+            </button>
+            <button onclick="sendCommand('pause')" style="display: none;" id="pauseButton">
+                <img src="../assets/stop.svg" width="50px" height="50px">
+            </button>
+            <button onclick="sendVideoTime('forward')">
+                <img src="../assets/10sAlante.svg" width="50px" height="50px">
+            </button>
+        </div>
+        <br><br>
+        <div style="display: flex; width: 100%; gap: 10px">
+            <div style="display: flex; flex-direction: column; width: 100%;">
+                <span>Volumen</span>
+                <input type="range" min="0" max="1" step="0.01" onchange="sendVolume(this.value)" />
+            </div>
+            <button onclick="sendMuteValue()">
+                <img src="../assets/unmute.svg" width="50px" height="50px" id="unmuteSVG">
+                <img src="../assets/mute.svg" width="50px" height="50px" style="display: none;" id="muteSVG">
+            </button>
+        </div>
+        <br><br>
+        <div class="buttonContainer">
+            <select id="qualitySelector">
+                <option value="4K" selected>4K</option>
+                <option value="1080p">Full HD</option>
+                <option value="720p">720p</option>
+            </select>
+            <button onclick="sendQuality()">Send quality</button>
+        </div>
+        <br><br>
+        <div class="buttonContainer">
+            <button onclick="sendVideo('video1')">Video 1</button>
+            <button onclick="sendVideo('video2')">Video 2</button>
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="../js/remote-playback/remote-playback.js"></script>
+    </main>
+</body>
+
+</html>

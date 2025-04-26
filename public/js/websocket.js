@@ -178,3 +178,26 @@ socket.on('update user list', (userList) => {
         userListContainer.appendChild(listItem);
     });
 });
+
+const video = document.getElementById('myVideo');
+
+socket.on('video-control', (data) => {
+    switch (data.action) {
+        case 'play': video.play(); break;
+        case 'pause': video.pause(); break;
+        case 'volume': video.volume = data.value; break;
+        case 'selectVideo': currentVideo = data.video;
+            updateVideo();
+            break;
+        case 'updateQuality': qualitySelector.value = data.quality;
+            updateVideo();
+            break;
+        case 'muteVideo': video.muted = data.mute;
+            break;
+        case 'setVideoTime': if (data.direction == 'forward') {
+            forward10Seconds();
+        } else {
+            backward10Seconds();
+        } break;
+    }
+});

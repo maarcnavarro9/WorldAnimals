@@ -115,6 +115,10 @@ io.on('connection', (socket) => {
     socket.on("reject-call", ({ to }) => {
         socket.to(to).emit("call-rejected", { from: socket.id });
     });
+
+    socket.on('video-control', (data) => {
+        socket.broadcast.emit('video-control', data);
+    });
 });
 
 server.listen(port, () => {
