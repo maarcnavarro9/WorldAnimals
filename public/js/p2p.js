@@ -1,3 +1,14 @@
+const iceConfig = {
+    iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        {
+            urls: 'turn:mi.turn.server:3478',
+            username: 'usuarioTURN',
+            credential: 'passTURN'
+        }
+    ]
+};
+
 const socketWebRTC = io();
 const userList = document.getElementById('user-list');
 const chatWith = document.getElementById('chat-with');
@@ -83,13 +94,11 @@ function appendMessage(id, msg) {
 
         if (msg.startsWith('You: ')) {
             messageElement.className = 'mensajeEnviadoContainer';
-            // Mostramos solo el mensaje, sin el "You: "
             messageElement.innerHTML = `<p>${msg.slice(5)}</p>`;
         } else {
             messageElement.className = 'mensajeRecibidoContainer';
-            // Aquí simulamos quien envió el mensaje → usamos el ID
             const parts = msg.split(': ');
-            const mensajeReal = parts.slice(1).join(': ');  // En caso de que el mensaje también tenga ":"
+            const mensajeReal = parts.slice(1).join(': ');
             messageElement.innerHTML = `<b>Socket ${id}</b><p>${mensajeReal}</p>`;
         }
 
@@ -123,9 +132,12 @@ socketWebRTC.on('offer', async ({ from, offer }) => {
     if (!accept) { socketWebRTC.emit('reject-call', { to: from }); return; }
     selectedUser = from;
     chatWith.textContent = `Chatting with: ${from}`;
-    localConnection = new RTCPeerConnection();
+
+    // Creamos conexión con STUN/TURN
+    localConnection = new RTCPeerConnection(iceConfig);
     localConnection.ondatachannel = ev => { dataChannel = ev.channel; setupDataChannel(from); };
     localConnection.onicecandidate = ev => ev.candidate && socketWebRTC.emit('ice-candidate', { to: from, candidate: ev.candidate });
+
     await localConnection.setRemoteDescription(offer);
     flushPendingCandidates();
     const answer = await localConnection.createAnswer();
@@ -138,7 +150,6 @@ socketWebRTC.on('ice-candidate', ({ candidate }) => handleCandidate(candidate));
 socketWebRTC.on('call-rejected', ({ from }) => { alert(`Socket ${from} rechazó tu invitación.`); endConnection(); });
 socketWebRTC.on('hang-up', ({ from }) => { alert(`Socket ${from} colgó la llamada.`); endConnection(); });
 
-// Función para enviar mensaje desde el input original
 function sendOriginalInputMessage() {
     const msg = inputMessageOriginal.value.trim();
     if (!msg || !dataChannel || dataChannel.readyState !== 'open') return;
@@ -147,30 +158,23 @@ function sendOriginalInputMessage() {
     inputMessageOriginal.value = '';
 }
 
-// Evento para enviar al pulsar Enter en inputMessage
 inputMessageOriginal.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
         event.preventDefault();
-        if (mensajesContainer2.style.display !== "none") {  // SOLO si estamos en chatP2P
-            sendOriginalInputMessage();
-        }
-    }
-});
-
-// Evento para enviar al pulsar el botón original
-sendButtonOriginal.addEventListener('click', () => {
-    if (mensajesContainer2.style.display !== "none") {  // SOLO si estamos en chatP2P
         sendOriginalInputMessage();
     }
 });
-
+sendButtonOriginal.addEventListener('click', sendOriginalInputMessage);
 
 async function startConnection(to) {
     selectedUser = to;
     chatWith.textContent = `Chatting with: ${to}`;
-    localConnection = new RTCPeerConnection();
+
+    // Creamos conexión con STUN/TURN
+    localConnection = new RTCPeerConnection(iceConfig);
     dataChannel = localConnection.createDataChannel('chat'); setupDataChannel(to);
     localConnection.onicecandidate = ev => ev.candidate && socketWebRTC.emit('ice-candidate', { to, candidate: ev.candidate });
+
     const offer = await localConnection.createOffer();
     await localConnection.setLocalDescription(offer);
     socketWebRTC.emit('call-user', { offer, to });
