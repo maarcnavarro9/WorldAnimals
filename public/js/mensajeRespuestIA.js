@@ -22,7 +22,6 @@ socketIA.on('message', function (msg) {
 
     function escribirLetra() {
         Array.from(spinner).forEach(sp => sp.remove());
-        //spinner.style.display = "none";
 
         if (detener || index >= texto.length) {
             botonDetenerEscritura.style.display = "none"; // Ocultar al terminar
