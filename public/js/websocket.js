@@ -158,7 +158,6 @@ socket.on('chat message', function (data) {
         socketIA.emit('message-ltim', {
             text: data.content
         });
-        // spinnerCarga.style.display = 'block';
         mensajesContainer3.appendChild(messageItem);
         mensajesContainer3.appendChild(spinnerCarga);
         mensajesContainer3.scrollTop = mensajesContainer3.scrollHeight;
