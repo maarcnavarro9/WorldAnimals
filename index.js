@@ -77,7 +77,7 @@ io.on('connection', (socket) => {
             body: JSON.stringify({
                 'model': 'qwen2.5:32b',
                 'prompt': data.text,
-                'stream': false // podeu fer servir stream: true per rebre tokens
+                'stream': false
             })
         });
         const json = await response.json();
