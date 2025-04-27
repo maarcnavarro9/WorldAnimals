@@ -3,6 +3,8 @@ let detener = false;
 
 const botonDetenerEscritura = document.getElementById('detenerEscritura');
 const spinner = document.getElementsByClassName('spinner');
+const botonEnviar = document.querySelector('.escribirMensajesContainer button');
+const inputEnviar = document.querySelector('.escribirMensajesContainer input');
 
 botonDetenerEscritura.addEventListener('click', () => {
     detener = true;
@@ -25,6 +27,8 @@ socketIA.on('message', function (msg) {
 
         if (detener || index >= texto.length) {
             botonDetenerEscritura.style.display = "none"; // Ocultar al terminar
+            botonEnviar.disabled = false;
+            inputEnviar.disabled = false;
             return;
         }
 

@@ -29,12 +29,6 @@ function sendWithEnter(e) {
             inputMessage.value = ''; // Limpiar el campo de texto
         }
         else if (mensajesContainer2.style.display != "none") {
-            // socket.emit('chat message', {
-            //     type: 'p2p',
-            //     content: inputMessage.value.trim(),
-            //     sender: username
-            // });
-            // inputMessage.value = ''; // Limpiar el campo de texto
             return;
         }
         else if (mensajesContainer3.style.display != "none") {
@@ -91,11 +85,6 @@ sendButton.addEventListener('click', () => {
             });
         }
         else if (mensajesContainer2.style.display != "none") {
-            // socket.emit('chat message', {
-            //     type: 'p2p',
-            //     content: message,
-            //     sender: username || 'anónimo'  // Usamos el nombre de usuario para el campo sender
-            // });
             return;
         }
         else if (mensajesContainer3.style.display != "none") {
@@ -150,6 +139,8 @@ socket.on('chat message', function (data) {
         mensajesContainer2.scrollTop = mensajesContainer2.scrollHeight;
     }
     else if (data.type === 'ia' && mensajesContainer3.style.display != "none") {
+        sendButton.disabled = true;
+        inputMessage.disabled = true;
         const spinnerCarga = document.createElement('div');
         spinnerCarga.classList.add('spinner');
 
