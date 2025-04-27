@@ -2,6 +2,7 @@ const iceConfig = {
     iceServers: [
         { urls: 'stun:stun.l.google.com:19302' },
         {
+            //exemple TURN server, canviar en cas d'ús real
             urls: 'turn:mi.turn.server:3478',
             username: 'usuarioTURN',
             credential: 'passTURN'
