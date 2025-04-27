@@ -82,7 +82,6 @@ io.on('connection', (socket) => {
         });
         const json = await response.json();
         json.id = id;
-        // enviar el json sencer és una burrada, això és només il·lustratiu
         socket.emit('message', json);
     });
 
