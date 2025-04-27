@@ -158,9 +158,19 @@ function sendOriginalInputMessage() {
     inputMessageOriginal.value = '';
 }
 
+// Evento para enviar al pulsar Enter en inputMessage
 inputMessageOriginal.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
         event.preventDefault();
+        if (mensajesContainer2.style.display !== "none") {  // SOLO si estamos en chatP2P
+            sendOriginalInputMessage();
+        }
+    }
+});
+
+// Evento para enviar al pulsar el botón original
+sendButtonOriginal.addEventListener('click', () => {
+    if (mensajesContainer2.style.display !== "none") {  // SOLO si estamos en chatP2P
         sendOriginalInputMessage();
     }
 });
