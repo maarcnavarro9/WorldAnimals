@@ -11,6 +11,7 @@ const iceConfig = {
 };
 
 const socketWebRTC = io();
+window.sharedSocket = socketWebRTC;
 const userList = document.getElementById('user-list');
 const chatWith = document.getElementById('chat-with');
 const messageContainer = document.getElementById('chatP2P');
@@ -64,9 +65,9 @@ function setupDataChannel(id) {
     };
 }
 
-function createUserElement(id) {
+function createUserElement(id, username) {
     const el = document.createElement('div');
-    el.className = 'user'; el.id = id; el.textContent = `Socket: ${id}`;
+    el.className = 'user'; el.id = id; el.textContent = username;
     if (id === socketWebRTC.id) el.classList.add('me');
     else el.onclick = () => {
         if (isBusy) {
@@ -123,8 +124,13 @@ function endConnection() {
 
 socketWebRTC.emit('init-webrtc');
 socketWebRTC.on('update-user-list', ({ users }) => {
-    users.forEach(id => { if (!document.getElementById(id)) userList.appendChild(createUserElement(id)); });
+    users.forEach(user => {
+        if (!document.getElementById(user.id)) {
+            userList.appendChild(createUserElement(user.id, user.username));
+        }
+    });
 });
+
 socketWebRTC.on('remove-user', ({ socketId }) => { const el = document.getElementById(socketId); if (el) el.remove(); if (socketId === selectedUser) endConnection(); });
 
 socketWebRTC.on('offer', async ({ from, offer }) => {

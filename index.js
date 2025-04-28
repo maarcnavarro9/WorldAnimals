@@ -16,7 +16,21 @@ io.on('connection', (socket) => {
 
     // Al recibir el nombre de usuario del cliente
     socket.on('set username', (username) => {
+        console.log("Socket id", socket.id);
         users[socket.id] = username;  // Asociar el socket.id con el nombre del usuario
+
+        // Crear un array de objetos { id, username }
+        const peerList = peers.map(id => ({
+            id: id,
+            username: users[id] || 'Desconocido'
+        }));
+        console.log("222 ", peers);
+
+        console.log("Users: ", users);
+        console.log(peerList);
+
+        io.emit("update-user-list", { users: peerList });
+
 
         // Emitir un mensaje al chat indicando que el usuario se ha conectado
         io.emit('chat message', {
@@ -48,20 +62,40 @@ io.on('connection', (socket) => {
     });
 
     // Cuando el usuario se desconecta
+    // socket.on('disconnect', () => {
+    //     const username = users[socket.id]; // Obtener el nombre del usuario por su socket.id
+    //     if (username) {
+    //         io.emit('chat message', {
+    //             type: 'global',
+    //             content: `${username} se ha desconectado.`,
+    //             sender: 'system'
+    //         });
+    //         delete users[socket.id]; // Eliminar el usuario desconectado
+
+    //         // Emitir la lista actualizada de usuarios activos
+    //         io.emit('update user list', Object.values(users));
+    //     }
+    // });
+
     socket.on('disconnect', () => {
-        const username = users[socket.id]; // Obtener el nombre del usuario por su socket.id
+        const username = users[socket.id];
+
         if (username) {
             io.emit('chat message', {
                 type: 'global',
                 content: `${username} se ha desconectado.`,
                 sender: 'system'
             });
-            delete users[socket.id]; // Eliminar el usuario desconectado
-
-            // Emitir la lista actualizada de usuarios activos
-            io.emit('update user list', Object.values(users));
+            delete users[socket.id];
         }
+
+        peers = peers.filter(id => id !== socket.id);
+        socket.broadcast.emit("remove-user", { socketId: socket.id });
+
+        // Emitir la lista actualizada de usuarios activos
+        io.emit('update user list', Object.values(users));
     });
+
 
     console.log("CONNECTAT IA");
     let count = 0;
@@ -90,16 +124,19 @@ io.on('connection', (socket) => {
     socket.on("init-webrtc", () => {
         if (!peers.includes(socket.id)) {
             peers.push(socket.id);
+            console.log(peers);
         }
-        io.emit("update-user-list", { users: peers });
     });
 
-    socket.on("disconnect", () => {
-        peers = peers.filter(id => id !== socket.id);
-        socket.broadcast.emit("remove-user", { socketId: socket.id });
-    });
+    // socket.on("disconnect", () => {
+    //     peers = peers.filter(id => id !== socket.id);
+    //     socket.broadcast.emit("remove-user", { socketId: socket.id });
+    // });
 
     socket.on("call-user", ({ offer, to }) => {
+        console.log(to);
+        console.log(users);
+        console.log(peers);
         socket.to(to).emit("offer", { from: socket.id, offer });
     });
 

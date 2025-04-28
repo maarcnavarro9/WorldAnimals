@@ -1,4 +1,4 @@
-const socket = io();
+const socket = window.sharedSocket;
 
 // Asignamos un identificador único a cada usuario
 let userId = socket.id;  // Esto es único por usuario
