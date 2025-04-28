@@ -26,7 +26,9 @@ const sendButtonOriginal = document.querySelector('.escribirMensajesContainer bu
 let localConnection = null;
 let dataChannel = null;
 let conversations = {};
+let selectedUserSocket = null;
 let selectedUser = null;
+let connectedUsers = [];
 let pendingCandidates = [];
 let isBusy = false;
 
@@ -79,19 +81,10 @@ function createUserElement(id, username) {
     return el;
 }
 
-function renderMessages(id) {
-    messageContainer.innerHTML = '';
-    (conversations[id] || []).forEach(msg => {
-        const el = document.createElement('div'); el.className = 'message'; el.textContent = msg;
-        messageContainer.appendChild(el);
-    });
-    messageContainer.scrollTop = messageContainer.scrollHeight;
-}
-
 function appendMessage(id, msg) {
     if (!conversations[id]) conversations[id] = [];
     conversations[id].push(msg);
-    if (selectedUser === id) {
+    if (selectedUserSocket === id) {
         const messageElement = document.createElement('div');
 
         if (msg.startsWith('You: ')) {
@@ -101,7 +94,7 @@ function appendMessage(id, msg) {
             messageElement.className = 'mensajeRecibidoContainer';
             const parts = msg.split(': ');
             const mensajeReal = parts.slice(1).join(': ');
-            messageElement.innerHTML = `<b>Socket ${id}</b><p>${mensajeReal}</p>`;
+            messageElement.innerHTML = `<b>${selectedUser.username}</b><p>${mensajeReal}</p>`;
         }
 
         messageContainer.appendChild(messageElement);
@@ -110,20 +103,21 @@ function appendMessage(id, msg) {
 }
 
 disconnectButton.onclick = () => {
-    socketWebRTC.emit('hang-up', { to: selectedUser });
+    socketWebRTC.emit('hang-up', { to: selectedUserSocket });
     endConnection();
 };
 
 function endConnection() {
     if (dataChannel) dataChannel.close();
     if (localConnection) { localConnection.close(); localConnection = null; }
-    dataChannel = null; selectedUser = null; pendingCandidates = []; isBusy = false;
+    dataChannel = null; selectedUserSocket = null; pendingCandidates = []; isBusy = false;
     disconnectButton.disabled = true;
     chatWith.textContent = 'Select a user'; /*sendButtonWebRTC.disabled = true;*/
 }
 
 socketWebRTC.emit('init-webrtc');
 socketWebRTC.on('update-user-list', ({ users }) => {
+    connectedUsers = users;
     users.forEach(user => {
         if (!document.getElementById(user.id)) {
             userList.appendChild(createUserElement(user.id, user.username));
@@ -131,14 +125,12 @@ socketWebRTC.on('update-user-list', ({ users }) => {
     });
 });
 
-socketWebRTC.on('remove-user', ({ socketId }) => { const el = document.getElementById(socketId); if (el) el.remove(); if (socketId === selectedUser) endConnection(); });
+socketWebRTC.on('remove-user', ({ socketId }) => { const el = document.getElementById(socketId); if (el) el.remove(); if (socketId === selectedUserSocket) endConnection(); });
 
 socketWebRTC.on('offer', async ({ from, offer }) => {
     if (isBusy) { socketWebRTC.emit('reject-call', { to: from }); return; }
     const accept = await showConfirm(`Socket ${from} quiere iniciar un chat contigo. ¿Aceptar?`);
     if (!accept) { socketWebRTC.emit('reject-call', { to: from }); return; }
-    selectedUser = from;
-    chatWith.textContent = `Chatting with: ${from}`;
 
     // Creamos conexión con STUN/TURN
     localConnection = new RTCPeerConnection(iceConfig);
@@ -150,6 +142,10 @@ socketWebRTC.on('offer', async ({ from, offer }) => {
     const answer = await localConnection.createAnswer();
     await localConnection.setLocalDescription(answer);
     socketWebRTC.emit('answer', { to: from, answer });
+    selectedUserSocket = from;
+
+    selectedUser = connectedUsers.find(u => u.id === selectedUserSocket);
+    chatWith.textContent = `Chatting with: ${selectedUser.username}`;
 });
 
 socketWebRTC.on('answer', async ({ answer }) => { await localConnection.setRemoteDescription(answer); flushPendingCandidates(); });
@@ -161,7 +157,7 @@ function sendOriginalInputMessage() {
     const msg = inputMessageOriginal.value.trim();
     if (!msg || !dataChannel || dataChannel.readyState !== 'open') return;
     dataChannel.send(msg);
-    appendMessage(selectedUser, `You: ${msg}`);
+    appendMessage(selectedUserSocket, `You: ${msg}`);
     inputMessageOriginal.value = '';
 }
 
@@ -190,8 +186,9 @@ sendButtonOriginal.addEventListener('click', () => {
 });
 
 async function startConnection(to) {
-    selectedUser = to;
-    chatWith.textContent = `Chatting with: ${to}`;
+    selectedUserSocket = to;
+    selectedUser = connectedUsers.find(u => u.id === to);
+    chatWith.textContent = `Chatting with: ${selectedUser.username}`;
 
     // Creamos conexión con STUN/TURN
     localConnection = new RTCPeerConnection(iceConfig);

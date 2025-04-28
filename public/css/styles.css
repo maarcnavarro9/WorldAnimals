@@ -337,6 +337,13 @@ input {
   padding: 0;
 }
 
+#userList {
+  list-style-type: circle;
+  padding: 3px 0px 0px 12px;
+  margin: 0;
+  word-break: break-word;
+}
+
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   width: 36px;
@@ -355,6 +362,7 @@ input {
 
 #user-list {
   border-left: 1px solid #666;
+  width: 175px;
 }
 
 .container {
@@ -395,6 +403,10 @@ input {
   display: flex;
   flex-direction: column;
   padding: 20px;
+}
+
+.chatWith {
+  word-break: break-word;
 }
 
 .messages {
@@ -521,6 +533,7 @@ input {
   }
 
   #user-list {
+    border-left: 1px solid #666;
     width: 125px;
   }
 }
