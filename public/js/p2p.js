@@ -128,8 +128,9 @@ socketWebRTC.on('update-user-list', ({ users }) => {
 socketWebRTC.on('remove-user', ({ socketId }) => { const el = document.getElementById(socketId); if (el) el.remove(); if (socketId === selectedUserSocket) endConnection(); });
 
 socketWebRTC.on('offer', async ({ from, offer }) => {
+    selectedUser = connectedUsers.find(u => u.id === from);
     if (isBusy) { socketWebRTC.emit('reject-call', { to: from }); return; }
-    const accept = await showConfirm(`Socket ${from} quiere iniciar un chat contigo. ¿Aceptar?`);
+    const accept = await showConfirm(`${selectedUser.username} quiere iniciar un chat contigo. ¿Aceptar?`);
     if (!accept) { socketWebRTC.emit('reject-call', { to: from }); return; }
 
     // Creamos conexión con STUN/TURN
@@ -144,7 +145,6 @@ socketWebRTC.on('offer', async ({ from, offer }) => {
     socketWebRTC.emit('answer', { to: from, answer });
     selectedUserSocket = from;
 
-    selectedUser = connectedUsers.find(u => u.id === selectedUserSocket);
     chatWith.textContent = `Chatting with: ${selectedUser.username}`;
 });
 
