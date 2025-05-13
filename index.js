@@ -9,6 +9,13 @@ const io = new Server(server);
 let users = {};  // Objeto para almacenar los usuarios y sus nombres
 let peers = []; // webrtc
 
+/*
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+*/
+
 app.use(express.static('public'));
 
 io.on('connection', (socket) => {
