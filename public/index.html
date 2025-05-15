@@ -39,9 +39,7 @@
                     <option value="HLS">HLS</option>
                 </select>
                 <select id="qualitySelector">
-                    <option value="4K" selected>4K</option>
-                    <option value="1080p">Full HD</option>
-                    <option value="720p">720p</option>
+                    <option value="-1" selected>Auto</option>
                 </select>
             </div>
             <div class="mapa" id="map">
@@ -150,7 +148,7 @@
         let currentVideo = "1";
 
         document.getElementById("playerSelector")
-            .addEventListener("change", () => initPlayer(document.getElementById("playerSelector").value));
+            .addEventListener("change", () => initPlayer());
         document.getElementById("btnVideo1")
             .addEventListener("click", () => { currentVideo = "1"; initPlayer(); });
         document.getElementById("btnVideo2")
@@ -183,7 +181,8 @@
             video.appendChild(meta);
         }
 
-        function initPlayer(type = "DASH") {
+        function initPlayer() {
+            const type = document.getElementById("playerSelector").value; // DASH o HLS
             const video = document.getElementById("myVideo");
             clearTracks(video);
 
@@ -200,6 +199,7 @@
                 dashPlayer.initialize(video, url, true);
                 dashPlayer.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, () => {
                     setupTracksAndChapters(video, currentVideo);
+                    setTimeout(populateDashQualities, 500); // augmentar a 500ms pot ajudar
                 });
             } else {
                 if (Hls.isSupported()) {
@@ -208,11 +208,13 @@
                     hlsPlayer.attachMedia(video);
                     hlsPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
                         setupTracksAndChapters(video, currentVideo);
+                        populateHlsQualities();
                     });
                 } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                     video.src = url;
                     video.addEventListener('loadedmetadata', () => {
                         setupTracksAndChapters(video, currentVideo);
+                        populateHlsQualities();
                         video.play();
                     });
                 }
@@ -294,6 +296,45 @@
                 container.appendChild(b);
             });
         }
+
+        // 1) Funciones para rellenar calidades
+        function populateDashQualities() {
+            const sel = document.getElementById('qualitySelector');
+            sel.querySelectorAll('option:not([value="-1"])').forEach(o => o.remove());
+            dashPlayer.getBitrateInfoListFor('video').forEach((b, i) => {
+                const o = document.createElement('option');
+                o.value = i;
+                o.text = `${b.height}p — ${(b.bandwidth / 1000).toFixed(0)} kbps`;
+                sel.appendChild(o);
+            });
+        }
+
+        function populateHlsQualities() {
+            const sel = document.getElementById('qualitySelector');
+            sel.querySelectorAll('option:not([value="-1"])').forEach(o => o.remove());
+            hlsPlayer.levels.forEach((lvl, i) => {
+                const o = document.createElement('option');
+                o.value = i;
+                o.text = `${lvl.height}p — ${(lvl.bitrate / 1000).toFixed(0)} kbps`;
+                sel.appendChild(o);
+            });
+        }
+
+        // 2) Función para cambiar calidad
+        function changeQuality() {
+            const idx = parseInt(document.getElementById('qualitySelector').value, 10);
+            if (dashPlayer) {
+                dashPlayer.updateSettings({ streaming: { abr: { autoSwitchBitrate: { video: idx === -1 } } } });
+                if (idx !== -1) dashPlayer.setQualityFor('video', idx);
+            }
+            if (hlsPlayer) {
+                hlsPlayer.currentLevel = idx;
+            }
+        }
+
+        // 3) Listener en el selector
+        document.getElementById('qualitySelector')
+            .addEventListener('change', changeQuality);
 
         // arranca la primera vez
         document.addEventListener('DOMContentLoaded', () => initPlayer());
