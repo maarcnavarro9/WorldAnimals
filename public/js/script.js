@@ -1,4 +1,3 @@
-
 let dashPlayer = null;
 let hlsPlayer = null;
 let currentVideo = "1";
@@ -53,9 +52,15 @@ function initPlayer() {
     if (type === "DASH") {
         dashPlayer = dashjs.MediaPlayer().create();
         dashPlayer.initialize(video, url, true);
+
         dashPlayer.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, () => {
             setupTracksAndChapters(video, currentVideo);
-            setTimeout(populateDashQualities, 500); // augmentar a 500ms pot ajudar
+        });
+
+        dashPlayer.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, () => {
+            setTimeout(() => {
+                populateDashQualities();
+            }, 300);
         });
     } else {
         if (Hls.isSupported()) {
@@ -161,7 +166,7 @@ function generarBotonesCapitulos(data) {
 function populateDashQualities() {
     const sel = document.getElementById('qualitySelector');
     sel.querySelectorAll('option:not([value="-1"])').forEach(o => o.remove());
-    dashPlayer.getBitrateInfoListFor('video').forEach((b, i) => {
+    dashPlayer.getRepresentationsByType('video').forEach((b, i) => {
         const o = document.createElement('option');
         o.value = i;
         o.text = `${b.height}p — ${(b.bandwidth / 1000).toFixed(0)} kbps`;
