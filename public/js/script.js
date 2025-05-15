@@ -1,184 +1,215 @@
-let currentVideo = "video1";
-let qualitySelector;
-
 document.addEventListener('DOMContentLoaded', () => {
-    const video = document.getElementById('myVideo');
-    qualitySelector = document.getElementById('qualitySelector');
-    const btnVideo1 = document.getElementById('btnVideo1');
-    const btnVideo2 = document.getElementById('btnVideo2');
-    const sourceMp4 = document.getElementById('sourceMp4');
-    const sourceWebm = document.getElementById('sourceWebm');
-    const descTrackEn = document.getElementById('descTrackEn');
-    const descTrackEs = document.getElementById('descTrackEs');
-    const descTrackCa = document.getElementById('descTrackCa');
-    const metaTrackElement = document.getElementById('metaTrack');
+  const video = document.getElementById('myVideo');
+  const qualitySelector = document.getElementById('qualitySelector');
+  const playerSelector = document.getElementById('playerSelector');
+  const btnVideo1 = document.getElementById('btnVideo1');
+  const btnVideo2 = document.getElementById('btnVideo2');
 
-    // Se define un objeto que contiene las rutas de ambos videos en cada calidad.
-    const videoSources = {
-        "video1": {
-            "4K": {
-                mp4: "./assets/videos/WorldAnimalsV1_4k.mp4",
-                webm: "./assets/videos/WorldAnimalsV1_4K.webm",
-                subtitles: {
-                    en: "./media/descriptionsV1_En.vtt",
-                    es: "./media/descriptionsV1_Es.vtt",
-                    ca: "./media/descriptionsV1_Ca.vtt",
-                },
-                metadata: "./media/metadataV1.vtt"
-            },
-            "1080p": {
-                mp4: "./assets/videos/WorldAnimalsV1_1080p.mp4",
-                webm: "./assets/videos/WorldAnimalsV1_1080p.webm",
-                subtitles: {
-                    en: "./media/descriptionsV1_En.vtt",
-                    es: "./media/descriptionsV1_Es.vtt",
-                    ca: "./media/descriptionsV1_Ca.vtt",
-                },
-                metadata: "./media/metadataV1.vtt"
-            },
-            "720p": {
-                mp4: "./assets/videos/WorldAnimalsV1_720p.mp4",
-                webm: "./assets/videos/WorldAnimalsV1_720p.webm",
-                subtitles: {
-                    en: "./media/descriptionsV1_En.vtt",
-                    es: "./media/descriptionsV1_Es.vtt",
-                    ca: "./media/descriptionsV1_Ca.vtt",
-                },
-                metadata: "./media/metadataV1.vtt"
-            }
+  const descTrackEn = document.getElementById('descTrackEn');
+  const descTrackEs = document.getElementById('descTrackEs');
+  const descTrackCa = document.getElementById('descTrackCa');
+  const metaTrackElement = document.getElementById('metaTrack');
+
+  let dashPlayer = null;
+  let hlsPlayer = null;
+  let currentPlayer = 'DASH';
+  let currentVideo = 'video1';
+
+  const videoSources = {
+    video1: {
+      '4K': {
+        dash: { manifest: './assets/videos/1/manifest.mpd' },
+        hls: { manifest: './assets/videos/1/manifest.m3u8' },
+        subtitles: {
+          en: './media/descriptionsV1_En.vtt',
+          es: './media/descriptionsV1_Es.vtt',
+          ca: './media/descriptionsV1_Ca.vtt',
         },
-        "video2": {
-            "4K": {
-                mp4: "./assets/videos/WorldAnimalsV2_4K.mp4",
-                webm: "./assets/videos/WorldAnimalsV2_4K.webm",
-                subtitles: {
-                    en: "./media/descriptionsV2_En.vtt",
-                    es: "./media/descriptionsV2_Es.vtt",
-                    ca: "./media/descriptionsV2_Ca.vtt",
-                },
-                metadata: "./media/metadataV2.vtt"
-            },
-            "1080p": {
-                mp4: "./assets/videos/WorldAnimalsV2_1080p.mp4",
-                webm: "./assets/videos/WorldAnimalsV2_1080p.webm",
-                subtitles: {
-                    en: "./media/descriptionsV2_En.vtt",
-                    es: "./media/descriptionsV2_Es.vtt",
-                    ca: "./media/descriptionsV2_Ca.vtt",
-                },
-                metadata: "./media/metadataV2.vtt"
-            },
-            "720p": {
-                mp4: "./assets/videos/WorldAnimalsV2_720p.mp4",
-                webm: "./assets/videos/WorldAnimalsV2_720p.webm",
-                subtitles: {
-                    en: "./media/descriptionsV2_En.vtt",
-                    es: "./media/descriptionsV2_Es.vtt",
-                    ca: "./media/descriptionsV2_Ca.vtt",
-                },
-                metadata: "./media/metadataV2.vtt"
-            }
-        }
-    };
+        metadata: './media/metadataV1.vtt',
+      },
+      '1080p': {
+        dash: { manifest: './assets/videos/1/manifest.mpd' },
+        hls: { manifest: './assets/videos/1/manifest.m3u8' },
+        subtitles: {
+          en: './media/descriptionsV1_En.vtt',
+          es: './media/descriptionsV1_Es.vtt',
+          ca: './media/descriptionsV1_Ca.vtt',
+        },
+        metadata: './media/metadataV1.vtt',
+      },
+      // Añade más calidades aquí
+    },
+    video2: {
+      '4K': {
+        dash: { manifest: './assets/videos/2/manifest.mpd' },
+        hls: { manifest: './assets/videos/2/manifest.m3u8' },
+        subtitles: {
+          en: './media/descriptionsV2_En.vtt',
+          es: './media/descriptionsV2_Es.vtt',
+          ca: './media/descriptionsV2_Ca.vtt',
+        },
+        metadata: './media/metadataV2.vtt',
+      },
+      '1080p': {
+        dash: { manifest: './assets/videos/2/manifest_1080p.mpd' },
+        hls: { manifest: './assets/videos/2/manifest.m3u8' },
+        subtitles: {
+          en: './media/descriptionsV2_En.vtt',
+          es: './media/descriptionsV2_Es.vtt',
+          ca: './media/descriptionsV2_Ca.vtt',
+        },
+        metadata: './media/metadataV2.vtt',
+      },
+      // Añade más calidades aquí
+    },
+  };
 
-    window.updateVideo = function () {
-        const quality = qualitySelector.value;
-        const sources = videoSources[currentVideo][quality];
-        if (sources) {
-            sourceMp4.src = sources.mp4;
-            sourceWebm.src = sources.webm;
-            descTrackEn.src = sources.subtitles.en;
-            descTrackEs.src = sources.subtitles.es;
-            descTrackCa.src = sources.subtitles.ca;
-            metaTrackElement.src = sources.metadata;
-            video.load();
-            video.play();
-        }
-    };
-
-    // Función para adelantar 10 segundos
-    window.forward10Seconds = function () {
-        video.currentTime = Math.min(video.duration, video.currentTime + 10);
-    }
-
-    // Función para retroceder 10 segundos
-    window.backward10Seconds = function () {
-        video.currentTime = Math.max(0, video.currentTime - 10);
-    }
-
-
-    // Cambia la calidad del video al seleccionar una opción
-    qualitySelector.addEventListener('change', updateVideo);
-
-    // Botón para seleccionar Video 1
-    btnVideo1.addEventListener('click', () => {
-        currentVideo = "video1";
-        updateVideo();
+  // Desactiva todas las pistas
+  function clearTracks() {
+    [descTrackEn, descTrackEs, descTrackCa, metaTrackElement].forEach(track => {
+      if (track.track) track.track.mode = 'disabled';
     });
+  }
 
-    // Botón para seleccionar Video 2
-    btnVideo2.addEventListener('click', () => {
-        currentVideo = "video2";
-        updateVideo();
-    });
+  // Actualiza las pistas de subtítulos y metadatos
+  function updateTracks(subtitles, metadataUrl) {
+    descTrackEn.src = subtitles.en;
+    descTrackEs.src = subtitles.es;
+    descTrackCa.src = subtitles.ca;
+    metaTrackElement.src = metadataUrl;
 
-    // Aseguramos que se muestren los subtítulos y se active el track de metadatos
-    descTrackEn.track.mode = "disabled";
-    descTrackEs.track.mode = "disabled";
-    descTrackCa.track.mode = "disabled";
+    // Activa sólo el track inglés y metadatos ocultos
+    descTrackEn.track.mode = 'disabled';
+    descTrackEs.track.mode = 'disabled';
+    descTrackCa.track.mode = 'disabled';
+    metaTrackElement.track.mode = 'hidden';
+  }
 
+  // Inicializa reproductor DASH
+  function initDash(manifestUrl) {
+    if (hlsPlayer) {
+      hlsPlayer.destroy();
+      hlsPlayer = null;
+    }
+    if (dashPlayer) {
+      dashPlayer.reset();
+    } else {
+      dashPlayer = dashjs.MediaPlayer().create();
+    }
+    dashPlayer.initialize(video, manifestUrl, true);
+    currentPlayer = 'DASH';
+    video.muted = true;
+  }
+
+  // Inicializa reproductor HLS
+  function initHls(manifestUrl) {
+    if (dashPlayer) {
+      dashPlayer.reset();
+      dashPlayer = null;
+    }
+    if (hlsPlayer) {
+      hlsPlayer.destroy();
+    }
+    if (Hls.isSupported()) {
+      hlsPlayer = new Hls();
+      hlsPlayer.loadSource(manifestUrl);
+      hlsPlayer.attachMedia(video);
+      currentPlayer = 'HLS';
+      video.muted = true;
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = manifestUrl;
+    } else {
+      alert('HLS no soportado en este navegador');
+    }
+  }
+
+  // Obtiene todas las cues del track de metadatos
+  function obtenerTodasLasCues() {
+    const cues = [];
     const metaTrack = metaTrackElement.track;
-    metaTrack.mode = "hidden";
-
-    function obtenerTodasLasCues() {
-        const cues = [];
-        if (metaTrack && metaTrack.cues) {
-            // Accedemos a todas las cues de la pista
-            for (let i = 0; i < metaTrack.cues.length; i++) {
-                const cue = metaTrack.cues[i];
-                try {
-                    // Almacenamos la cue en el array de cues
-                    const metadata = JSON.parse(cue.text);
-                    cues.push(metadata); // Guardamos la metadata de cada cue
-                } catch (e) {
-                    console.error('Error al parsear la metadata de la cue', e);
-                }
-            }
+    if (metaTrack && metaTrack.cues) {
+      for (let i = 0; i < metaTrack.cues.length; i++) {
+        try {
+          const metadata = JSON.parse(metaTrack.cues[i].text);
+          cues.push(metadata);
+        } catch (e) {
+          console.error('Error parseando cue metadata', e);
         }
-        return cues;
+      }
+    }
+    return cues;
+  }
+
+  // Función para cargar video según configuración actual
+  function loadVideo() {
+    const quality = qualitySelector.value;
+    const sources = videoSources[currentVideo][quality];
+    if (!sources) {
+      console.error('No se encontraron fuentes para', currentVideo, quality);
+      return;
     }
 
-    metaTrackElement.addEventListener('load', () => {
-        generarBotonesCapitulos(obtenerTodasLasCues());
-    });
+    clearTracks();
+    updateTracks(sources.subtitles, sources.metadata);
 
-    // Evento para procesar metadatos y actualizar información en pantalla
-    metaTrack.addEventListener('cuechange', () => {
-        const activeCues = metaTrack.activeCues;
-        if (activeCues.length > 0) {
-            try {
-                const metadata = JSON.parse(activeCues[0].text);
+    // Listener para generar capítulos tras carga metadatos, se elimina al ejecutarse
+    function onMetaTrackLoad() {
+      generarBotonesCapitulos(obtenerTodasLasCues());
+      metaTrackElement.removeEventListener('load', onMetaTrackLoad);
+    }
+    metaTrackElement.addEventListener('load', onMetaTrackLoad);
 
-                fotoAnimal.src = metadata.link_imagen || "./assets/img/portfolio/safe.png";
+    if (currentPlayer === 'DASH') {
+      initDash(sources.dash.manifest);
+    } else {
+      initHls(sources.hls.manifest);
+    }
+  }
 
-                // Actualizamos texto
-                document.getElementById('nombre').textContent = metadata.Nombre || "Nombre";
-                document.getElementById('especie').textContent = metadata.Especie || "Especie";
-                document.getElementById('descripcion').textContent = metadata.Descripcion || "Descripción no disponible...";
+  // Listeners para UI
+  qualitySelector.addEventListener('change', loadVideo);
+  playerSelector.addEventListener('change', () => {
+    currentPlayer = playerSelector.value;
+    loadVideo();
+  });
+  btnVideo1.addEventListener('click', () => {
+    currentVideo = 'video1';
+    loadVideo();
+  });
+  btnVideo2.addEventListener('click', () => {
+    currentVideo = 'video2';
+    loadVideo();
+  });
 
-                // CAMBIO IMPORTANTE AQUÍ:
-                // Si en el metadata vienen coordenadas, las usamos para actualizar el mapa y el marcador
-                if (metadata.coordenadas_geográficas) {
-                    const lat = parseFloat(metadata.coordenadas_geográficas.latitud);
-                    const lng = parseFloat(metadata.coordenadas_geográficas.longitud);
-                    if (!isNaN(lat) && !isNaN(lng)) {
-                        mapa.setCenter({ lat, lng });
-                        marcador.setPosition({ lat, lng });
-                    }
-                }
-            } catch (e) {
-                console.error("Error al parsear metadata:", e);
-            }
+  // Inicializar reproductor y video al cargar
+  loadVideo();
+
+  // Listener para actualizar UI con metadatos activos
+  metaTrackElement.track.mode = 'hidden';
+  metaTrackElement.addEventListener('load', () => {
+    generarBotonesCapitulos(obtenerTodasLasCues());
+  });
+
+  metaTrackElement.track.addEventListener('cuechange', () => {
+    const activeCues = metaTrackElement.track.activeCues;
+    if (activeCues.length > 0) {
+      try {
+        const metadata = JSON.parse(activeCues[0].text);
+        fotoAnimal.src = metadata.link_imagen || './assets/img/portfolio/safe.png';
+        document.getElementById('nombre').textContent = metadata.Nombre || 'Nombre';
+        document.getElementById('especie').textContent = metadata.Especie || 'Especie';
+        document.getElementById('descripcion').textContent = metadata.Descripcion || 'Descripción no disponible...';
+        if (metadata.coordenadas_geográficas) {
+          const lat = parseFloat(metadata.coordenadas_geográficas.latitud);
+          const lng = parseFloat(metadata.coordenadas_geográficas.longitud);
+          if (!isNaN(lat) && !isNaN(lng)) {
+            mapa.setCenter({ lat, lng });
+            marcador.setPosition({ lat, lng });
+          }
         }
-    });
+      } catch (e) {
+        console.error('Error parseando metadata activo:', e);
+      }
+    }
+  });
 });

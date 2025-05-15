@@ -20,8 +20,6 @@
         <div class="videoMapContainer">
             <div class="videoContainer">
                 <video id="myVideo" width="auto" height="auto" controls muted>
-                    <source id="sourceMp4" src="./assets/videos/WorldAnimalsV1_4K.mp4" type="video/mp4">
-                    <source id="sourceWebm" src="./assets/videos/WorldAnimalsV1_4K.webm" type="video/webm">
                     <track id="descTrackEn" kind="subtitles" label="English" srclang="en"
                         src="./media/descriptionsV1_En.vtt" />
                     <track id="descTrackEs" kind="subtitles" label="Spanish" srclang="es"
@@ -38,6 +36,11 @@
                     <option value="4K" selected>4K</option>
                     <option value="1080p">Full HD</option>
                     <option value="720p">720p</option>
+                    <option value="360p">360p</option>
+                </select>
+                <select id="playerSelector">
+                    <option value="DASH" selected>DASH</option>
+                    <option value="HLS">HLS</option>
                 </select>
             </div>
             <div class="mapa" id="map">
@@ -132,12 +135,13 @@
             </div>
         </div>
 
-
     </main>
     <footer>
         <span>Marc Navarro Amengual y Ángel Fernández Rosado, 2025</span>
     </footer>
 
+    <script src="//cdn.dashjs.org/latest/dash.all.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/hls.js@1"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/script.js"></script>
     <script src="./js/closeMapsAlert.js"></script>
