@@ -12,6 +12,13 @@ function generarBotonesCapitulos(data) {
         return;
     }
 
+    // Obtener la pista metadata
+    const metadataTrack = Array.from(video.textTracks).find(track => track.kind === 'metadata');
+    if (!metadataTrack) {
+        console.error('Pista metadata no encontrada');
+        return;
+    }
+
     container.innerHTML = ''; // Limpiar antes de agregar nuevos botones
     const fragment = document.createDocumentFragment();
 
@@ -21,12 +28,12 @@ function generarBotonesCapitulos(data) {
             button.textContent = objeto.Nombre;
             button.classList.add('chaptersButton');
 
-            // Obtener el tiempo de inicio del cue (índice = posición en la lista)
-            const cue = document.getElementById('metaTrack').track.cues[index];
+            // Obtener el cue de la pista metadata en la posición index
+            const cue = metadataTrack.cues[index];
             if (cue) {
                 const startTime = cue.startTime; // Obtener tiempo en segundos
 
-                // Agregar evento de click para mover el video a ese tiempo
+                // Evento click para saltar al tiempo del capítulo
                 button.addEventListener('click', () => {
                     video.currentTime = startTime - 0.001;
                     video.play();
