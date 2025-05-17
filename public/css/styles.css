@@ -139,7 +139,7 @@ button {
   border-radius: 25px;
   background-color: #75c699;
   border-color: #269a79;
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
 }
 
 .chaptersButton {

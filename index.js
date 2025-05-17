@@ -133,6 +133,10 @@ io.on('connection', (socket) => {
     socket.on('video-control', (data) => {
         socket.broadcast.emit('video-control', data);
     });
+
+    socket.on("hang-up", ({ to }) => {
+        socket.to(to).emit("hanged-up", { from: socket.id });
+    })
 });
 
 server.listen(port, () => {

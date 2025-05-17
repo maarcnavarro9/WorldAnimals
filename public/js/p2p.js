@@ -160,11 +160,12 @@ socketWebRTC.on('answer', async ({ answer }) => {
     if (lastUserSocket && lastUserSocket !== selectedUserSocket) {
         messageContainer.innerHTML = '';
     }
+    alert(`${selectedUser.username} ha aceptado tu solicitud de conexión.`);
     lastUserSocket = selectedUserSocket; flushPendingCandidates();
 });
 socketWebRTC.on('ice-candidate', ({ candidate }) => handleCandidate(candidate));
-socketWebRTC.on('call-rejected', ({ from }) => { alert(`Socket ${from} rechazó tu invitación.`); endConnection(); });
-socketWebRTC.on('hang-up', ({ from }) => { alert(`Socket ${from} colgó la llamada.`); endConnection(); });
+socketWebRTC.on('call-rejected', ({ from }) => { alert(`${selectedUser.username} rechazó tu invitación.`); endConnection(); });
+socketWebRTC.on('hanged-up', ({ from }) => { alert(`${selectedUser.username} colgó la llamada.`); endConnection(); });
 
 function sendOriginalInputMessage() {
     const msg = inputMessageOriginal.value.trim();
