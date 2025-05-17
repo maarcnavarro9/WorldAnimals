@@ -50,8 +50,4 @@ button:active {
     h1 {
         font-size: 30px;
     }
-
-    .buttonContainer {
-        flex-direction: column;
-    }
 }
