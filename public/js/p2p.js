@@ -165,7 +165,7 @@ socketWebRTC.on('answer', async ({ answer }) => {
 });
 socketWebRTC.on('ice-candidate', ({ candidate }) => handleCandidate(candidate));
 socketWebRTC.on('call-rejected', ({ from }) => { alert(`${selectedUser.username} rechazó tu invitación.`); endConnection(); });
-socketWebRTC.on('hanged-up', ({ from }) => { alert(`${selectedUser.username} colgó la llamada.`); endConnection(); });
+socketWebRTC.on('hanged-up', ({ from }) => { alert(`${selectedUser.username} se ha desconectado.`); endConnection(); });
 
 function sendOriginalInputMessage() {
     const msg = inputMessageOriginal.value.trim();
