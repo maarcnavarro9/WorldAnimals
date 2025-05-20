@@ -30,6 +30,19 @@ button {
     align-items: center;
 }
 
+select {
+    background-color: transparent;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-bottom: 1px solid #fff;
+    font-size: 16px;
+}
+
+option {
+    background-color: #222222;
+}
+
 button:hover {
     background: #ffffffaa;
     cursor: pointer;
@@ -49,9 +62,5 @@ button:active {
 @media (max-width: 600px) {
     h1 {
         font-size: 30px;
-    }
-
-    .buttonContainer {
-        flex-direction: column;
     }
 }

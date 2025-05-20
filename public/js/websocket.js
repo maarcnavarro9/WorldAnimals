@@ -16,6 +16,7 @@ const overlay = document.getElementById('overlay');
 const submitUsernameButton = document.getElementById('submitUsernameButton');
 const usernameInput = document.getElementById('usernameInput');
 const chatContainer = document.getElementById('chatContainer');
+const videoType = document.getElementById('playerSelector');
 
 function sendWithEnter(e) {
     if (e.key === 'Enter' && inputMessage.value.trim()) {
@@ -177,17 +178,18 @@ socket.on('video-control', (data) => {
         case 'pause': video.pause(); break;
         case 'volume': video.volume = data.value; break;
         case 'selectVideo': currentVideo = data.video;
-            updateVideo();
+            initPlayer();
             break;
         case 'updateQuality': qualitySelector.value = data.quality;
-            updateVideo();
+            break;
+        case 'videoType': videoType.value = data.type;
             break;
         case 'muteVideo': video.muted = data.mute;
             break;
         case 'setVideoTime': if (data.direction == 'forward') {
-            forward10Seconds();
+            video.currentTime = Math.min(video.duration, video.currentTime + 10);
         } else {
-            backward10Seconds();
+            video.currentTime = Math.max(0, video.currentTime - 10);
         } break;
     }
 });

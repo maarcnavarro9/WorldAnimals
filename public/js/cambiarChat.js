@@ -10,7 +10,7 @@ chatGlobalButton.addEventListener('click', () => {
     chatP2P.style.display = "none";
     chatIA.style.display = "none";
     chatGlobal.style.display = "flex";
-    usersList.style.display = "block";
+    usersList.style.display = window.matchMedia("(min-width: 401px)").matches ? "block" : "none";
 });
 
 chatIAButton.addEventListener('click', () => {

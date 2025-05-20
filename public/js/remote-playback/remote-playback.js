@@ -1,6 +1,7 @@
 const socket = io();
 
 const qualitySelector = document.getElementById('qualitySelector');
+const videoTypeSelector = document.getElementById('videoTypeSelector');
 const muteSVG = document.getElementById('muteSVG');
 const unmuteSVG = document.getElementById('unmuteSVG');
 const playButton = document.getElementById('playButton');
@@ -32,6 +33,11 @@ function sendVideoTime(direction) {
 function sendQuality() {
     const quality = qualitySelector.value;
     socket.emit('video-control', { action: 'updateQuality', quality: quality });
+}
+
+function sendVideoType() {
+    const type = videoTypeSelector.value;
+    socket.emit('video-control', { action: 'videoType', type: type });
 }
 
 function sendMuteValue() {

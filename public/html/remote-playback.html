@@ -9,6 +9,7 @@
 
 <body>
     <main>
+        <a href="/" style="color: white">World Animals</a>
         <h1>Control Remoto</h1>
         <div class="buttonContainer">
             <button onclick="sendVideoTime('backward')">
@@ -37,17 +38,22 @@
         </div>
         <br><br>
         <div class="buttonContainer">
-            <select id="qualitySelector">
-                <option value="4K" selected>4K</option>
-                <option value="1080p">Full HD</option>
-                <option value="720p">720p</option>
+            <select id="qualitySelector" onchange="sendQuality()">
+                <option value="-1">Auto</option>
+                <option value="0">360p</option>
+                <option value="1">720p</option>
+                <option value="2" selected>1080p</option>
+                <option value="3" selected>2160p</option>
             </select>
-            <button onclick="sendQuality()">Send quality</button>
+            <select id="videoTypeSelector" onchange="sendVideoType()">
+                <option value="DASH">DASH</option>
+                <option value="HLS">HLS</option>
+            </select>
         </div>
         <br><br>
         <div class="buttonContainer">
-            <button onclick="sendVideo('video1')">Video 1</button>
-            <button onclick="sendVideo('video2')">Video 2</button>
+            <button onclick="sendVideo(1)">Video 1</button>
+            <button onclick="sendVideo(2)">Video 2</button>
         </div>
 
         <script src="/socket.io/socket.io.js"></script>

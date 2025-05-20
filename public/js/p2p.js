@@ -31,6 +31,7 @@ let selectedUser = null;
 let connectedUsers = [];
 let pendingCandidates = [];
 let isBusy = false;
+let lastUserSocket = null;
 
 function showConfirm(text) {
     confirmText.textContent = text;
@@ -133,6 +134,12 @@ socketWebRTC.on('offer', async ({ from, offer }) => {
     const accept = await showConfirm(`${selectedUser.username} quiere iniciar un chat contigo. ¿Aceptar?`);
     if (!accept) { socketWebRTC.emit('reject-call', { to: from }); return; }
 
+    // BORRAR mensajes solo si el nuevo usuario es distinto al anterior
+    if (lastUserSocket && lastUserSocket !== from) {
+        messageContainer.innerHTML = '';
+    }
+    lastUserSocket = from;
+
     // Creamos conexión con STUN/TURN
     localConnection = new RTCPeerConnection(iceConfig);
     localConnection.ondatachannel = ev => { dataChannel = ev.channel; setupDataChannel(from); };
@@ -148,10 +155,17 @@ socketWebRTC.on('offer', async ({ from, offer }) => {
     chatWith.textContent = `Chatting with: ${selectedUser.username}`;
 });
 
-socketWebRTC.on('answer', async ({ answer }) => { await localConnection.setRemoteDescription(answer); flushPendingCandidates(); });
+socketWebRTC.on('answer', async ({ answer }) => {
+    await localConnection.setRemoteDescription(answer);
+    if (lastUserSocket && lastUserSocket !== selectedUserSocket) {
+        messageContainer.innerHTML = '';
+    }
+    alert(`${selectedUser.username} ha aceptado tu solicitud de conexión.`);
+    lastUserSocket = selectedUserSocket; flushPendingCandidates();
+});
 socketWebRTC.on('ice-candidate', ({ candidate }) => handleCandidate(candidate));
-socketWebRTC.on('call-rejected', ({ from }) => { alert(`Socket ${from} rechazó tu invitación.`); endConnection(); });
-socketWebRTC.on('hang-up', ({ from }) => { alert(`Socket ${from} colgó la llamada.`); endConnection(); });
+socketWebRTC.on('call-rejected', ({ from }) => { alert(`${selectedUser.username} rechazó tu invitación.`); endConnection(); });
+socketWebRTC.on('hanged-up', ({ from }) => { alert(`${selectedUser.username} se ha desconectado.`); endConnection(); });
 
 function sendOriginalInputMessage() {
     const msg = inputMessageOriginal.value.trim();
