@@ -45,9 +45,23 @@ function initPlayer() {
     if (dashPlayer) { dashPlayer.reset(); dashPlayer = null; }
     if (hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
 
+    const blockchainURL = currentVideo == 1 ? "https://media.thetavideoapi.com/org_0dw11am36pv5x68scfkm93r7i4tf/srvacc_0dbmv8c5m1k237dgvq6ijpvp1/video_pgwzbj7iiw72e9jg8mpvsgs49x/master.m3u8"
+        : "https://media.thetavideoapi.com/org_0dw11am36pv5x68scfkm93r7i4tf/srvacc_0dbmv8c5m1k237dgvq6ijpvp1/video_dxdd6prg3274ip9uwtpv0t2umh/master.m3u8";
+
     const url = type === "DASH"
         ? `./assets/videos/${currentVideo}/manifest.mpd`
-        : `./assets/videos/${currentVideo}/manifest.m3u8`;
+        : type === "HLS" ? `./assets/videos/${currentVideo}/manifest.m3u8`
+            : blockchainURL;
+
+    // const url = "";
+
+    // if (type === "DASH") {
+    //     url = `./assets/videos/${currentVideo}/manifest.mpd`;
+    // } else if (type = "HLS") {
+    //     url = `./assets/videos/${currentVideo}/manifest.m3u8`;
+    // } else {
+    //     url = "https://media.thetavideoapi.com/org_0dw11am36pv5x68scfkm93r7i4tf/srvacc_0dbmv8c5m1k237dgvq6ijpvp1/video_dxdd6prg3274ip9uwtpv0t2umh/master.m3u8";
+    // }
 
     if (type === "DASH") {
         dashPlayer = dashjs.MediaPlayer().create();
