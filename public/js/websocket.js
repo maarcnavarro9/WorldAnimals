@@ -182,6 +182,8 @@ socket.on('video-control', (data) => {
             break;
         case 'updateQuality': qualitySelector.value = data.quality;
             break;
+        case 'updateAudio': audioSelector.value = data.audio;
+            break;
         case 'videoType': videoType.value = data.type;
             break;
         case 'muteVideo': video.muted = data.mute;

@@ -45,6 +45,11 @@
                 <option value="2" selected>1080p</option>
                 <option value="3" selected>2160p</option>
             </select>
+            <select id="audioSelector" onchange="sendAudio()">
+                <option value="-1">Auto</option>
+                <option value="0">131 kbps</option>
+                <option value="1">290 kbps</option>
+            </select>
             <select id="videoTypeSelector" onchange="sendVideoType()">
                 <option value="DASH">DASH</option>
                 <option value="HLS">HLS</option>
