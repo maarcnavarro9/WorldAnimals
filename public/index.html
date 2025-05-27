@@ -24,16 +24,23 @@
                 </video>
             </div>
             <div class="buttonsContainer">
-                <button id="btnVideo1">Video 1</button>
-                <button id="btnVideo2">Video 2</button>
-                <select id="qualitySelector">
-                    <option value="-1" selected>Auto</option>
-                </select>
-                <select id="playerSelector">
-                    <option value="DASH" selected>DASH</option>
-                    <option value="HLS">HLS</option>
-                    <option value="blockchain">BlockChain</option>
-                </select>
+                <div class="videoButtonsGroup">
+                    <button id="btnVideo1">Video 1</button>
+                    <button id="btnVideo2">Video 2</button>
+                </div>
+                <div class="selectorsGroup">
+                    <select id="qualitySelector">
+                        <option value="-1" selected>Video Auto</option>
+                    </select>
+                    <select id="audioSelector">
+                        <option value="-1" selected>Audio Auto</option>
+                    </select>
+                    <select id="playerSelector">
+                        <option value="DASH" selected>DASH</option>
+                        <option value="HLS">HLS</option>
+                        <option value="blockchain">BlockChain</option>
+                    </select>
+                </div>
             </div>
             <div class="mapa" id="map">
             </div>

@@ -5,16 +5,15 @@ let currentVideo = "1";
 document.getElementById("playerSelector")
     .addEventListener("change", () => initPlayer());
 document.getElementById("btnVideo1")
-    .addEventListener("click", () => { currentVideo = "1"; initPlayer(); });
+    .addEventListener("click", () => { currentVideo = "1"; initPlayer(true); });
 document.getElementById("btnVideo2")
-    .addEventListener("click", () => { currentVideo = "2"; initPlayer(); });
+    .addEventListener("click", () => { currentVideo = "2"; initPlayer(true); });
 
 function clearTracks(video) {
     video.querySelectorAll("track").forEach(t => t.remove());
 }
 
 function addTracks(video, videoNum) {
-    // igual que antes: crea tres pistas de subtítulos y una de metadata
     const langs = [
         { code: 'En', label: 'English', srclang: 'en' },
         { code: 'Es', label: 'Spanish', srclang: 'es' },
@@ -36,16 +35,19 @@ function addTracks(video, videoNum) {
     video.appendChild(meta);
 }
 
-function initPlayer() {
-    const type = document.getElementById("playerSelector").value; // DASH o HLS
+function initPlayer(forceRestart = false) {
+    const type = document.getElementById("playerSelector").value;
     const video = document.getElementById("myVideo");
+    // Si se fuerza reinicio, empieza desde 0; si no, conserva el tiempo
+    const lastTime = forceRestart ? 0 : (video.currentTime || 0);
+
     clearTracks(video);
 
-    // destruye instancias previas
     if (dashPlayer) { dashPlayer.reset(); dashPlayer = null; }
     if (hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
 
-    const blockchainURL = currentVideo == 1 ? "https://media.thetavideoapi.com/org_0dw11am36pv5x68scfkm93r7i4tf/srvacc_0dbmv8c5m1k237dgvq6ijpvp1/video_pgwzbj7iiw72e9jg8mpvsgs49x/master.m3u8"
+    const blockchainURL = currentVideo === "1"
+        ? "https://media.thetavideoapi.com/org_0dw11am36pv5x68scfkm93r7i4tf/srvacc_0dbmv8c5m1k237dgvq6ijpvp1/video_pgwzbj7iiw72e9jg8mpvsgs49x/master.m3u8"
         : "https://media.thetavideoapi.com/org_0dw11am36pv5x68scfkm93r7i4tf/srvacc_0dbmv8c5m1k237dgvq6ijpvp1/video_dxdd6prg3274ip9uwtpv0t2umh/master.m3u8";
 
     const url = type === "DASH"
@@ -53,20 +55,29 @@ function initPlayer() {
         : type === "HLS" ? `./assets/videos/${currentVideo}/manifest.m3u8`
             : blockchainURL;
 
+    function restoreTime() {
+        // Solo si el vídeo está cargado y el tiempo es válido
+        if (lastTime > 0 && !isNaN(lastTime)) {
+            video.currentTime = lastTime;
+        }
+    }
+
     if (type === "DASH") {
         dashPlayer = dashjs.MediaPlayer().create();
         dashPlayer.initialize(video, url, true);
 
         dashPlayer.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, () => {
             setupTracksAndChapters(video, currentVideo);
+            restoreTime();
         });
 
         dashPlayer.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, () => {
             setTimeout(() => {
                 populateDashQualities();
+                populateDashAudioQualities();
             }, 300);
         });
-    } else {
+    } else if (type === "HLS") {
         if (Hls.isSupported()) {
             hlsPlayer = new Hls();
             hlsPlayer.loadSource(url);
@@ -74,24 +85,53 @@ function initPlayer() {
             hlsPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
                 setupTracksAndChapters(video, currentVideo);
                 populateHlsQualities();
+                restoreTime();
+            });
+            hlsPlayer.on(Hls.Events.AUDIO_TRACKS_UPDATED, () => {
+                populateHlsAudioQualities();
             });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = url;
             video.addEventListener('loadedmetadata', () => {
                 setupTracksAndChapters(video, currentVideo);
                 populateHlsQualities();
+                populateHlsAudioQualities();
+                restoreTime();
                 video.play();
             });
+        }
+    } else {
+        // Blockchain case - siempre usar hls.js si está soportado
+        if (Hls.isSupported()) {
+            hlsPlayer = new Hls();
+            hlsPlayer.loadSource(url);
+            hlsPlayer.attachMedia(video);
+            hlsPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
+                setupTracksAndChapters(video, currentVideo);
+                populateAudioForBlockchain();
+                restoreTime();
+                video.play();
+            });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // fallback Safari / iOS
+            video.src = url;
+            video.addEventListener('loadedmetadata', () => {
+                setupTracksAndChapters(video, currentVideo);
+                populateAudioForBlockchain();
+                restoreTime();
+                video.play();
+            });
+        } else {
+            // no soporte HLS
+            console.error('HLS no soportado en este navegador');
         }
     }
 }
 
 function setupTracksAndChapters(video, videoNum) {
-    // 1) Añadimos pistas
     addTracks(video, videoNum);
     console.log('➤ Tracks añadidos para vídeo', videoNum);
 
-    // 2) Recorremos textTracks para verlos por consola y configurar modos
     const tracks = video.textTracks;
     for (let i = 0; i < tracks.length; i++) {
         const t = tracks[i];
@@ -100,11 +140,9 @@ function setupTracksAndChapters(video, videoNum) {
             t.mode = 'disabled';
         }
         if (t.kind === 'metadata') {
-            // obligatorio ponerlo a hidden antes de que empiecen a saltar cues
             t.mode = 'hidden';
             console.log('    → Metadata track encontrada, cues totales:', t.cues.length);
 
-            // 3) Listener cuechange
             t.addEventListener('cuechange', () => {
                 console.log('    ✶ cuechange disparado, activeCues=', t.activeCues.length);
                 if (t.activeCues.length > 0) {
@@ -116,7 +154,6 @@ function setupTracksAndChapters(video, videoNum) {
                         console.error('      ¡JSON inválido en cue!', text);
                         return;
                     }
-                    // Actualiza tu UI
                     console.log('      → Metadata:', data);
                     document.getElementById('fotoAnimal').src = data.link_imagen;
                     document.getElementById('nombre').textContent = data.Nombre;
@@ -129,7 +166,6 @@ function setupTracksAndChapters(video, videoNum) {
                         mapa.setCenter({ lat, lng });
                         marcador.setPosition({ lat, lng });
                     }
-                    // Generar capítulos
                     const allMetadata = Array.from(t.cues).map(c => {
                         try { return JSON.parse(c.text); }
                         catch { return null; }
@@ -165,8 +201,7 @@ function generarBotonesCapitulos(data) {
     });
 }
 
-
-// 1) Funciones para rellenar calidades
+// Video quality functions
 function populateDashQualities() {
     const sel = document.getElementById('qualitySelector');
     sel.querySelectorAll('option:not([value="-1"])').forEach(o => o.remove());
@@ -189,21 +224,78 @@ function populateHlsQualities() {
     });
 }
 
-// 2) Función para cambiar calidad
+// Audio quality functions
+function populateDashAudioQualities() {
+    const sel = document.getElementById('audioSelector');
+    sel.querySelectorAll('option:not([value="-1"])').forEach(o => o.remove());
+    dashPlayer.getRepresentationsByType('audio').forEach((b, i) => {
+        const o = document.createElement('option');
+        o.value = i;
+        // Solo mostrar Hz si está definido
+        o.text = b.audioSamplingRate
+            ? `${b.audioSamplingRate} Hz — ${(b.bandwidth / 1000).toFixed(0)} kbps`
+            : `${(b.bandwidth / 1000).toFixed(0)} kbps`;
+        sel.appendChild(o);
+    });
+}
+
+function populateHlsAudioQualities() {
+    const sel = document.getElementById('audioSelector');
+    sel.querySelectorAll('option:not([value="-1"])').forEach(o => o.remove());
+    hlsPlayer.audioTracks.forEach((track, i) => {
+        const o = document.createElement('option');
+        o.value = i;
+        o.text = track.name || `Audio Track ${i + 1}`;
+        sel.appendChild(o);
+    });
+}
+
+function populateAudioForBlockchain() {
+    const sel = document.getElementById('audioSelector');
+    sel.querySelectorAll('option:not([value="-1"])').forEach(o => o.remove());
+    const o = document.createElement('option');
+    o.value = -2; // valor especial para OFF
+    o.text = 'OFF';
+    sel.appendChild(o);
+    sel.value = -2;
+}
+
+// Change quality handlers
 function changeQuality() {
     const idx = parseInt(document.getElementById('qualitySelector').value, 10);
     if (dashPlayer) {
         dashPlayer.updateSettings({ streaming: { abr: { autoSwitchBitrate: { video: idx === -1 } } } });
-        if (idx !== -1) dashPlayer.setQualityFor('video', idx);
+        if (idx !== -1) {
+            dashPlayer.setRepresentationForTypeByIndex('video', idx);
+        }
     }
     if (hlsPlayer) {
         hlsPlayer.currentLevel = idx;
     }
 }
 
-// 3) Listener en el selector
+function changeAudioQuality() {
+    const idx = parseInt(document.getElementById('audioSelector').value, 10);
+    if (dashPlayer) {
+        dashPlayer.updateSettings({ streaming: { abr: { autoSwitchBitrate: { audio: idx === -1 } } } });
+        if (idx !== -1) {
+            dashPlayer.setRepresentationForTypeByIndex('audio', idx);
+        }
+        // Mostrar info de la pista seleccionada
+        const reps = dashPlayer.getRepresentationsByType('audio');
+        console.log('DASH audio seleccionado:', idx, reps[idx]);
+    }
+    if (hlsPlayer) {
+        hlsPlayer.audioTrack = idx;
+        // Mostrar info de la pista seleccionada
+        const tracks = hlsPlayer.audioTracks;
+        console.log('HLS audio seleccionado:', idx, tracks && tracks[idx]);
+    }
+}
+
 document.getElementById('qualitySelector')
     .addEventListener('change', changeQuality);
+document.getElementById('audioSelector')
+    .addEventListener('change', changeAudioQuality);
 
-// arranca la primera vez
 document.addEventListener('DOMContentLoaded', () => initPlayer());
