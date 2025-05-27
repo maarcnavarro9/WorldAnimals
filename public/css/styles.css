@@ -131,7 +131,8 @@ footer {
 .buttonsContainer {
   width: 100%;
   display: flex;
-  justify-content: space-between; /* separa los grupos a izquierda y derecha */
+  justify-content: space-between;
+  /* separa los grupos a izquierda y derecha */
   align-items: center;
   gap: 5px;
 }
@@ -139,6 +140,7 @@ footer {
 .videoButtonsGroup {
   display: flex;
   gap: 5px;
+  min-width: 150px;
 }
 
 .selectorsGroup {
@@ -509,13 +511,18 @@ input {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 950px) {
   body {
     height: auto;
   }
 
   main {
     grid-template-columns: 2fr 1fr;
+  }
+
+  header {
+    align-items: center;
+    font-size: 10px;
   }
 
   .videoContainer {
@@ -544,6 +551,10 @@ input {
 
   #userListContainer {
     min-width: 100px !important;
+  }
+
+  .buttonsContainer {
+    overflow-x: auto;
   }
 }
 

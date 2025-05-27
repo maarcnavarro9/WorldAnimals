@@ -208,7 +208,7 @@ function populateDashQualities() {
     dashPlayer.getRepresentationsByType('video').forEach((b, i) => {
         const o = document.createElement('option');
         o.value = i;
-        o.text = `${b.height}p — ${(b.bandwidth / 1000).toFixed(0)} kbps`;
+        o.text = `${b.height}p`;
         sel.appendChild(o);
     });
 }
@@ -219,7 +219,7 @@ function populateHlsQualities() {
     hlsPlayer.levels.forEach((lvl, i) => {
         const o = document.createElement('option');
         o.value = i;
-        o.text = `${lvl.height}p — ${(lvl.bitrate / 1000).toFixed(0)} kbps`;
+        o.text = `${lvl.height}p`;
         sel.appendChild(o);
     });
 }
